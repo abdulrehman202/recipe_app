@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
+import 'package:recipe_app/View/sign_up_screen.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _body(),
+      body: _body(context),
     );
   }
 
-  Widget _body() {
+  Widget _body(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -48,8 +46,8 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 75.0,
               ),
-              txtFld('Email'),
-              txtFld('Password'),
+              CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,),
+              CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword,),
               TextButton(
                   onPressed: () {},
                   child: Text(
@@ -98,7 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     const Text('Don\'t have an account?'),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () 
+                        {
+                          Navigator.push(context, MaterialPageRoute(builder: (builder)=>SignUpScreen()));
+                        },
                         child: Text(
                           'Sign Up',
                           style: Theme.of(context)
@@ -116,32 +117,5 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget txtFld(String lbl) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
-            child: Text(
-              lbl,
-              style: Theme.of(context).textTheme.labelMedium,
-            ),
-          ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: lbl,
-              enabledBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              fillColor: Colors.white,
-              focusColor: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  
 }
