@@ -7,6 +7,10 @@ class Constants{
   static String SPLASH_IMAGE = 'splash.png';
   static String CHEF_HAT_ICON = 'chef.png';
   static String ARROW_RIGHT = 'Arrow-Right.png';
+  static String FB_ICON = 'facebook.png';
+  static String GOOGLE_ICON = 'google.png';
 
   static Color BUTTON_COLOR = Color(0xff129575);
+  static Color YELLOW_LABEL_COLOR = Color(0xffFF9C00);
+  static Color GREY_LABEL_COLOR = Color(0xff878787);
 }
