@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
+import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -60,7 +61,9 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () {}, child: const Text('Sign In'))),
+                      onPressed: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder)=>HomeScreen()));
+                      }, child: const Text('Sign In'))),
               Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.all(20),
