@@ -26,15 +26,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int index = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: _floatingActionButton(),
-      bottomNavigationBar: _bottomNavBar(),
-      body: _body(),
-    );
+    return _body();
   }
 
   Widget titleRow() {
@@ -114,48 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _bottomNavBar() {
-    Icon iconHome = const Icon(
-      Icons.home_outlined,
-    );
-    Icon iconSave = const Icon(
-      Icons.bookmark_border,
-    );
-    Icon iconNotification = const Icon(
-      Icons.notifications_none_outlined,
-    );
-    Icon iconProfile = const Icon(
-      Icons.person_outline_sharp,
-    );
-    return Container(
-      constraints: const BoxConstraints(minHeight: 50),
-      child: BottomNavigationBar(
-          selectedIconTheme: const IconThemeData(size: 36),
-          type: BottomNavigationBarType.fixed,
-          currentIndex: index,
-          onTap: (value) {
-            setState(() {
-              index = value;
-            });
-          },
-          showUnselectedLabels: true,
-          unselectedItemColor: Colors.black,
-          selectedItemColor: Constants.BUTTON_COLOR,
-          items: [
-            BottomNavigationBarItem(
-                activeIcon: iconHome, icon: iconHome, label: 'Home'),
-            BottomNavigationBarItem(
-                activeIcon: iconSave, icon: iconSave, label: 'Saved'),
-            BottomNavigationBarItem(
-                activeIcon: iconNotification,
-                icon: iconNotification,
-                label: 'Notifications'),
-            BottomNavigationBarItem(
-                activeIcon: iconProfile, icon: iconProfile, label: 'Profile'),
-          ]),
-    );
-  }
-
   Widget searchRow() {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
@@ -203,17 +155,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ));
-  }
-
-  Widget _floatingActionButton() {
-    return ClipOval(
-        child: FloatingActionButton(
-            backgroundColor: Constants.BUTTON_COLOR,
-            onPressed: () {},
-            child: const Icon(
-              Icons.add,
-              color: Colors.white,
-            )));
   }
 
   Widget recipes() {

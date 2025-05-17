@@ -9,6 +9,7 @@ class RecipeCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 20),
       width: 150,
+      height: 300,
       child: Stack(
         children: [
           Align(
