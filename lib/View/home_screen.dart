@@ -1,13 +1,14 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
 
-  List<String> _listCategories = [
+  final List<String> _listCategories = [
     'All',
     'Indian',
     'Italian',
@@ -76,29 +77,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _body() {
+  Widget _body() { 
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              titleRow(),
-              searchRow(),
-              categories(),
-              recipes(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            titleRow(),
+            searchRow(),
+            categories(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                     recipes(),
               Container(
-                  margin: const EdgeInsets.symmetric(vertical: 20),
+                  margin: const EdgeInsets.only(top: 20, bottom: 10),
                   child: Text(
                     'New Recipes',
                     style: Theme.of(context)
                         .textTheme
                         .headlineMedium!
                         .copyWith(color: Colors.black, fontSize: 25),
-                  ))
-            ],
-          ),
+                  )),
+                  recentRecipes(),
+                  ],
+                ),
+              ),
+            ),
+           
+          ],
         ),
       ),
     );
@@ -198,12 +208,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _floatingActionButton() {
     return ClipOval(
         child: FloatingActionButton(
+            backgroundColor: Constants.BUTTON_COLOR,
+            onPressed: () {},
             child: const Icon(
               Icons.add,
               color: Colors.white,
-            ),
-            backgroundColor: Constants.BUTTON_COLOR,
-            onPressed: () {}));
+            )));
   }
 
   Widget recipes() {
@@ -215,6 +225,19 @@ class _HomeScreenState extends State<HomeScreen> {
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
             return const RecipeCard();
+          }),
+    );
+  }
+  
+  Widget recentRecipes()
+  {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+          itemCount: 5,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (ctx, i) {
+            return const RecentRecipeCard();
           }),
     );
   }

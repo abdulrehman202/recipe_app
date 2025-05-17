@@ -8,13 +8,13 @@ class SeearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:EdgeInsets.symmetric(horizontal: 20),
+      margin:const EdgeInsets.only(right: 20),
       child: TextField(
         
         enabled: enabled,
         
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 hintText: 'Search recipe',
                 disabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),

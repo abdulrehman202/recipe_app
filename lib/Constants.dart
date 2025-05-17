@@ -12,6 +12,7 @@ class Constants{
   static String FILTER_ICON = 'filter.png';
   static String BITMOJI_IMAGE = 'bitmoji.png';
   static String DISH_IMAGE = 'dish.png';
+  static String DP_IMAGE = 'dp.png';
 
   static Color BUTTON_COLOR = Color(0xff129575);
   static Color YELLOW_LABEL_COLOR = Color(0xffFF9C00);

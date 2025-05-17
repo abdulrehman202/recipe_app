@@ -9,7 +9,6 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var constants = Constants;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 15),
       child: Column(

@@ -69,6 +69,7 @@ flutter:
     - assets/images/bitmoji.png
     - assets/images/filter.png
     - assets/images/dish.png
+    - assets/images/dp.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
