@@ -135,27 +135,25 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget categories() {
-    return SizedBox(
-        height: 75,
-        child: ChipsChoice<int>.single(
-          value: widget._selectedCAtegory,
-          onChanged: (val) => setState(() => widget._selectedCAtegory = val),
-          choiceItems: C2Choice.listFrom<int, String>(
-            source: widget._listCategories,
-            value: (i, v) => i,
-            label: (i, v) => v,
-            tooltip: (i, v) => v,
+    return ChipsChoice<int>.single(
+      value: widget._selectedCAtegory,
+      onChanged: (val) => setState(() => widget._selectedCAtegory = val),
+      choiceItems: C2Choice.listFrom<int, String>(
+        source: widget._listCategories,
+        value: (i, v) => i,
+        label: (i, v) => v,
+        tooltip: (i, v) => v,
+      ),
+      choiceStyle: C2ChipStyle.filled(
+        color: Colors.white,
+        selectedStyle: C2ChipStyle(
+          backgroundColor: Constants.BUTTON_COLOR,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
           ),
-          choiceStyle: C2ChipStyle.filled(
-            color: Colors.white,
-            selectedStyle: C2ChipStyle(
-              backgroundColor: Constants.BUTTON_COLOR,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-            ),
-          ),
-        ));
+        ),
+      ),
+    );
   }
 
   Widget recipes() {
