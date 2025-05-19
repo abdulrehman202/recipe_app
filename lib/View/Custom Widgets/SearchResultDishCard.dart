@@ -10,17 +10,31 @@ class SearchResultDishCard extends StatelessWidget {
       margin: const EdgeInsets.only(right: 10.0, bottom: 10.0),
       child: Stack(
         children: [
-          Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.black,
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return const LinearGradient(
+                  begin: Alignment.bottomCenter,
+                  end: Alignment.topCenter,
+                  colors: [Colors.black, Colors.transparent],
+                  stops: [
+                    0.0,
+                    1.0,
+                  ],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.darken,
+              child: SizedBox(
+                width: double.infinity,
+                height: double.infinity,
+                child: Image.asset(
+                  Constants.BASE_IMG_PATH + Constants.SEARCH_DISH_IMAGE,
+                  fit: BoxFit.fill,
+                ),
               ),
-              width: double.infinity,
-              height: double.infinity,
-              child: Image.asset(
-                Constants.BASE_IMG_PATH + Constants.SEARCH_DISH_IMAGE,
-                fit: BoxFit.fill,
-              )),
+            ),
+          ),
           Container(
             alignment: Alignment.bottomLeft,
             padding: const EdgeInsets.all(8.0),
