@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
+import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -114,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 50,
       child: Row(
         children: [
-          Expanded(child: SeearchField()),
+          Expanded(child: SearchFieldButton()),
           GestureDetector(
               child: Container(
                   width: 40,

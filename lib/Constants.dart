@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class Constants{
   static String APP_NAME = 'Recipe App';
   static String FONT_NAME = 'Poppins';
@@ -13,6 +15,8 @@ class Constants{
   static String BITMOJI_IMAGE = 'bitmoji.png';
   static String DISH_IMAGE = 'dish.png';
   static String DP_IMAGE = 'dp.png';
+  static String SEARCH_DISH_IMAGE = 'searchdish.png';
+
 
   static Color BUTTON_COLOR = Color(0xff129575);
   static Color YELLOW_LABEL_COLOR = Color(0xffFF9C00);

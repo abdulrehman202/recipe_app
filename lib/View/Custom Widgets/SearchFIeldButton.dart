@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/search_screen.dart';
 
-class SearchField extends StatelessWidget {
-  SearchField({super.key});
+class SearchFieldButton extends StatelessWidget {
+  const SearchFieldButton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen())),
+      child: Container(
       margin: const EdgeInsets.only(right: 20),
       child: TextField(
+        enabled: false,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           hintText: 'Search recipe',
@@ -23,6 +27,7 @@ class SearchField extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10))),
         ),
       ),
+    ),
     );
   }
 }
