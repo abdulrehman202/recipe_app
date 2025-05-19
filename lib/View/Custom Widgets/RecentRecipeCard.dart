@@ -7,8 +7,8 @@ class RecentRecipeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 20),
-      width: 400,
+      margin: const EdgeInsets.only(right: 20),
+        width: MediaQuery.of(context).size.width*0.7,
       child: Stack(
         children: [
           Container(
@@ -21,9 +21,9 @@ class RecentRecipeCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: 250,
+                      width: (MediaQuery.of(context).size.width*0.7) - 120,
                       child: Text(
-                        'Classic Greek Salad',
+                        'Classic Greek Salad'*10,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium!
@@ -41,22 +41,25 @@ class RecentRecipeCard extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ClipOval(
-                                child: SizedBox(
-                                  width: 40,
-                                  height: 40,
-                                  child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
+                          Expanded(
+                            flex: 7,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                ClipOval(
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
+                                  ),
                                 ),
-                              ),
-                                const SizedBox(
-                                width: 250,
-                                child: Text(' By William',overflow: TextOverflow.ellipsis, ))
-                            ],
+                                   Expanded(child: Text(' By William'*10,overflow: TextOverflow.ellipsis, ))
+                              ],
+                            ),
                           ),
-                          const Text('20 min')
+                          const Expanded(
+                            flex: 3,
+                            child: Text('20 min', textAlign: TextAlign.end,))
                         ],
                       ),
                     ),
@@ -67,7 +70,7 @@ class RecentRecipeCard extends StatelessWidget {
           ),
           Container(
             alignment: Alignment.topRight,
-            margin: const EdgeInsets.only(right: 20),
+            margin: const EdgeInsets.only(right: 10),
             child: ClipOval(
               child: SizedBox(
                 width: 100,
