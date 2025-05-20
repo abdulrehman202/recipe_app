@@ -74,8 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _body() { 
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal:  5.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -89,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                      recipes(),
               Container(
-                  margin: const EdgeInsets.only(top: 20, bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
                   child: Text(
                     'New Recipes',
                     style: Theme.of(context)
@@ -136,9 +137,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget categories() {
     return ChipsChoice<int>.single(
+      
       value: widget._selectedCAtegory,
       onChanged: (val) => setState(() => widget._selectedCAtegory = val),
       choiceItems: C2Choice.listFrom<int, String>(
+        
         source: widget._listCategories,
         value: (i, v) => i,
         label: (i, v) => v,
@@ -174,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SizedBox(
       height: 200,
       child: ListView.builder(
+        padding: EdgeInsets.zero,
           itemCount: 5,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {

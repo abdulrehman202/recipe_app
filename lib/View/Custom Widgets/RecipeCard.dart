@@ -9,19 +9,19 @@ class RecipeCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 20),
       width: 150,
-      height: 300,
       child: Stack(
         children: [
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
+              margin: const EdgeInsets.only(bottom: 50),
               decoration: BoxDecoration(
                   color: Constants.RECIPE_CARD_COLOR,
                   borderRadius: BorderRadius.circular(20)),
-              height: 220,
+              height: 175,
               width: double.infinity,
               child: Container(
-                margin: const EdgeInsets.only(top: 40),
+                margin: const EdgeInsets.only(top: 20),
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,7 +51,12 @@ class RecipeCard extends StatelessWidget {
                                         .textTheme
                                         .headlineSmall!
                                         .copyWith(color: Colors.black)),
-                                const Text('20min')
+                                const SizedBox(
+                                    width: 70,
+                                    child: Text(
+                                      '20min',
+                                      overflow: TextOverflow.ellipsis,
+                                    ))
                               ],
                             ),
                             ClipOval(
@@ -77,11 +82,9 @@ class RecipeCard extends StatelessWidget {
               child: Container(
                 height: 100,
                 width: 100,
-                margin: EdgeInsets.only(top: 25),
-                decoration: BoxDecoration(color: Constants.BUTTON_COLOR),
                 child: Image.asset(
                   Constants.BASE_IMG_PATH + Constants.DISH_IMAGE,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                 ),
               ),
             ),
