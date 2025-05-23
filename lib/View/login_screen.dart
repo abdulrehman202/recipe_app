@@ -32,22 +32,20 @@ class LoginScreen extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .displayMedium!
-                            .copyWith(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold)),
+                              .copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,fontSize: 30)),
                     TextSpan(
                       text: 'Welcome Back!',
                       style: Theme.of(context)
                           .textTheme
                           .displaySmall!
-                          .copyWith(color: Colors.black),
+                            .copyWith(color: Colors.black, fontSize: 20),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 75.0,
-              ),
+              
               CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,),
               CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword,),
               TextButton(
@@ -94,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: const EdgeInsets.only(top: 50),
+                margin: const EdgeInsets.only(top: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

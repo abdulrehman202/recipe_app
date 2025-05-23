@@ -8,7 +8,7 @@ class SearchFieldButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen())),
+      onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context)=> SearchScreen(),)),
       child: Container(
       margin: const EdgeInsets.only(right: 20),
       child: TextField(
