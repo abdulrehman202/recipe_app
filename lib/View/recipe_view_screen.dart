@@ -4,31 +4,31 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
+import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 
 class RecipeViewScreen extends StatefulWidget {
   int _selectedPage = 0;
-   RecipeViewScreen({super.key});
+  RecipeViewScreen({super.key});
 
   @override
   State<RecipeViewScreen> createState() => _RecipeViewScreenState();
 }
 
-class _RecipeViewScreenState extends State<RecipeViewScreen> with TickerProviderStateMixin{
-  
-  late TabController _tabController;
+class _RecipeViewScreenState extends State<RecipeViewScreen>
+    with TickerProviderStateMixin {
+  ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-    _tabController = TabController(vsync: this, length: 2);
   }
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: _appBar(),
       body: _body(context),
     );
@@ -36,17 +36,54 @@ class _RecipeViewScreenState extends State<RecipeViewScreen> with TickerProvider
 
   Widget _body(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: [
-          SavedecipeCard(showTitle: false),
-          _titleRow(context),
-          _userRow(context),
-          _tabsRow(),
-          _tabsContent(),
-        ],
-      ),
-    );
+        margin: const EdgeInsets.all(10.0),
+        child:
+            CustomScrollView(controller: _scrollController, slivers: <Widget>[
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                SavedecipeCard(showTitle: false),
+                _titleRow(context),
+                _userRow(context),
+              ],
+            ),
+          ),
+          SliverAppBar(
+            backgroundColor: Colors.white,
+            leading: Container(),
+            pinned: true,
+            title: _tabsRow(),
+          ),
+          SliverAppBar(
+              backgroundColor: Colors.white,
+              leading: Container(),
+              pinned: true,
+              flexibleSpace: Column(children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                      Icon(Icons.fastfood_outlined),
+                      Text('1 Serve'),
+                    ]),
+                    _tabsContent()
+                  ],
+                ),
+              ])),
+          _tabsList(),
+
+          // _tabsContent(),
+
+          // Column(
+          //   children: [
+          //     SavedecipeCard(showTitle: false),
+          //     _titleRow(context),
+          //     _userRow(context),
+          //     _tabsRow(),
+          //     _tabsContent(),
+          //   ],
+          // ),
+        ]));
   }
 
   PreferredSizeWidget _appBar() {
@@ -177,84 +214,58 @@ class _RecipeViewScreenState extends State<RecipeViewScreen> with TickerProvider
               ),
             ],
           ),
-          Container(
-              margin: const EdgeInsets.only(left: 30),
+          Expanded(
               child:
                   FilledButton(onPressed: () {}, child: const Text('Follow')))
         ],
       ),
     );
   }
-  
-  Widget _tabsRow()
-  {   
-    return ChipsChoice<int>.single(
-    value: widget._selectedPage,
-    onChanged: (val) => setState(() => widget._selectedPage = val),
-    choiceItems: C2Choice.listFrom<int, String>(
-      source: ['Ingredients', 'Procedure'],
-      value: (i, v) => i,
-      label: (i, v) => v,
-      tooltip: (i, v) => v,
-    ),
-    choiceStyle: C2ChipStyle.filled(
-      color: Colors.white,
-      selectedStyle: C2ChipStyle(
-        backgroundColor: Constants.BUTTON_COLOR,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(10),
-        ),
-      ),
-    ),
-          );
-  }
-  
-  Widget _tabsContent()
-  {
-    return Expanded(child: widget._selectedPage ==0? _ingredientsPage():_procedurePage());
-  }
 
-  Widget _ingredientsPage()
-  {
-    return Column(
-      children: [
-        const SizedBox(
-          height: 75,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Icon(Icons.fastfood_outlined),
-                Text('1 Serve'),
-              ],
-            ), Text('10 items'),],
-          ),
+  Widget _tabsRow() {
+    return Center(
+      child: ChipsChoice<int>.single(
+        value: widget._selectedPage,
+        onChanged: (val) => setState(() {
+          widget._selectedPage = val;
+          _scrollController.jumpTo(0);
+        }),
+        choiceItems: C2Choice.listFrom<int, String>(
+          source: ['Ingredients', 'Procedure'],
+          value: (i, v) => i,
+          label: (i, v) => v,
+          tooltip: (i, v) => v,
         ),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                ListView.builder(
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  itemCount: 7,
-                  itemBuilder: (ctx, i){
-                    return IngredientCard();
-                  },
-                ),
-              ],
+        choiceStyle: C2ChipStyle.filled(
+          color: Colors.white,
+          selectedStyle: C2ChipStyle(
+            backgroundColor: Constants.BUTTON_COLOR,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 
-  Widget _procedurePage()
-  {
-    return const Text('Procedure');
+  Widget _tabsContent() {
+    return Text(widget._selectedPage == 0 ? '10 items' : '10 steps');
+  }
+
+  Widget _tabsList() {
+    return widget._selectedPage == 0
+        ? SliverList.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return IngredientCard();
+            },
+            itemCount: 25,
+          )
+        : SliverList.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return ProcedureCard(stepNumber: index);
+            },
+            itemCount: 5,
+          );
   }
 }
