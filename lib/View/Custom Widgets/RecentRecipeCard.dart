@@ -23,7 +23,7 @@ class RecentRecipeCard extends StatelessWidget {
                     SizedBox(
                       width: (MediaQuery.of(context).size.width*0.7) - 120,
                       child: Text(
-                        'Classic Greek Salad'*10,
+                        'Classic Greek Salad',
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium!
@@ -53,7 +53,7 @@ class RecentRecipeCard extends StatelessWidget {
                                     child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
                                   ),
                                 ),
-                                   Expanded(child: Text(' By William'*10,overflow: TextOverflow.ellipsis, ))
+                                   Expanded(child: Text(' By William',overflow: TextOverflow.ellipsis, ))
                               ],
                             ),
                           ),

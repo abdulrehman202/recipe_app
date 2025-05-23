@@ -24,7 +24,7 @@ class SavedRecipeScreen extends StatelessWidget {
               itemCount: 5,
               shrinkWrap: true,
               itemBuilder: (context, i) {
-                return const SavedecipeCard();
+                return SavedecipeCard(showTitle: true, );
               }
             ),
           ],
