@@ -221,39 +221,43 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
             flex: 2,
               child:
                   GestureDetector(onTap: () {}, child: Container(
+                    
+                    width: MediaQuery.of(context).size.width*0.1,
                     alignment: Alignment.center,
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(8.0),
                     decoration: BoxDecoration(
                       borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
                       color: Constants.BUTTON_COLOR
                     ),
-                    child: const Text('Follow',style: TextStyle(color: Colors.white),))))
+                    child: const Text('Followeddddd',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
         ],
       ),
     );
   }
 
   Widget _tabsRow() {
-    return Center(
-      child: ChipsChoice<int>.single(
-        value: widget._selectedPage,
-        onChanged: (val) => setState(() {
-          widget._selectedPage = val;
-          _scrollController.jumpTo(0);
-        }),
-        choiceItems: C2Choice.listFrom<int, String>(
-          source: ['Ingredients', 'Procedure'],
-          value: (i, v) => i,
-          label: (i, v) => v,
-          tooltip: (i, v) => v,
-        ),
-        choiceStyle: C2ChipStyle.filled(
-          color: Colors.white,
-          selectedStyle: C2ChipStyle(
-            backgroundColor: Constants.BUTTON_COLOR,
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
+    return ChipsChoice<int>.single(
+      scrollToSelectedOnChanged: true,
+      mainAxisAlignment: MainAxisAlignment.center,
+      padding: EdgeInsets.zero,
+      value: widget._selectedPage,
+      onChanged: (val) => setState(() {
+        widget._selectedPage = val;
+        _scrollController.jumpTo(0);
+      }),
+      choiceItems: C2Choice.listFrom<int, String>(
+        source: ['Ingredients', 'Procedure'],
+        value: (i, v) => i,
+        label: (i, v) => v,
+        tooltip: (i, v) => v,
+      ),
+      choiceStyle: C2ChipStyle.filled(
+        color: Colors.white,
+        selectedStyle: C2ChipStyle(
+          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.1),
+          backgroundColor: Constants.BUTTON_COLOR,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
           ),
         ),
       ),
