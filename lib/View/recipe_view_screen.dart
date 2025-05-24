@@ -36,7 +36,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
 
   Widget _body(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal:  10.0),
         child:
             CustomScrollView(controller: _scrollController, slivers: <Widget>[
           SliverToBoxAdapter(
@@ -62,7 +62,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                    const Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
                       Icon(Icons.fastfood_outlined),
                       Text('1 Serve'),
                     ]),
@@ -178,45 +178,56 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Wrap(
-            children: [
-              ClipOval(
-                child: SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: Image.asset(
-                    Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.4,
-                    child: Text(
-                      'William Johns' * 4,
-                      style: Theme.of(context).textTheme.labelMedium,
-                      overflow: TextOverflow.ellipsis,
+          Expanded(
+            flex: 8,
+            child: Row(
+              children: [
+                ClipOval(
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Image.asset(
+                      Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
+                      fit: BoxFit.fill,
                     ),
                   ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.location_on_sharp,
-                        color: Constants.BUTTON_COLOR,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      child: Text(
+                        'William Johns' * 4,
+                        style: Theme.of(context).textTheme.labelMedium,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      const Text('Faisalabad, Pakistan')
-                    ],
-                  )
-                ],
-              ),
-            ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on_sharp,
+                          color: Constants.BUTTON_COLOR,
+                        ),
+                        const Text('Faisalabad, Pakistan')
+                      ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
           Expanded(
+            flex: 2,
               child:
-                  FilledButton(onPressed: () {}, child: const Text('Follow')))
+                  GestureDetector(onTap: () {}, child: Container(
+                    alignment: Alignment.center,
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
+                      color: Constants.BUTTON_COLOR
+                    ),
+                    child: const Text('Follow',style: TextStyle(color: Colors.white),))))
         ],
       ),
     );
@@ -254,18 +265,11 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
   }
 
   Widget _tabsList() {
-    return widget._selectedPage == 0
-        ? SliverList.builder(
+    return SliverList.builder(
             itemBuilder: (BuildContext context, int index) {
-              return IngredientCard();
+              return widget._selectedPage == 0? const IngredientCard():ProcedureCard(stepNumber: index);
             },
             itemCount: 25,
-          )
-        : SliverList.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return ProcedureCard(stepNumber: index);
-            },
-            itemCount: 5,
           );
   }
 }
