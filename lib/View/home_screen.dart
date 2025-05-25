@@ -137,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget categories() {
     return ChipsChoice<int>.single(
-      
+      scrollToSelectedOnChanged: true,
       value: widget._selectedCAtegory,
       onChanged: (val) => setState(() => widget._selectedCAtegory = val),
       choiceItems: C2Choice.listFrom<int, String>(

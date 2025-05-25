@@ -55,35 +55,43 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                   widget.showTitle? Wrap(
-                    direction: Axis.vertical,
+                   widget.showTitle? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
+                      const Expanded(
+                        flex: 3,
+                        child: SizedBox()),
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                            alignment: Alignment.bottomLeft,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            child: Text(
+                              'Traditional spare ribs baked'*50,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                              overflow: TextOverflow.clip,
+                            )),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          
                           alignment: Alignment.bottomLeft,
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          height: 70,
                           child: Text(
-                            'Traditional spare ribs baked',
+                            'By Chef John'*20,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall!
-                                .copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                            overflow: TextOverflow.clip,
-                          )),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        height: 30,
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          'By Chef John',
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall!
-                              .copyWith(color: Colors.white),
-                          overflow: TextOverflow.ellipsis,
+                                .copyWith(color: Colors.white),
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       )
                     ],
