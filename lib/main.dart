@@ -50,7 +50,13 @@ class MyApp extends StatelessWidget {
                   padding: const WidgetStatePropertyAll(
                       EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
                   backgroundColor:
-                      WidgetStatePropertyAll(Constants.BUTTON_COLOR)))),
+                      WidgetStatePropertyAll(Constants.BUTTON_COLOR))),
+                      floatingActionButtonTheme: FloatingActionButtonThemeData(
+                        backgroundColor: Constants.BUTTON_COLOR,
+                        shape: const CircleBorder()
+                      ),
+                      ),
+                      
       home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );

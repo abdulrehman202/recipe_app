@@ -31,7 +31,7 @@ class CommentCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('William John',style: Theme.of(context).textTheme.labelMedium , overflow: TextOverflow.ellipsis ,),
-                            Text(DateTime.now().toString())
+                             Text(_getDateTime(DateTime.now()) )
                           ],
                         ))
                     ],
@@ -69,5 +69,15 @@ class CommentCard extends StatelessWidget {
                             child: Text(i.toString(), style: Theme.of(context).textTheme.labelSmall!.copyWith(fontSize: 16),))
                         ],
                       ));
+  }
+  
+  String _getDateTime(DateTime dt)
+  {
+    String day = dt.day.toString();
+    String month = Constants.getMonth(dt.month);
+    String year = dt.year.toString();
+    String time = Constants.get12hrsTime( DateTime.now());
+
+    return  '$month $day, $year - $time';
   }
 } 
