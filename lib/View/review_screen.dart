@@ -11,6 +11,7 @@ class ReviewScreen extends StatefulWidget {
 
 class _ReviewScreenState extends State<ReviewScreen> {
   ScrollController _scrollController = ScrollController();
+
   double _scrollPosition=0.0;
 
   _scrollListener() {
@@ -89,6 +90,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   Widget _writeReview() {
     return Container(
+
+      
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -98,15 +101,21 @@ class _ReviewScreenState extends State<ReviewScreen> {
         children: [
           Expanded(
               flex: 8,
-              child: TextFormField(
-                style: Theme.of(context)
-                    .textTheme
-                    .labelSmall!
-                    .copyWith(fontSize: 16),
-                minLines: 1,
-                maxLines: 50,
-                decoration: const InputDecoration(
-                    border: InputBorder.none, hintText: 'Write a review...'),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+        maxHeight: 150
+      ),
+                child: TextFormField(
+                  scrollPadding: EdgeInsets.zero,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall!
+                      .copyWith(fontSize: 16),
+                  minLines: 1,
+                  maxLines: 50,
+                  decoration: const InputDecoration(
+                      border: InputBorder.none, hintText: 'Write a review...'),
+                ),
               )),
           Expanded(
               flex: 2,
