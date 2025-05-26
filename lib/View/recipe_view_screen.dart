@@ -6,6 +6,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
+import 'package:recipe_app/View/review_screen.dart';
 
 class RecipeViewScreen extends StatefulWidget {
   int _selectedPage = 0;
@@ -149,7 +150,10 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
 
   void _rateRecipe() {}
 
-  void _review() {}
+  void _review() 
+  {
+    Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ReviewScreen()) );
+  }
 
   void _unsave() {}
 

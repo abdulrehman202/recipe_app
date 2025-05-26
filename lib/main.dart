@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/review_screen.dart';
 import 'package:recipe_app/View/splash_screen.dart';
 
 void main() {
