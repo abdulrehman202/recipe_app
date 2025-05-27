@@ -13,9 +13,30 @@ class UserProfielScreen extends StatefulWidget {
 
 class _UserProfielScreenState extends State<UserProfielScreen> {
   int _selectedPage = 0;
+  ScrollController _scrollController = ScrollController();
+
+  double _scrollPosition=0.0;
+
+  _scrollListener() {
+    setState(() {
+      _scrollPosition = _scrollController.position.pixels;
+    });
+  }
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _scrollController.addListener(_scrollListener);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+       floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
+          onPressed: () => _scrollController.animateTo(0,
+              duration: const Duration(milliseconds: 500), curve: Curves.ease),
+          child: const Icon(Icons.arrow_upward,color: Colors.white,)),
       appBar: _appBar(),
       body: _body(),
     );
@@ -24,6 +45,7 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   PreferredSizeWidget _appBar()
   {
     return AppBar(
+      leading: Container(),
       title: Center(child: Text('Profile', style: Theme.of(context).textTheme.labelMedium,)),
     );
   }
@@ -33,22 +55,25 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
     return SafeArea(child: 
     Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _headingRow(),
-        Container(
-          margin: const EdgeInsets.symmetric(vertical: 10.0),
-          child:  Text('Afuwape Abiodun', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black),)),
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _headingRow(),
           Container(
-          margin: const EdgeInsets.only(bottom: 10.0),
-          child:  const Text('Chef',)),
-
-          _bioRow(),
-          _tabsRow(),
-          const SizedBox(height: 10,),
-          _contentList(),
-      ]),
+            margin: const EdgeInsets.symmetric(vertical: 10.0),
+            child:  Text('Afuwape Abiodun', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black),)),
+            Container(
+            margin: const EdgeInsets.only(bottom: 10.0),
+            child:  const Text('Chef',)),
+        
+            _bioRow(),
+            _tabsRow(),
+            const SizedBox(height: 10,),
+            _contentList(),
+        ]),
+      ),
     ),
     
     );
@@ -58,15 +83,13 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   {
     double size = 150.0;
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
-          flex: 4,
-          child: ClipOval(
-            child: SizedBox(
-              height: size,
-              width: size,
-              child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
-            ),
+        ClipOval(
+          child: SizedBox(
+            height: size,
+            width: size,
+            child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, fit: BoxFit.contain,),
           ),
         ),
         _dataColumn('Recipes', 4),
@@ -79,7 +102,6 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   Widget _dataColumn(String heading, int value)
   {
     return Expanded(
-      flex: 2,
       child: Column(
         children: [
           Text(heading),
@@ -137,22 +159,18 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   
   Widget _contentList()
   {
-    return Expanded(
-      child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListView.builder(
-                physics: const ScrollPhysics(),
-                itemCount: 6,
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  return SavedecipeCard(showTitle: true, );
-                }
-              ),
-            ],
-          ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ListView.builder(
+          physics: const ScrollPhysics(),
+          itemCount: 6,
+          shrinkWrap: true,
+          itemBuilder: (context, i) {
+            return SavedecipeCard(showTitle: true, );
+          }
         ),
+      ],
     );
   }
 }

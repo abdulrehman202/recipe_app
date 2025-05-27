@@ -16,6 +16,7 @@ class Constants{
   static String DISH_IMAGE = 'dish.png';
   static String DP_IMAGE = 'dp.png';
   static String SEARCH_DISH_IMAGE = 'searchdish.png';
+  static String MICKEY_MOUSE_DP = 'download.jpg';
 
 
   static Color BUTTON_COLOR = Color(0xff129575);
@@ -86,4 +87,6 @@ class Constants{
 
     }
   }
+
+  
 }

@@ -233,7 +233,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
                       borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
                       color: Constants.BUTTON_COLOR
                     ),
-                    child: const Text('Followeddddd',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
+                    child: const Text('Followed',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
         ],
       ),
     );
