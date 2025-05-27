@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/Custom%20Widgets/FilterSheet.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchResultDishCard.dart';
 
@@ -59,11 +60,14 @@ class _SearchScreenState extends State<SearchScreen> {
                   decoration: BoxDecoration(
                       color: Constants.BUTTON_COLOR,
                       borderRadius: BorderRadius.circular(10)),
-                  child: ImageIcon(
-                    AssetImage(
-                      Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
+                  child: GestureDetector(
+                    onTap: () => showModalBottomSheet(context: context, builder: (context)=>FilterSheet()),
+                    child: ImageIcon(
+                      AssetImage(
+                        Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
+                      ),
+                      color: Colors.white,
                     ),
-                    color: Colors.white,
                   )))
         ],
       ),
@@ -72,9 +76,11 @@ class _SearchScreenState extends State<SearchScreen> {
   
   Widget searchResults() 
   {
+    double margin = 5.0;
     return 
     Flexible(
       child: GridView.builder(
+        
         shrinkWrap: true,
         itemCount: 8,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -82,7 +88,9 @@ class _SearchScreenState extends State<SearchScreen> {
         
         itemBuilder: (c, i)
         {
-          return const SearchResultDishCard();
+          return Container(
+            margin: i%2==0? EdgeInsets.only(bottom: margin, right: margin):EdgeInsets.only(bottom: margin, left: margin),
+            child: const SearchResultDishCard());
         }),
     );
   }
