@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/saved_recipe_screen.dart';
+import 'package:recipe_app/View/user_profiel_screen.dart';
 
 class MainScreen extends StatefulWidget {
   MainScreen({super.key});
@@ -13,7 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  final List<Widget> _screens = [HomeScreen(),SavedRecipeScreen(),Container(),Container(),];
+  final List<Widget> _screens = [HomeScreen(),SavedRecipeScreen(),Container(),UserProfielScreen(),];
   int index = 0;
   @override
   Widget build(BuildContext context) {

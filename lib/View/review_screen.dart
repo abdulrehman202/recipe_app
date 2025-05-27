@@ -25,7 +25,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
     // TODO: implement initState
     super.initState();
     
-    _scrollController = ScrollController();
     _scrollController.addListener(_scrollListener);
   }
 
@@ -146,7 +145,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         ListView.builder(
             physics: const ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 20,
+            itemCount: 100,
             itemBuilder: (ctx, i) {
               return const CommentCard();
             }),
