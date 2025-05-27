@@ -12,13 +12,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    TextStyle commonTextStyle = TextStyle(
-      fontFamily: Constants.FONT_NAME,
+    TextStyle commonTextStyle = const TextStyle(
+      // fontFamily: Constants.FONT_NAME,
       fontWeight: FontWeight.w500,
     );
     return MaterialApp(
       title: 'Recipes',
-      theme: ThemeData(
+    theme: ThemeData(
+      fontFamily: Constants.FONT_NAME,
           textTheme: TextTheme(
               labelMedium: commonTextStyle.copyWith(
                   fontSize: 14, fontWeight: FontWeight.bold),
