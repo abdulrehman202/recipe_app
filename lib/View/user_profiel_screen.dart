@@ -81,7 +81,7 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   
   Widget _headingRow()
   {
-    double size = 150.0;
+    double size = 80.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -102,11 +102,14 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
   Widget _dataColumn(String heading, int value)
   {
     return Expanded(
-      child: Column(
-        children: [
-          Text(heading),
-          Text(value.toString(),style: Theme.of(context).textTheme.labelMedium,),
-        ],
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Column(
+          children: [
+            Text(heading),
+            Text(value.toString(),style: Theme.of(context).textTheme.labelMedium,),
+          ],
+        ),
       ),
     );
   }

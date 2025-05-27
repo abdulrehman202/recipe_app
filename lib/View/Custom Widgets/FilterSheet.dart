@@ -26,6 +26,7 @@ class _FilterSheetState extends State<FilterSheet> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20.0),
+      color: Colors.white,
       width: double.infinity,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -42,7 +43,7 @@ class _FilterSheetState extends State<FilterSheet> {
             margin: const EdgeInsets.only(bottom: 20.0, top: 20.0),
             alignment: Alignment.center,
             child: FilledButton(onPressed: (){}, child: const Text('Filter'))),
-
+    
         ],
       ),
     );
@@ -79,6 +80,7 @@ class _FilterSheetState extends State<FilterSheet> {
   Widget _ratingChoices() 
   {
     return ChipsChoice<int>.single(
+      wrapped: true,
       value: _selectedRating,
       onChanged: (val) => setState(() => _selectedRating = val),
       choiceItems: C2Choice.listFrom<int, String>(

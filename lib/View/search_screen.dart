@@ -61,7 +61,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Constants.BUTTON_COLOR,
                       borderRadius: BorderRadius.circular(10)),
                   child: GestureDetector(
-                    onTap: () => showModalBottomSheet(context: context, builder: (context)=>FilterSheet()),
+                    onTap: () => showModalBottomSheet(context: context, builder: (context)=>FilterSheet(), enableDrag: true, isScrollControlled: true),
                     child: ImageIcon(
                       AssetImage(
                         Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
