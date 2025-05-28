@@ -14,22 +14,18 @@ class CommentCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(
-                flex: 1,
-                child: ClipOval(
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 10.0),
-                    width: 40,
-                    height: 40,
-                    child: Image.asset(
-                      Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
-                      fit: BoxFit.fill,
-                    ),
+              ClipOval(
+                child: Container(
+                  margin: const EdgeInsets.only(right: 10.0),
+                  width: 50,
+                  height: 50,
+                  child: Image.asset(
+                    Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
               Expanded(
-                  flex: 8,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
