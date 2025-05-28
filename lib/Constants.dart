@@ -20,6 +20,7 @@ class Constants{
   static String HOME_ICON = 'home.png';
   static String NOTIFICATION_ICON = 'notification.png';
   static String SAVE_ICON = 'save.png';
+  static String PROFILE_ICON = 'profile.png';
 
 
   static Color BUTTON_COLOR = Color(0xff129575);

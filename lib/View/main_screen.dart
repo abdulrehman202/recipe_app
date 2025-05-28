@@ -29,8 +29,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget _bottomNavBar() {
 
     double fontSize = 10;
-    Icon iconHome = const Icon(
-      Icons.home_outlined
+    ImageIcon iconHome =  ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH+Constants.HOME_ICON),
     );
     ImageIcon iconSave = ImageIcon(
       AssetImage(Constants.BASE_IMG_PATH+Constants.SAVE_ICON),
@@ -38,8 +38,8 @@ class _MainScreenState extends State<MainScreen> {
     ImageIcon iconNotification =  ImageIcon(
       AssetImage(Constants.BASE_IMG_PATH+Constants.NOTIFICATION_ICON),
     );
-    Icon iconProfile =  const Icon(
-      Icons.person_outline_outlined
+    ImageIcon iconProfile =  ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH+Constants.PROFILE_ICON),
     );
     return Container(
       constraints: const BoxConstraints(minHeight: 75),

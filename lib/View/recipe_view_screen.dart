@@ -64,7 +64,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                      Icon(Icons.fastfood_outlined),
+                      Icon(Icons.room_service_outlined),
                       Text('1 Serve'),
                     ]),
                     _tabsContent()
