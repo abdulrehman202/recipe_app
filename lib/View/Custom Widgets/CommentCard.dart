@@ -63,10 +63,10 @@ class CommentCard extends StatelessWidget {
   Widget _thumbsIcon(
       BuildContext context, IconData thumb, int i, bool isSelected) {
     return Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.symmetric(horizontal:  10.0, vertical: 5.0),
         decoration: isSelected
             ? const BoxDecoration(
-                color: Color.fromARGB(255, 187, 232, 255),
+                color: Color(0xffD9D9D9),
                 borderRadius: BorderRadius.all(Radius.circular(20.0)))
             : const BoxDecoration(),
         child: Row(
@@ -76,7 +76,7 @@ class CommentCard extends StatelessWidget {
               color: Constants.YELLOW_LABEL_COLOR,
             ),
             Container(
-                margin: const EdgeInsets.only(left: 10.0),
+                margin: const EdgeInsets.only(left: 5.0),
                 child: Text(
                   i.toString(),
                   style: Theme.of(context)

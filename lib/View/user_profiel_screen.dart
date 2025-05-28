@@ -85,13 +85,14 @@ class _UserProfielScreenState extends State<UserProfielScreen> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ClipOval(
-          child: SizedBox(
-            height: size,
-            width: size,
-            child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, fit: BoxFit.contain,),
+          ClipOval(
+            child: Container(
+              color: const Color(0xffD9D9D9),
+              height: size,
+              width: size,
+              child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, fit: BoxFit.contain,),
+            ),
           ),
-        ),
         _dataColumn('Recipes', 4),
         _dataColumn('Followers', 10),
         _dataColumn('Following', 7),

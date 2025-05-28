@@ -4,7 +4,6 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -114,30 +113,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 50,
-      child: Row(
-        children: [
-          Expanded(child: SearchFieldButton()),
-          GestureDetector(
-              child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Constants.BUTTON_COLOR,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: ImageIcon(
-                    AssetImage(
-                      Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
-                    ),
-                    color: Colors.white,
-                  )))
-        ],
-      ),
+      child: SearchFieldButton(),
     );
   }
 
   Widget categories() {
     return ChipsChoice<int>.single(
-      scrollToSelectedOnChanged: true,
       value: widget._selectedCAtegory,
       onChanged: (val) => setState(() => widget._selectedCAtegory = val),
       choiceItems: C2Choice.listFrom<int, String>(
@@ -148,8 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
         tooltip: (i, v) => v,
       ),
       choiceStyle: C2ChipStyle.filled(
+        foregroundColor: Constants.BUTTON_COLOR,
         color: Colors.white,
         selectedStyle: C2ChipStyle(
+          foregroundColor: Colors.white,
           backgroundColor: Constants.BUTTON_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),

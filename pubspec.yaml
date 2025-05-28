@@ -73,6 +73,9 @@ flutter:
     - assets/images/dp.png 
     - assets/images/searchdish.png
     - assets/images/download.jpg
+    - assets/images/home.png
+    - assets/images/notification.png
+    - assets/images/save.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

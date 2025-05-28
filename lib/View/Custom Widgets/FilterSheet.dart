@@ -12,6 +12,18 @@ class FilterSheet extends StatefulWidget {
 class _FilterSheetState extends State<FilterSheet> {
   int _selectedTime = 0,_selectedRating = 0;
   List<int> _selectedCategory = [];
+  
+  var chipStyle = C2ChipStyle.outlined(
+        color: Constants.BUTTON_COLOR,
+        selectedStyle: C2ChipStyle.filled(
+          color: Constants.BUTTON_COLOR,
+         foregroundColor: Colors.white,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+      );
+
   final List<String> _categories = [
     'All',
     'Indian',
@@ -56,24 +68,12 @@ class _FilterSheetState extends State<FilterSheet> {
       value: _selectedTime,
       onChanged: (val) => setState(() => _selectedTime = val),
       choiceItems: C2Choice.listFrom<int, String>(
-        
         source: ['All', 'Newest','Oldest','Popularity'],
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,
       ),
-      choiceStyle: C2ChipStyle.filled(
-        borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        color: Colors.white,
-        selectedStyle: C2ChipStyle(
-          backgroundColor: Constants.BUTTON_COLOR,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-      ),
+      choiceStyle: chipStyle
     );
   }
   
@@ -90,18 +90,7 @@ class _FilterSheetState extends State<FilterSheet> {
         label: (i, v) => v,
         tooltip: (i, v) => v,
       ),
-      choiceStyle: C2ChipStyle.filled(
-        borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        color: Colors.white,
-        selectedStyle: C2ChipStyle(
-          backgroundColor: Constants.BUTTON_COLOR,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-      ),
+      choiceStyle: chipStyle,
     );
   }
   
@@ -119,18 +108,7 @@ class _FilterSheetState extends State<FilterSheet> {
         label: (i, v) => v,
         tooltip: (i, v) => v,
       ),
-      choiceStyle: C2ChipStyle.filled(
-        borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        color: Colors.white,
-        selectedStyle: C2ChipStyle(
-          backgroundColor: Constants.BUTTON_COLOR,
-          borderRadius: const BorderRadius.all(
-            Radius.circular(10),
-          ),
-        ),
-      ),
+      choiceStyle: chipStyle,
     );
   }
 }

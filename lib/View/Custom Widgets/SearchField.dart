@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 
 class SearchField extends StatelessWidget {
-  FocusNode _focusNode  = FocusNode();
   SearchField({super.key});
-
+  
+  
   @override
   Widget build(BuildContext context) {
-    _focusNode.requestFocus();
+    
     return Container(
       margin: const EdgeInsets.only(right: 20),
       child: TextField(
-        focusNode: _focusNode,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           hintText: 'Search recipe',

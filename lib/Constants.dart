@@ -17,6 +17,9 @@ class Constants{
   static String DP_IMAGE = 'dp.png';
   static String SEARCH_DISH_IMAGE = 'searchdish.png';
   static String MICKEY_MOUSE_DP = 'download.jpg';
+  static String HOME_ICON = 'home.png';
+  static String NOTIFICATION_ICON = 'notification.png';
+  static String SAVE_ICON = 'save.png';
 
 
   static Color BUTTON_COLOR = Color(0xff129575);

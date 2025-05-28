@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
-import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/main_screen.dart';
 import 'package:recipe_app/View/sign_up_screen.dart';
 

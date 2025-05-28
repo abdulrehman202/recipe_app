@@ -10,7 +10,7 @@ class SearchFieldButton extends StatelessWidget {
     return GestureDetector(
       onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context)=> SearchScreen(),)),
       child: Container(
-      margin: const EdgeInsets.only(right: 20),
+      margin: const EdgeInsets.symmetric( horizontal: 10),
       child: TextField(
         enabled: false,
         decoration: InputDecoration(

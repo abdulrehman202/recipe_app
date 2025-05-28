@@ -14,7 +14,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  final List<Widget> _screens = [HomeScreen(),SavedRecipeScreen(),Container(),UserProfielScreen(),];
+  final List<Widget> _screens = [HomeScreen(),const SavedRecipeScreen(),Container(),const UserProfielScreen(),];
   int index = 0;
   @override
   Widget build(BuildContext context) {
@@ -27,21 +27,25 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _bottomNavBar() {
+
+    double fontSize = 10;
     Icon iconHome = const Icon(
-      Icons.home_outlined,
+      Icons.home_outlined
     );
-    Icon iconSave = const Icon(
-      Icons.bookmark_border,
+    ImageIcon iconSave = ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH+Constants.SAVE_ICON),
     );
-    Icon iconNotification = const Icon(
-      Icons.notifications_none_outlined,
+    ImageIcon iconNotification =  ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH+Constants.NOTIFICATION_ICON),
     );
-    Icon iconProfile = const Icon(
-      Icons.person_outline_sharp,
+    Icon iconProfile =  const Icon(
+      Icons.person_outline_outlined
     );
     return Container(
-      constraints: const BoxConstraints(minHeight: 50),
+      constraints: const BoxConstraints(minHeight: 75),
       child: BottomNavigationBar(
+        unselectedFontSize: fontSize,
+        selectedFontSize: fontSize,
           selectedIconTheme: const IconThemeData(size: 36),
           type: BottomNavigationBarType.fixed,
           currentIndex: index,
@@ -50,7 +54,8 @@ class _MainScreenState extends State<MainScreen> {
               index = value;
             });
           },
-          showUnselectedLabels: true,
+          showUnselectedLabels: false,
+          showSelectedLabels: true,
           unselectedItemColor: Colors.black,
           selectedItemColor: Constants.BUTTON_COLOR,
           items: [
