@@ -13,7 +13,7 @@ class SavedRecipeScreen extends StatelessWidget {
   
   Widget _body() {
     return Container(
-      margin: const EdgeInsets.all(10.0),
+      margin: const EdgeInsets.symmetric(horizontal: 10.0),
       height: double.infinity,
       child: SingleChildScrollView(
         child: Column(

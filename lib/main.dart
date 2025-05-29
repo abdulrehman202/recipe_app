@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Recipes',
     theme: ThemeData(
+      scaffoldBackgroundColor: Colors.white,
       fontFamily: Constants.FONT_NAME,
           textTheme: TextTheme(
               labelMedium: commonTextStyle.copyWith(
