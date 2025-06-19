@@ -38,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,fontSize: 30)),
                       TextSpan(
-                        text: 'Let\'s help you set up your account, it won\'t take long.',
+                        text: 'Welcome to recipe app. Let\'s get started!',
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
@@ -50,7 +50,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 30
                 ),
-                CustomTextField(lbl: 'Name',),
                 CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,),
                 CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword),
                 CustomTextField(lbl: 'Confirm Password',textInputType: TextInputType.visiblePassword),
