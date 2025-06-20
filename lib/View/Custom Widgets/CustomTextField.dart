@@ -4,8 +4,9 @@ import 'package:recipe_app/Constants.dart';
 class CustomTextField extends StatelessWidget {
   String lbl;
   TextInputType textInputType;
+  TextEditingController? controller;
   
-  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name});
+  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           TextField(
-            
+            controller: controller,
             obscureText: textInputType == TextInputType.visiblePassword,
           keyboardType: textInputType,
             decoration: InputDecoration(
