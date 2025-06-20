@@ -53,7 +53,7 @@ class SplashScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => const LoginScreen()));
+                                  builder: (builder) => LoginScreen()));
                         },
                         child: Wrap(
                           direction: Axis.horizontal,

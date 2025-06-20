@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Provider/login_provider';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 import 'package:recipe_app/View/main_screen.dart';
 import 'package:recipe_app/View/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  LoginScreen({super.key});
 
  
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _body(context),
+    return ChangeNotifierProvider(create:  (context) => LoginProvider(),
+      child: Scaffold(
+        body: Consumer<LoginProvider>(builder: (context, user,_) => _body(context, user)),
+      ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, LoginProvider provider) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(20),
@@ -45,8 +52,8 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               
-              CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,),
-              CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword,),
+              CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,controller: _emailController,),
+              CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword,controller: _passwordController,),
               TextButton(
                   onPressed: () {},
                   child: Text(
@@ -59,9 +66,21 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder)=>MainScreen()));
-                      }, child: const Text('Sign In'))),
+                      onPressed: () async{
+                        if(provider.checkValues(_emailController.text)){
+
+                            var res = await provider.login(_emailController.text,_passwordController.text,);
+                            res.fold(ifLeft: (l)=>
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r){
+                              _emailController.clear();
+                              _passwordController.clear();
+                              Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen()));
+                              
+                              });}
+                          else{
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.msg)));
+                          }
+                      }, child: provider.loading?CustomProgressIndicator(): const Text('Sign In'))),
               Container(
                   alignment: Alignment.center,
                   margin: const EdgeInsets.all(20),
