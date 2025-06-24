@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
-import 'package:recipe_app/View/profile_setup_screen.dart';
 import 'package:recipe_app/View/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -45,7 +44,7 @@ class MyApp extends StatelessWidget {
               ),
               headlineSmall: commonTextStyle.copyWith(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.bold, 
                 color: Colors.white,
               )),
           filledButtonTheme: FilledButtonThemeData(
@@ -65,7 +64,7 @@ class MyApp extends StatelessWidget {
                       ),
                       ),
                       
-      home: const ProfileSetupScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

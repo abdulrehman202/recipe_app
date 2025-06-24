@@ -6,6 +6,7 @@ import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/main_screen.dart';
+import 'package:recipe_app/View/profile_setup_screen.dart';
 
 
 class SignUpScreen extends StatelessWidget {
@@ -89,7 +90,7 @@ class SignUpScreen extends StatelessWidget {
                               _passwordController.clear();
                               _confirmPasswordController.clear();
                               provider.toggleTermsAndCondition(false);
-                              Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (builder)=> ProfileSetupScreen(uid: r,)));
                               
                               });}
                           else{

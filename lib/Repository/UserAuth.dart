@@ -2,11 +2,11 @@ import 'package:dart_either/dart_either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserAuth {
-  Future<Either<String, String>> registerUser(String email, password) async {
+  Future<Either<String, String>> registerUser(String email, password) async { 
     try {
-      await FirebaseAuth.instance
+      UserCredential res = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-      return const Right('User registered!');
+      return Right(res.user!.uid);
     } on FirebaseAuthException catch (_) {
       return Left(_.message ?? 'Error!');
     }

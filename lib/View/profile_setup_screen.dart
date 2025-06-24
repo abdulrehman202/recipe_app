@@ -2,21 +2,31 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Provider/profile_setup_provider.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 import 'package:recipe_app/View/Custom%20Widgets/DefaultProfileImageWidget.dart';
+import 'package:recipe_app/View/main_screen.dart';
 
 class ProfileSetupScreen extends StatelessWidget {
-  const ProfileSetupScreen({super.key});
+  String uid;
+
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _bioController = TextEditingController();
+  ProfileSetupScreen({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _body(),
+    return ChangeNotifierProvider(create:  (context) => UserProfileProvider(),
+      child: Scaffold(
+        body: Consumer<UserProfileProvider>(builder: (context, user,_) => _body(context, user)),
+      ),
     );
   }
 
-  Widget _body()
+  Widget _body(BuildContext ctx, UserProfileProvider provider, )
   {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -35,9 +45,21 @@ class ProfileSetupScreen extends StatelessWidget {
               )
             ],
           ),
-          CustomTextField(lbl: 'Full Name'),
-          CustomTextField(lbl: 'Add bio'),
-          FilledButton(onPressed: (){}, child: const Text('Set Profile'))
+          CustomTextField(lbl: 'Full Name', controller: _nameController,),
+          CustomTextField(lbl: 'Add bio', controller: _bioController,),
+          FilledButton(onPressed: ()async
+          {
+            await provider.setUpUser(_nameController.text, _bioController.text, uid);
+
+            if(!provider.success)
+            {
+              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(provider.msg)));
+            }
+            else{
+              Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen()));
+            }
+
+          }, child: provider.loading? CustomProgressIndicator(): Text('Set Profile'))
         ],
       ),
     );
