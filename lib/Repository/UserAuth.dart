@@ -14,9 +14,9 @@ class UserAuth {
 
    Future<Either<String, String>> login(String email, password) async {
     try {
-      await FirebaseAuth.instance
+      UserCredential loginData =   await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      return const Right('Sign in successful');
+      return  Right(loginData.user!.uid);
     } on FirebaseAuthException catch (_) {
       return Left(_.message ?? 'Error!');
     }
