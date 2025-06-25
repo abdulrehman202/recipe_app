@@ -5,7 +5,8 @@ import 'package:recipe_app/View/saved_recipe_screen.dart';
 import 'package:recipe_app/View/user_profiel_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({super.key});
+  String uid;
+  MainScreen({super.key, required this.uid});
 
 
   @override
@@ -14,8 +15,16 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
 
-  final List<Widget> _screens = [HomeScreen(),const SavedRecipeScreen(),Container(),const UserProfielScreen(),];
+  late final List<Widget> _screens;
   int index = 0;
+  
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _screens = [HomeScreen(),const SavedRecipeScreen(),Container(), UserProfielScreen(uid: widget.uid),];
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(

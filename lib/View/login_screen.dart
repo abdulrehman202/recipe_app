@@ -74,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r){
                               _emailController.clear();
                               _passwordController.clear();
-                              Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen(uid: r,)));
                               
                               });}
                           else{

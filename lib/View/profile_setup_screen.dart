@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
@@ -19,48 +16,51 @@ class ProfileSetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create:  (context) => UserProfileProvider(),
+    return ChangeNotifierProvider(create:  (context) => UserProfileSetupProvider(),
       child: Scaffold(
-        body: Consumer<UserProfileProvider>(builder: (context, user,_) => _body(context, user)),
+        body: Consumer<UserProfileSetupProvider>(builder: (context, user,_) => _body(context, user)),
       ),
     );
   }
 
-  Widget _body(BuildContext ctx, UserProfileProvider provider, )
+  Widget _body(BuildContext ctx, UserProfileSetupProvider provider, )
   {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              ClipOval(
-                child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, errorBuilder:(ctx, o,st)=> const DefaultProfileImageWidget(),),
-              ),
-              Container(
-                decoration: BoxDecoration(color: Constants.BUTTON_COLOR,borderRadius: BorderRadius.circular(20.0)),
-                margin: const EdgeInsets.only(right: 20.0, bottom: 40.0),
-                child: const Icon(Icons.add,color: Colors.white,),
-              )
-            ],
-          ),
-          CustomTextField(lbl: 'Full Name', controller: _nameController,),
-          CustomTextField(lbl: 'Add bio', controller: _bioController,),
-          FilledButton(onPressed: ()async
-          {
-            await provider.setUpUser(_nameController.text, _bioController.text, uid);
-
-            if(!provider.success)
+    return IgnorePointer(
+      ignoring: provider.loading,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Column(
+          children: [
+            Stack(
+              alignment: Alignment.bottomRight,
+              children: [
+                ClipOval(
+                  child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, errorBuilder:(ctx, o,st)=> const DefaultProfileImageWidget(),),
+                ),
+                Container(
+                  decoration: BoxDecoration(color: Constants.BUTTON_COLOR,borderRadius: BorderRadius.circular(20.0)),
+                  margin: const EdgeInsets.only(right: 20.0, bottom: 40.0),
+                  child: const Icon(Icons.add,color: Colors.white,),
+                )
+              ],
+            ),
+            CustomTextField(lbl: 'Full Name', controller: _nameController,),
+            CustomTextField(lbl: 'Add bio', controller: _bioController,),
+            FilledButton(onPressed: ()async
             {
-              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(provider.msg)));
-            }
-            else{
-              Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen()));
-            }
-
-          }, child: provider.loading? CustomProgressIndicator(): Text('Set Profile'))
-        ],
+              await provider.setUpUser(_nameController.text, _bioController.text, uid);
+      
+              if(!provider.success)
+              {
+                ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(provider.msg)));
+              }
+              else{
+                Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen(uid: uid)));
+              }
+      
+            }, child: provider.loading? CustomProgressIndicator(): Text('Set Profile'))
+          ],
+        ),
       ),
     );
   }

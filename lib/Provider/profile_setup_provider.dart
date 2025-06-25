@@ -4,7 +4,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Repository/UserAuth.dart';
 import 'package:recipe_app/Repository/UserProfile.dart';
 
-class UserProfileProvider extends ChangeNotifier {
+class UserProfileSetupProvider extends ChangeNotifier {
   bool loading = false;
   bool success = false;
   UserProfile userProfile = UserProfile();
