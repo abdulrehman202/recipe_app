@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
+import 'package:recipe_app/Model/User.dart';
 
 class UserProfile {
 
@@ -15,11 +16,12 @@ class UserProfile {
     }
   }
 
-  Future<Either<String, String>> fetchUser(String uid) async { 
+  Future<Either<String, User>> fetchUser(String uid) async { 
     try {
       DocumentSnapshot documentSnapshot = await db.collection(collectionName).doc(uid).get();
-      var data = documentSnapshot.data();
-      return Right('ok');
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      User user = User.fromJson(data);
+      return Right(user);
     } on FirebaseException catch (_) {
       return Left(_.message ?? 'Error!');
     }

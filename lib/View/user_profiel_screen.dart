@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +14,7 @@ import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 class UserProfielScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   late BuildContext ctx;
+  late AsyncMemoizer _memoizer;
   String uid;
   UserProfielScreen({super.key, required this.uid});
 
@@ -18,9 +22,9 @@ class UserProfielScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ctx = context;
+    _memoizer = AsyncMemoizer();
     return ChangeNotifierProvider(
       create:  (ctx) => UserProfileProvider(),
-
       child: Consumer<UserProfileProvider>(builder: (ctx, user,_) => Scaffold(
          floatingActionButton: user.scrollPosition==0.0?Container(): FloatingActionButton(
             onPressed: () => user.scrollController.animateTo(0,
@@ -40,11 +44,13 @@ class UserProfielScreen extends StatelessWidget {
     );
   }
   
-  _body( UserProfileProvider provider)
+  _body( UserProfileProvider provider) 
   {
     return FutureBuilder(
       key: _scaffoldkey,
-      future: provider.fetchUser(uid),
+      future: _memoizer.runOnce(()async{
+        provider.fetchUser(uid);
+      }) ,
       builder: (_, asyncSnapshot) {      
         return asyncSnapshot.connectionState == ConnectionState.done? SafeArea(child: 
         Container(
