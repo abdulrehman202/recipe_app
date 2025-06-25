@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomProgressIndicator extends StatelessWidget {
-  const CustomProgressIndicator({super.key});
+  Color pColor;
+  CustomProgressIndicator({super.key, this.pColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      color: Colors.white,
+      color: pColor,
     );
   }
 }

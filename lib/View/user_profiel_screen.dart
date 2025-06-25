@@ -10,7 +10,6 @@ import 'package:recipe_app/Provider/user_profile_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 
-
 class UserProfielScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
   late BuildContext ctx;
@@ -18,122 +17,152 @@ class UserProfielScreen extends StatelessWidget {
   String uid;
   UserProfielScreen({super.key, required this.uid});
 
-
   @override
   Widget build(BuildContext context) {
     ctx = context;
     _memoizer = AsyncMemoizer();
     return ChangeNotifierProvider(
-      create:  (ctx) => UserProfileProvider(),
-      child: Consumer<UserProfileProvider>(builder: (ctx, user,_) => Scaffold(
-         floatingActionButton: user.scrollPosition==0.0?Container(): FloatingActionButton(
-            onPressed: () => user.scrollController.animateTo(0,
-                duration: const Duration(milliseconds: 500), curve: Curves.ease),
-            child: const Icon(Icons.arrow_upward,color: Colors.white,)),
-        appBar: _appBar(),
-        body: _body(user),
+      create: (ctx) => UserProfileProvider(),
+      child: Consumer<UserProfileProvider>(
+          builder: (ctx, user, _) => Scaffold(
+                floatingActionButton: user.scrollPosition == 0.0
+                    ? Container()
+                    : FloatingActionButton(
+                        onPressed: () => user.scrollController.animateTo(0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease),
+                        child: const Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                        )),
+                appBar: _appBar(),
+                body: _body(user),
+              )),
+    );
+  }
+
+  PreferredSizeWidget _appBar() {
+    return AppBar(
+      leading: Container(),
+      title: Center(
+          child: Text(
+        'Profile',
+        style: Theme.of(ctx).textTheme.labelMedium,
       )),
     );
   }
-  
-  PreferredSizeWidget _appBar()
-  {
-    return AppBar(
-      leading: Container(),
-      title: Center(child: Text('Profile', style: Theme.of(ctx).textTheme.labelMedium,)),
-    );
-  }
-  
-  _body( UserProfileProvider provider) 
-  {
+
+  _body(UserProfileProvider provider) {
     return FutureBuilder(
-      key: _scaffoldkey,
-      future: _memoizer.runOnce(()async{
-        provider.fetchUser(uid);
-      }) ,
-      builder: (_, asyncSnapshot) {      
-        return asyncSnapshot.connectionState == ConnectionState.done? SafeArea(child: 
-        Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: SingleChildScrollView(
-            controller: provider.scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _headingRow(),
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10.0),
-                child:  Text(provider.name, style: Theme.of(ctx).textTheme.headlineSmall!.copyWith(color: Colors.black),)),
-                Container(
-                margin: const EdgeInsets.only(bottom: 10.0),
-                child:  const Text('Chef',)),
-            
-                _bioRow(provider),
-                _tabsRow(provider),
-                const SizedBox(height: 10,),
-                _contentList(),
-            ]),
-          ),
-        ),
-        
-        ):CustomProgressIndicator();
-      }
-    );
+        key: _scaffoldkey,
+        future: _memoizer.runOnce(() async {
+          await provider.fetchUser(uid);
+        }),
+        builder: (_, asyncSnapshot) {
+          if (asyncSnapshot.connectionState == ConnectionState.done) {
+            if (provider.success) {
+              return SafeArea(
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: SingleChildScrollView(
+                    controller: provider.scrollController,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _headingRow(),
+                          Container(
+                              margin:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Text(
+                                provider.name,
+                                style: Theme.of(ctx)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(color: Colors.black),
+                              )),
+                          Container(
+                              child: const Text(
+                                'Chef',
+                              )),
+                          _bioRow(provider),
+                          _tabsRow(provider),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          _contentList(),
+                        ]),
+                  ),
+                ),
+              );
+            } else {
+              return Center(
+                child: Text(provider.msg),
+              );
+            }
+          }
+          return Center(
+            child: CustomProgressIndicator(
+              pColor: Constants.BUTTON_COLOR,
+            ),
+          );
+        });
   }
-  
-  Widget _headingRow()
-  {
+
+  Widget _headingRow() {
     double size = 80.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-          ClipOval(
-            child: Container(
-              color: const Color(0xffD9D9D9),
-              height: size,
-              width: size,
-              child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, fit: BoxFit.contain,),
+        ClipOval(
+          child: Container(
+            color: const Color(0xffD9D9D9),
+            height: size,
+            width: size,
+            child: Image.asset(
+              Constants.BASE_IMG_PATH + Constants.MICKEY_MOUSE_DP,
+              fit: BoxFit.contain,
             ),
           ),
-        _dataColumn( 'Recipes', 4),
+        ),
+        _dataColumn('Recipes', 4),
         _dataColumn('Followers', 10),
         _dataColumn('Following', 7),
       ],
     );
   }
 
-  Widget _dataColumn( String heading, int value)
-  {
+  Widget _dataColumn(String heading, int value) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 5.0),
         child: Column(
           children: [
             Text(heading),
-            Text(value.toString(),style: Theme.of(ctx).textTheme.labelMedium,),
+            Text(
+              value.toString(),
+              style: Theme.of(ctx).textTheme.labelMedium,
+            ),
           ],
         ),
       ),
     );
   }
-  
-  Widget _bioRow(UserProfileProvider provider)
-  {
+
+  Widget _bioRow(UserProfileProvider provider) {
     return Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            child: ReadMoreText(
-              provider.bio,
-              trimMode: TrimMode.Line,
-              trimLines: 3,
-              colorClickableText: Constants.BUTTON_COLOR,
-              trimCollapsedText: 'Show more',
-              trimExpandedText: ' Show less',
-            ),
-          );
+      margin: const EdgeInsets.only(bottom: 10),
+      child: ReadMoreText(
+        provider.bio,
+        trimMode: TrimMode.Line,
+        trimLines: 3,
+        colorClickableText: Constants.BUTTON_COLOR,
+        trimCollapsedText: 'Show more',
+        trimExpandedText: ' Show less',
+      ),
+    );
   }
-  
-  Widget _tabsRow(UserProfileProvider provider)
-  {
+
+  Widget _tabsRow(UserProfileProvider provider) {
     return Center(
       child: ChipsChoice<int>.single(
         scrollToSelectedOnChanged: true,
@@ -150,7 +179,8 @@ class UserProfielScreen extends StatelessWidget {
         choiceStyle: C2ChipStyle.filled(
           color: Colors.white,
           selectedStyle: C2ChipStyle(
-            padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(ctx).size.width*0.1),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(ctx).size.width * 0.1),
             backgroundColor: Constants.BUTTON_COLOR,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
@@ -160,20 +190,20 @@ class UserProfielScreen extends StatelessWidget {
       ),
     );
   }
-  
-  Widget _contentList()
-  {
+
+  Widget _contentList() {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         ListView.builder(
-          physics: const ScrollPhysics(),
-          itemCount: 6,
-          shrinkWrap: true,
-          itemBuilder: (ctx, i) {
-            return SavedecipeCard(showTitle: true, );
-          }
-        ),
+            physics: const ScrollPhysics(),
+            itemCount: 6,
+            shrinkWrap: true,
+            itemBuilder: (ctx, i) {
+              return SavedecipeCard(
+                showTitle: true,
+              );
+            }),
       ],
     );
   }

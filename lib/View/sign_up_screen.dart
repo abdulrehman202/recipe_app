@@ -96,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
                           else{
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.msg)));
                           }
-                          }, child: provider.loading?const CustomProgressIndicator(): const Text('Sign Up'))),
+                          }, child: provider.loading?CustomProgressIndicator(): const Text('Sign Up'))),
                   Container(
                       alignment: Alignment.center,
                       margin: const EdgeInsets.all(20),
