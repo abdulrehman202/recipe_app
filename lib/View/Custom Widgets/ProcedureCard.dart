@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Procedure.dart';
 
 class ProcedureCard extends StatelessWidget {
-  int stepNumber;
-  ProcedureCard({super.key, required this.stepNumber});
+  Procedure procedure;
+  ProcedureCard({super.key, required this.procedure,});
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class ProcedureCard extends StatelessWidget {
         children: [
           SizedBox(
             height: 40,
-            child: Text('Step ${stepNumber+1}', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: 14))),
-          Text('Lorem Ipsum tempor incididunt ut labore et dolore,in voluptate velit esse cillum dolore eu fugiat nulla pariatur? '*10, overflow: TextOverflow.clip, )
+            child: Text('Step ${procedure.stepNo}', style: Theme.of(context).textTheme.labelMedium!.copyWith(fontSize: 14))),
+          Text(procedure.procedure, overflow: TextOverflow.clip, )
         ],
       ),
     );

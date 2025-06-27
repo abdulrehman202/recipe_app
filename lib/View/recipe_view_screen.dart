@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Ingredient.dart';
+import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -275,7 +277,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
   Widget _tabsList() {
     return SliverList.builder(
             itemBuilder: (BuildContext context, int index) {
-              return widget._selectedPage == 0? const IngredientCard():ProcedureCard(stepNumber: index);
+              return widget._selectedPage == 0? IngredientCard(ingredient: Ingredient('id', 'Sample', 100),):ProcedureCard(procedure: Procedure('id', 1, 'Sample'),);
             },
             itemCount: 25,
           );

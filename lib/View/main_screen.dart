@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/View/add_recipe_screen.dart';
 import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/saved_recipe_screen.dart';
 import 'package:recipe_app/View/user_profiel_screen.dart';
@@ -85,8 +86,12 @@ class _MainScreenState extends State<MainScreen> {
   Widget _floatingActionButton() {
     return ClipOval(
         child: FloatingActionButton(
+          
             backgroundColor: Constants.BUTTON_COLOR,
-            onPressed: () {},
+            onPressed: ()
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (builder)=>AddRecipeScreen()));
+            },
             child: const Icon(
               Icons.add,
               color: Colors.white,
