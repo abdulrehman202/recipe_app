@@ -16,10 +16,8 @@ class ProfileSetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create:  (context) => UserProfileSetupProvider(),
-      child: Scaffold(
-        body: Consumer<UserProfileSetupProvider>(builder: (context, user,_) => _body(context, user)),
-      ),
+    return Scaffold(
+      body: Consumer<UserProfileSetupProvider>(builder: (context, user,_) => _body(context, user)),
     );
   }
 

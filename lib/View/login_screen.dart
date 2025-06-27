@@ -15,10 +15,8 @@ class LoginScreen extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create:  (context) => LoginProvider(),
-      child: Scaffold(
-        body: Consumer<LoginProvider>(builder: (context, user,_) => _body(context, user)),
-      ),
+    return Scaffold(
+      body: Consumer<LoginProvider>(builder: (context, user,_) => _body(context, user)),
     );
   }
 

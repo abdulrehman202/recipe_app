@@ -21,24 +21,21 @@ class UserProfielScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ctx = context;
     _memoizer = AsyncMemoizer();
-    return ChangeNotifierProvider(
-      create: (ctx) => UserProfileProvider(),
-      child: Consumer<UserProfileProvider>(
-          builder: (ctx, user, _) => Scaffold(
-                floatingActionButton: user.scrollPosition == 0.0
-                    ? Container()
-                    : FloatingActionButton(
-                        onPressed: () => user.scrollController.animateTo(0,
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.ease),
-                        child: const Icon(
-                          Icons.arrow_upward,
-                          color: Colors.white,
-                        )),
-                appBar: _appBar(),
-                body: _body(user),
-              )),
-    );
+    return Consumer<UserProfileProvider>(
+        builder: (ctx, user, _) => Scaffold(
+              floatingActionButton: user.scrollPosition == 0.0
+                  ? Container()
+                  : FloatingActionButton(
+                      onPressed: () => user.scrollController.animateTo(0,
+                          duration: const Duration(milliseconds: 500),
+                          curve: Curves.ease),
+                      child: const Icon(
+                        Icons.arrow_upward,
+                        color: Colors.white,
+                      )),
+              appBar: _appBar(),
+              body: _body(user),
+            ));
   }
 
   PreferredSizeWidget _appBar() {

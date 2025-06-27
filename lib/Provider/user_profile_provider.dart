@@ -20,8 +20,6 @@ class UserProfileProvider extends ChangeNotifier {
   scrollController.addListener((){scrollPosition = scrollController.position.pixels;});
 }
   Future<void> fetchUser(String uid) async {
-    toggleLoader();
-    notifyListeners();
     Either<String, User> res = await userProfile.fetchUser(uid);
     res.fold(ifLeft: (value) 
     {
@@ -34,9 +32,6 @@ class UserProfileProvider extends ChangeNotifier {
       name = value.name;
       bio = value.bio;
     });
-    toggleLoader();
-    notifyListeners();
-    return;
   }
 
   changePage(val)
