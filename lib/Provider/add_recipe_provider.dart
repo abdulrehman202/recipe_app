@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 
 class AddRecipeProvider extends ChangeNotifier 
 {
@@ -26,4 +27,9 @@ class AddRecipeProvider extends ChangeNotifier
     procedureList.add(procedure);
     notifyListeners();
   }
+
+  addRecipe(Recipe recipe) 
+  {
+    print('');
+  } 
 }

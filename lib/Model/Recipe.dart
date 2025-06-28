@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
+import 'package:recipe_app/Model/Procedure.dart';
 
 part 'Recipe.g.dart';
 
@@ -9,7 +10,7 @@ class Recipe {
   String id;
   String name;
   List<Ingredient> ingredients;
-  List<String> procedure;
+  List<Procedure> procedure;
   String chefId;
 
   Recipe(

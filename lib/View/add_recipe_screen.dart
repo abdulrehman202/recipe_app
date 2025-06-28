@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/Provider/add_recipe_provider.dart';
@@ -20,10 +21,30 @@ class AddRecipeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Consumer<AddRecipeProvider>(builder: (context, recipe,_) =>Scaffold(
+      bottomNavigationBar: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 5.0),
+        child: FilledButton(onPressed: ()
+        {
+          if(textEditingController.text.isEmpty)
+          {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Recipe name required')));
+          }
+          else if(recipe.ingredientsList.length<3){
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please add atleast 3 ingredients')));
+          }
+          else if(recipe.procedureList.length<3){
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please add atleast 3 procedures')));
+          }
+          else{
+            Recipe recipeObj = Recipe('0', textEditingController.text, recipe.ingredientsList, recipe.procedureList, '');
+            recipe.addRecipe(recipeObj);
+          }
+
+        }, child: const Text('Add Recipe'))),
       backgroundColor: Colors.white,
-      body: Consumer<AddRecipeProvider>(builder: (context, recipe,_) => _body(context, recipe)),
-    );
+      body: _body(context, recipe),
+    ));
   }
 
   Widget addWidget(AddRecipeProvider provider)
@@ -38,28 +59,33 @@ class AddRecipeScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(10.0)
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
-                flex: 7,
+                flex: 8,
                 child: CustomTextField(lbl: 'Name',controller: ingNameCtrlr,)),
               const Expanded(
                 flex: 1,
                 child: SizedBox()),
               Expanded(
-                flex: 7,
+                flex: 8,
                 child: CustomTextField(lbl: 'Quantity (Grams)', controller: ingQtyCtrlr,textInputType: TextInputType.number,)),
+                const Expanded(
+                flex: 1,
+                child: SizedBox()),
             ],
           ),
           FilledButton(onPressed: ()
-          {
-            Ingredient ingredient = Ingredient('0', ingNameCtrlr.text, int.parse(ingQtyCtrlr.text));
-            provider.addIngredient(ingredient);
-            ingNameCtrlr.clear();
-            ingQtyCtrlr.clear();
-          }, child: const Text('Add Ingredient'))
+                    {
+                      Ingredient ingredient = Ingredient((provider.ingredientsList.length+1).toString(), ingNameCtrlr.text, int.parse(ingQtyCtrlr.text));
+                      provider.addIngredient(ingredient);
+                      ingNameCtrlr.clear();
+                      ingQtyCtrlr.clear();
+                    }, child: const Text('Add Ingredient')),
         ],
       ), 
     );
@@ -94,7 +120,7 @@ class AddRecipeScreen extends StatelessWidget {
               flex: 1,
               child: FilledButton(
                 onPressed: (){
-                  Procedure p = Procedure('id', provider.procedureList.length+1, procedureCtrlr.text);
+                  Procedure p = Procedure((provider.procedureList.length+1).toString(), provider.procedureList.length+1, procedureCtrlr.text);
                   provider.addProcedure(p);
                   procedureCtrlr.clear();
                 },
