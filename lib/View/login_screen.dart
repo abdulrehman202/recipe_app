@@ -71,9 +71,11 @@ class LoginScreen extends StatelessWidget {
       
                               var res = await provider.login(_emailController.text,_passwordController.text,);
                               res.fold(ifLeft: (l)=>
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r){
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r)async{
                                 _emailController.clear();
                                 _passwordController.clear();
+                                
+                await Constants.setUserId(r);
                                 Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen(uid: r,)));
                                 
                                 });}

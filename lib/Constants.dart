@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Constants{
   static String APP_NAME = 'Recipe App';
@@ -96,5 +97,18 @@ class Constants{
   }
 static RegExp emailRegex = RegExp(
       r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+static Future<String> getUserId() async
+{
+ final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String uid =  prefs.getString('uid')??'';
+  return uid;
+}
+
+static setUserId(String uid) async
+{
+   final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString('uid', uid);
+}
   
 }

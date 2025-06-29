@@ -53,6 +53,7 @@ class ProfileSetupScreen extends StatelessWidget {
                 ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(provider.msg)));
               }
               else{
+                await Constants.setUserId(uid);
                 Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen(uid: uid)));
               }
       

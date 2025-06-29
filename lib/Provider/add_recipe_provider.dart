@@ -16,7 +16,7 @@ class AddRecipeProvider extends ChangeNotifier
     notifyListeners();
   }
 
-  addIngredient(Ingredient ingredient)
+  addIngredient(Ingredient ingredient) async
   {
     ingredientsList.add(ingredient);
     notifyListeners();

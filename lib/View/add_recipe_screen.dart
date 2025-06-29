@@ -47,11 +47,6 @@ class AddRecipeScreen extends StatelessWidget {
     ));
   }
 
-  Widget addWidget(AddRecipeProvider provider)
-  {
-    return provider.selectedPage == 0?ingredientsField(provider):procedureField(provider);
-  }
-
   Widget ingredientsField(AddRecipeProvider provider)
   {
     return Container(
@@ -73,7 +68,7 @@ class AddRecipeScreen extends StatelessWidget {
                 child: SizedBox()),
               Expanded(
                 flex: 8,
-                child: CustomTextField(lbl: 'Quantity (Grams)', controller: ingQtyCtrlr,textInputType: TextInputType.number,)),
+                child: CustomTextField(lbl: 'Quantity (g)', controller: ingQtyCtrlr,textInputType: TextInputType.number,)),
                 const Expanded(
                 flex: 1,
                 child: SizedBox()),
@@ -155,7 +150,7 @@ class AddRecipeScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             leading: Container(),
             pinned: true,
-            flexibleSpace: addWidget(recipe),
+            flexibleSpace: recipe.selectedPage == 0?ingredientsField(recipe):procedureField(recipe),
           ),
           
           _tabsList(recipe),
