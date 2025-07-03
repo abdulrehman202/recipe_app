@@ -12,11 +12,11 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
   LoginScreen({super.key});
 
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<LoginProvider>(builder: (context, user,_) => _body(context, user)),
+      body: Consumer<LoginProvider>(
+          builder: (context, user, _) => _body(context, user)),
     );
   }
 
@@ -38,22 +38,30 @@ class LoginScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .displayMedium!
-                                .copyWith(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,fontSize: 30)),
+                              .copyWith(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 30)),
                       TextSpan(
                         text: 'Welcome Back!',
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
-                              .copyWith(color: Colors.black, fontSize: 20),
+                            .copyWith(color: Colors.black, fontSize: 20),
                       ),
                     ],
                   ),
                 ),
-                
-                CustomTextField(lbl: 'Email',textInputType: TextInputType.emailAddress,controller: _emailController,),
-                CustomTextField(lbl: 'Password',textInputType: TextInputType.visiblePassword,controller: _passwordController,),
+                CustomTextField(
+                  lbl: 'Email',
+                  textInputType: TextInputType.emailAddress,
+                  controller: _emailController,
+                ),
+                CustomTextField(
+                  lbl: 'Password',
+                  textInputType: TextInputType.visiblePassword,
+                  controller: _passwordController,
+                ),
                 TextButton(
                     onPressed: () {},
                     child: Text(
@@ -66,23 +74,36 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                        onPressed: () async{
-                          if(provider.checkValues(_emailController.text)){
-      
-                              var res = await provider.login(_emailController.text,_passwordController.text,);
-                              res.fold(ifLeft: (l)=>
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r)async{
-                                _emailController.clear();
-                                _passwordController.clear();
-                                
-                await Constants.setUserId(r);
-                                Navigator.push(context, MaterialPageRoute(builder: (builder)=> MainScreen(uid: r,)));
-                                
-                                });}
-                            else{
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.msg)));
-                            }
-                        }, child: provider.loading?CustomProgressIndicator(): const Text('Sign In'))),
+                        onPressed: () async {
+                          if (provider.checkValues(_emailController.text)) {
+                            var res = await provider.login(
+                              _emailController.text,
+                              _passwordController.text,
+                            );
+                            res.fold(
+                                ifLeft: (l) => ScaffoldMessenger.of(context)
+                                    .showSnackBar(
+                                        SnackBar(content: Text(l.toString()))),
+                                ifRight: (r) async {
+                                  _emailController.clear();
+                                  _passwordController.clear();
+
+                                  await Constants.setUserId(r);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (builder) => MainScreen(
+                                                uid: r,
+                                              )));
+                                });
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(provider.msg)));
+                          }
+                        },
+                        child: provider.loading
+                            ? CustomProgressIndicator()
+                            : const Text('Sign In'))),
                 Container(
                     alignment: Alignment.center,
                     margin: const EdgeInsets.all(20),
@@ -107,8 +128,8 @@ class LoginScreen extends StatelessWidget {
                     Card(
                         child: IconButton(
                             onPressed: () {},
-                            icon: Image.asset(
-                                Constants.BASE_IMG_PATH + Constants.GOOGLE_ICON)))
+                            icon: Image.asset(Constants.BASE_IMG_PATH +
+                                Constants.GOOGLE_ICON)))
                   ],
                 ),
                 Container(
@@ -118,9 +139,11 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       const Text('Don\'t have an account?'),
                       TextButton(
-                          onPressed: () 
-                          {
-                            Navigator.push(context, MaterialPageRoute(builder: (builder)=>SignUpScreen()));
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => SignUpScreen()));
                           },
                           child: Text(
                             'Sign Up',
@@ -139,6 +162,4 @@ class LoginScreen extends StatelessWidget {
       ),
     );
   }
-
-  
 }

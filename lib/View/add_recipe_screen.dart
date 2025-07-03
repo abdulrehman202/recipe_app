@@ -17,6 +17,7 @@ class AddRecipeScreen extends StatelessWidget {
   TextEditingController ingNameCtrlr = TextEditingController();
   TextEditingController ingQtyCtrlr = TextEditingController();
   TextEditingController procedureCtrlr = TextEditingController();
+  TextEditingController timeController = TextEditingController();
   AddRecipeScreen({super.key});
 
   @override
@@ -138,6 +139,13 @@ class AddRecipeScreen extends StatelessWidget {
             child: CustomTextField(
               lbl: '*Recipe Name',
               controller: textEditingController
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: CustomTextField(
+              lbl: 'Time required (in minutes)',
+              controller: timeController,
+              textInputType: TextInputType.number,
             ),
           ),
           SliverAppBar(

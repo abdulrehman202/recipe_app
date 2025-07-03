@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
