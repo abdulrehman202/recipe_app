@@ -9,16 +9,19 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(Constants.BASE_IMG_PATH + Constants.SPLASH_IMAGE,),fit: BoxFit.fill)
-        ),
+          width: double.infinity,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(
+                    Constants.BASE_IMG_PATH + Constants.SPLASH_IMAGE,
+                  ),
+                  fit: BoxFit.fill)),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
                         Constants.BASE_IMG_PATH + Constants.CHEF_HAT_ICON),

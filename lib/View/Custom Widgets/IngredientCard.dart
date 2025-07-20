@@ -9,7 +9,7 @@ class IngredientCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 10),
+      margin: const EdgeInsets.only(top: 10,),
       height: 75,
       padding: const EdgeInsets.all(20.0),
       decoration: BoxDecoration(

@@ -5,8 +5,9 @@ class CustomTextField extends StatelessWidget {
   String lbl;
   TextInputType textInputType;
   TextEditingController? controller;
+  bool hideLsbel;
   
-  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name, this.controller});
+  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name, this.controller, this.hideLsbel = false});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CustomTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          hideLsbel?Container(): Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: Text(
               lbl,

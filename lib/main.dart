@@ -30,8 +30,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create:  (context) => LoginProvider(),),
         ChangeNotifierProvider(create:  (context) => UserProfileProvider(),),
         ChangeNotifierProvider(create:  (context) => UserProfileSetupProvider(),),
-        ChangeNotifierProvider(create:  (context) => AddRecipeProvider(),),
-
       ],
       child: MaterialApp(
         title: 'Recipes',
