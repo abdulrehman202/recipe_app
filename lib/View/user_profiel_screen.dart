@@ -19,21 +19,23 @@ class UserProfielScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ctx = context;
     _memoizer = AsyncMemoizer();
-    return Consumer<UserProfileProvider>(
-        builder: (ctx, user, _) => Scaffold(
-              floatingActionButton: user.scrollPosition == 0.0
-                  ? Container()
-                  : FloatingActionButton(
-                      onPressed: () => user.scrollController.animateTo(0,
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.ease),
-                      child: const Icon(
-                        Icons.arrow_upward,
-                        color: Colors.white,
-                      )),
-              appBar: _appBar(),
-              body: _body(user),
-            ));
+    return ChangeNotifierProvider(create:  (context) => UserProfileProvider(),
+      child: Consumer<UserProfileProvider>(
+          builder: (ctx, user, _) => Scaffold(
+                floatingActionButton: user.scrollPosition == 0.0
+                    ? Container()
+                    : FloatingActionButton(
+                        onPressed: () => user.scrollController.animateTo(0,
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.ease),
+                        child: const Icon(
+                          Icons.arrow_upward,
+                          color: Colors.white,
+                        )),
+                appBar: _appBar(),
+                body: _body(user),
+              )),
+    );
   }
 
   PreferredSizeWidget _appBar() {
@@ -64,7 +66,7 @@ class UserProfielScreen extends StatelessWidget {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          _headingRow(),
+                          _headingRow(provider),
                           Container(
                               margin:
                                   const EdgeInsets.symmetric(vertical: 10.0),
@@ -84,7 +86,7 @@ class UserProfielScreen extends StatelessWidget {
                           const SizedBox(
                             height: 10,
                           ),
-                          _contentList(),
+                          _contentList(provider),
                         ]),
                   ),
                 ),
@@ -103,7 +105,7 @@ class UserProfielScreen extends StatelessWidget {
         });
   }
 
-  Widget _headingRow() {
+  Widget _headingRow(UserProfileProvider provider) {
     double size = 80.0;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +121,7 @@ class UserProfielScreen extends StatelessWidget {
             ),
           ),
         ),
-        _dataColumn('Recipes', 4),
+        _dataColumn('Recipes', provider.listOfRecipes.length),
         _dataColumn('Followers', 10),
         _dataColumn('Following', 7),
       ],
@@ -186,16 +188,17 @@ class UserProfielScreen extends StatelessWidget {
     );
   }
 
-  Widget _contentList() {
+  Widget _contentList(UserProfileProvider provider) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         ListView.builder(
             physics: const ScrollPhysics(),
-            itemCount: 6,
+            itemCount: provider.listOfRecipes.length,
             shrinkWrap: true,
             itemBuilder: (ctx, i) {
               return SavedecipeCard(
+                recipe: provider.listOfRecipes[i],
                 showTitle: true,
               );
             }),

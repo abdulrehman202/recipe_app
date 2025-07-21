@@ -32,6 +32,11 @@ class AddRecipeProvider extends ChangeNotifier
   }
 
   Future<Either<String, String>> addRecipe(Recipe recipe) async
-  { return  await recipeRepository.addRecipe(recipe);
+  { await recipeRepository.getRecipes();
+    return  await recipeRepository.addRecipe(recipe);
   } 
+
+  getRecipe() async
+  { await recipeRepository.getRecipes();
+  }
 }

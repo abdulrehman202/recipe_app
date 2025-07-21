@@ -45,7 +45,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
           SliverToBoxAdapter(
             child: Column(
               children: [
-                SavedecipeCard(showTitle: false),
+                // SavedecipeCard(showTitle: false),
                 _titleRow(context),
                 _userRow(context),
               ],

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/View/recipe_view_screen.dart';
 
 class SavedecipeCard extends StatefulWidget {
+  Recipe recipe;
   bool showTitle;
 
-  SavedecipeCard({super.key,this.showTitle = true});
+  SavedecipeCard({super.key,this.showTitle = true, required this.recipe});
 
   @override
   State<SavedecipeCard> createState() => _SavedecipeCardState();
@@ -67,7 +69,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
                             alignment: Alignment.bottomLeft,
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: Text(
-                              'Traditional spare ribs baked'*50,
+                              widget.recipe.name,
                               style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
@@ -78,14 +80,14 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
                               overflow: TextOverflow.clip,
                             )),
                       ),
-                      Expanded(
+                      !widget.showTitle? Container(): Expanded(
                         flex: 2,
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,
                           
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            'By Chef John'*20,
+                            '',
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall!

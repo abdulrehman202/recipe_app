@@ -1,6 +1,8 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Repository/UserProfile.dart';
+import 'package:recipe_app/Repository/RecipeRepo.dart';
 
 import '../Model/User.dart';
 
@@ -14,24 +16,36 @@ class UserProfileProvider extends ChangeNotifier {
   double scrollPosition = 0.0;
   String name = '';
   String bio = '';
+  List<Recipe> listOfRecipes = [];
+  RecipeRepository recipeRepository = RecipeRepository();
 
   UserProfileProvider(){
 
   scrollController.addListener((){scrollPosition = scrollController.position.pixels;});
 }
   Future<void> fetchUser(String uid) async {
+    
     Either<String, User> res = await userProfile.fetchUser(uid);
+    Either<String, List<Recipe>> resRecipe = await recipeRepository.getRecipes();
     res.fold(ifLeft: (value) 
     {
       success = false;
       msg = value;
       throw value;
-    } , ifRight: (value)
+    } , ifRight: (value){
+    resRecipe.fold(ifLeft: (value) 
     {
+      success = false;
+      msg = value;
+      throw value;
+    }, ifRight: (list){
+      listOfRecipes.addAll(list);
       success = true;
       name = value.name;
       bio = value.bio;
+      });
     });
+    notifyListeners();
   }
 
   changePage(val)
