@@ -1,7 +1,9 @@
+import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Repository/RecipeRepo.dart';
 
 class AddRecipeProvider extends ChangeNotifier 
 {
@@ -9,6 +11,7 @@ class AddRecipeProvider extends ChangeNotifier
   List<Procedure> procedureList = [];
   int selectedPage = 0;
   ScrollController scrollController = ScrollController();
+  RecipeRepository recipeRepository = RecipeRepository();
   
   switchPage(int val){
     selectedPage = val;
@@ -28,8 +31,7 @@ class AddRecipeProvider extends ChangeNotifier
     notifyListeners();
   }
 
-  addRecipe(Recipe recipe) 
-  {
-    print('');
+  Future<Either<String, String>> addRecipe(Recipe recipe) async
+  { return  await recipeRepository.addRecipe(recipe);
   } 
 }

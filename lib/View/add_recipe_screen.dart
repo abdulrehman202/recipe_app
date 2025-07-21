@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:chips_choice/chips_choice.dart';
+import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
@@ -33,7 +34,7 @@ class AddRecipeScreen extends StatelessWidget {
                       margin: const EdgeInsets.symmetric(
                           horizontal: 10.0, vertical: 5.0),
                       child: FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (textEditingController.text.isEmpty) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -49,13 +50,20 @@ class AddRecipeScreen extends StatelessWidget {
                                       content: Text(
                                           'Please add atleast 3 procedures')));
                             } else {
+                              String uid = await Constants.getUserId();
                               Recipe recipeObj = Recipe(
                                   '0',
                                   textEditingController.text,
+                                  int.parse(timeController.text),
                                   recipe.ingredientsList,
                                   recipe.procedureList,
-                                  '');
-                              recipe.addRecipe(recipeObj);
+                                  uid);
+                            Either<String, String> res =  await recipe.addRecipe(recipeObj);
+                            res.fold(ifLeft: (s){
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s)));
+                            }, ifRight: (s){
+                              Navigator.pop(context);
+                            });
                             }
                           },
                           child: const Text('Add Recipe'))),
