@@ -20,8 +20,7 @@ class AddRecipeScreen extends StatelessWidget {
   TextEditingController ingQtyCtrlr = TextEditingController();
   TextEditingController procedureCtrlr = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  AddRecipeScreen({super.key});
-  
+  AddRecipeScreen({super.key});  
 
   @override
   Widget build(BuildContext context) {

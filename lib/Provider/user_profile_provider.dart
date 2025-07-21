@@ -20,7 +20,7 @@ class UserProfileProvider extends ChangeNotifier {
   RecipeRepository recipeRepository = RecipeRepository();
 
   UserProfileProvider(){
-
+    listOfRecipes.clear();
   scrollController.addListener((){scrollPosition = scrollController.position.pixels;});
 }
   Future<void> fetchUser(String uid) async {
@@ -39,6 +39,7 @@ class UserProfileProvider extends ChangeNotifier {
       msg = value;
       throw value;
     }, ifRight: (list){
+      listOfRecipes.clear();
       listOfRecipes.addAll(list);
       success = true;
       name = value.name;

@@ -9,23 +9,26 @@ class MainScreen extends StatefulWidget {
   String uid;
   MainScreen({super.key, required this.uid});
 
-
   @override
   State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-
   late final List<Widget> _screens;
   int index = 0;
-  
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _screens = [HomeScreen(),const SavedRecipeScreen(),Container(), UserProfielScreen(uid: widget.uid),];
+    _screens = [
+      HomeScreen(),
+      const SavedRecipeScreen(),
+      Container(),
+      UserProfielScreen(uid: widget.uid),
+    ];
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,25 +40,24 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _bottomNavBar() {
-
     double fontSize = 10;
-    ImageIcon iconHome =  ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH+Constants.HOME_ICON),
+    ImageIcon iconHome = ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH + Constants.HOME_ICON),
     );
     ImageIcon iconSave = ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH+Constants.SAVE_ICON),
+      AssetImage(Constants.BASE_IMG_PATH + Constants.SAVE_ICON),
     );
-    ImageIcon iconNotification =  ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH+Constants.NOTIFICATION_ICON),
+    ImageIcon iconNotification = ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH + Constants.NOTIFICATION_ICON),
     );
-    ImageIcon iconProfile =  ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH+Constants.PROFILE_ICON),
+    ImageIcon iconProfile = ImageIcon(
+      AssetImage(Constants.BASE_IMG_PATH + Constants.PROFILE_ICON),
     );
     return Container(
       constraints: const BoxConstraints(minHeight: 75),
       child: BottomNavigationBar(
-        unselectedFontSize: fontSize,
-        selectedFontSize: fontSize,
+          unselectedFontSize: fontSize,
+          selectedFontSize: fontSize,
           selectedIconTheme: const IconThemeData(size: 36),
           type: BottomNavigationBarType.fixed,
           currentIndex: index,
@@ -86,11 +88,17 @@ class _MainScreenState extends State<MainScreen> {
   Widget _floatingActionButton() {
     return ClipOval(
         child: FloatingActionButton(
-          
             backgroundColor: Constants.BUTTON_COLOR,
-            onPressed: ()
-            {
-              Navigator.push(context, MaterialPageRoute(builder: (builder)=>AddRecipeScreen()));
+            onPressed: () async {
+              await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => AddRecipeScreen()))
+                  .whenComplete(() {
+                setState(() {
+                  index = 3;
+                });
+              });
             },
             child: const Icon(
               Icons.add,

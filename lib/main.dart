@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create:  (context) => SignUpProvider(),),
         ChangeNotifierProvider(create:  (context) => LoginProvider(),),
-        
         ChangeNotifierProvider(create:  (context) => UserProfileSetupProvider(),),
       ],
       child: MaterialApp(

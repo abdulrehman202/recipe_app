@@ -80,7 +80,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
                               overflow: TextOverflow.clip,
                             )),
                       ),
-                      !widget.showTitle? Container(): Expanded(
+                      widget.showTitle? Container(): Expanded(
                         flex: 2,
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.5,

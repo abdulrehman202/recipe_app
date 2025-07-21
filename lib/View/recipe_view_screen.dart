@@ -7,7 +7,6 @@ import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 import 'package:recipe_app/View/review_screen.dart';
 
 class RecipeViewScreen extends StatefulWidget {
