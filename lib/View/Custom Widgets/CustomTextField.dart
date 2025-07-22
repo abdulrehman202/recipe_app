@@ -6,8 +6,9 @@ class CustomTextField extends StatelessWidget {
   TextInputType textInputType;
   TextEditingController? controller;
   bool hideLsbel;
+  FocusNode? focusNode;
   
-  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name, this.controller, this.hideLsbel = false});
+  CustomTextField({super.key, required this.lbl, this.textInputType = TextInputType.name, this.controller, this.hideLsbel = false,this.focusNode});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           TextField(
+            focusNode: focusNode,
             controller: controller,
             obscureText: textInputType == TextInputType.visiblePassword,
           keyboardType: textInputType,

@@ -7,6 +7,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FlexibleButton.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
@@ -17,6 +18,8 @@ import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 class AddRecipeScreen extends StatelessWidget {
   TextEditingController textEditingController = TextEditingController();
   TextEditingController ingNameCtrlr = TextEditingController();
+  FocusNode ingFocusNode = FocusNode();
+  FocusNode procedureFocusNode = FocusNode();
   TextEditingController ingQtyCtrlr = TextEditingController();
   TextEditingController procedureCtrlr = TextEditingController();
   TextEditingController timeController = TextEditingController();
@@ -27,50 +30,53 @@ class AddRecipeScreen extends StatelessWidget {
     return 
         ChangeNotifierProvider(create:  (context) => AddRecipeProvider(),
       child: Consumer<AddRecipeProvider>(
-          builder: (context, recipe, _) => Scaffold(
-                bottomNavigationBar: SafeArea(
-                  child: Container(
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 10.0, vertical: 5.0),
-                      child: FilledButton(
-                          onPressed: () async {
-                            if (textEditingController.text.isEmpty) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Recipe name required')));
-                            } else if (recipe.ingredientsList.length < 3) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Please add atleast 3 ingredients')));
-                            } else if (recipe.procedureList.length < 3) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text(
-                                          'Please add atleast 3 procedures')));
-                            } else {
-                              String uid = await Constants.getUserId();
-                              Recipe recipeObj = Recipe(
-                                  '0',
-                                  textEditingController.text,
-                                  int.parse(timeController.text),
-                                  recipe.ingredientsList,
-                                  recipe.procedureList,
-                                  uid);
-                            Either<String, String> res =  await recipe.addRecipe(recipeObj);
-                            res.fold(ifLeft: (s){
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s)));
-                            }, ifRight: (s){
-                              Navigator.pop(context);
-                            });
-                            }
-                          },
-                          child: const Text('Add Recipe'))),
+          builder: (context, recipe, _) => IgnorePointer(
+            ignoring: recipe.loading,
+            child: Scaffold(
+                  bottomNavigationBar: SafeArea(
+                    child: Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 10.0, vertical: 5.0),
+                        child: recipe.loading?CustomProgressIndicator(): FilledButton(
+                            onPressed: () async {
+                              if (textEditingController.text.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Recipe name required')));
+                              } else if (recipe.ingredientsList.length < 3) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Please add atleast 3 ingredients')));
+                              } else if (recipe.procedureList.length < 3) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text(
+                                            'Please add atleast 3 procedures')));
+                              } else {
+                                String uid = await Constants.getUserId();
+                                Recipe recipeObj = Recipe(
+                                    '0',
+                                    textEditingController.text,
+                                    int.parse(timeController.text),
+                                    recipe.ingredientsList,
+                                    recipe.procedureList,
+                                    uid);
+                              Either<String, String> res =  await recipe.addRecipe(recipeObj);
+                              res.fold(ifLeft: (s){
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s)));
+                              }, ifRight: (s){
+                                Navigator.pop(context);
+                              });
+                              }
+                            },
+                            child: const Text('Add Recipe'))),
+                  ),
+                  backgroundColor: Colors.white,
+                  body: _body(context, recipe),
+                  appBar: _appBar(),
                 ),
-                backgroundColor: Colors.white,
-                body: _body(context, recipe),
-                appBar: _appBar(),
-              )),
+          )),
     );
   }
 
@@ -92,6 +98,7 @@ class AddRecipeScreen extends StatelessWidget {
               Expanded(
                   flex: 8,
                   child: CustomTextField(
+                    focusNode: ingFocusNode,
                     hideLsbel: true,
                     lbl: 'Name',
                     controller: ingNameCtrlr,
@@ -117,6 +124,7 @@ class AddRecipeScreen extends StatelessWidget {
                 provider.addIngredient(ingredient);
                 ingNameCtrlr.clear();
                 ingQtyCtrlr.clear();
+                ingFocusNode.requestFocus();
               },
               btnText: 'Add Ingredient'),
         ],
@@ -138,6 +146,7 @@ class AddRecipeScreen extends StatelessWidget {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxHeight: 150),
                 child: TextFormField(
+                  focusNode: procedureFocusNode,
                   controller: procedureCtrlr,
                   scrollPadding: EdgeInsets.zero,
                   minLines: 1,
@@ -157,6 +166,7 @@ class AddRecipeScreen extends StatelessWidget {
                       procedureCtrlr.text);
                   provider.addProcedure(p);
                   procedureCtrlr.clear();
+                  procedureFocusNode.requestFocus();
                 },
                 btnText: 'Add',
               ))

@@ -12,10 +12,17 @@ class AddRecipeProvider extends ChangeNotifier
   int selectedPage = 0;
   ScrollController scrollController = ScrollController();
   RecipeRepository recipeRepository = RecipeRepository();
+  bool loading = false;
   
   switchPage(int val){
     selectedPage = val;
     scrollController.jumpTo(0);
+    notifyListeners();
+  }
+
+  toggleLoader()
+  {
+    loading = !loading;
     notifyListeners();
   }
 
@@ -32,8 +39,11 @@ class AddRecipeProvider extends ChangeNotifier
   }
 
   Future<Either<String, String>> addRecipe(Recipe recipe) async
-  { await recipeRepository.getRecipes();
-    return  await recipeRepository.addRecipe(recipe);
+  {
+    toggleLoader();
+    Either<String, String> res = await recipeRepository.addRecipe(recipe);
+    toggleLoader();
+    return  res;
   } 
 
   getRecipe() async
