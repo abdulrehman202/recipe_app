@@ -1,56 +1,47 @@
 import 'dart:ui';
 
+import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
-import 'package:recipe_app/Model/Ingredient.dart';
-import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Provider/recipe_view_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
-import 'package:recipe_app/View/review_screen.dart';
 
-class RecipeViewScreen extends StatefulWidget {
-
+class RecipeViewScreen extends StatelessWidget {
+  late AsyncMemoizer _memoizer;
   Recipe recipe;
-  int _selectedPage = 0;
   RecipeViewScreen({super.key, required this.recipe});
 
   @override
-  State<RecipeViewScreen> createState() => _RecipeViewScreenState();
-}
-
-class _RecipeViewScreenState extends State<RecipeViewScreen>
-    with TickerProviderStateMixin {
-  ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: _appBar(),
-      body: _body(context),
+    _memoizer = AsyncMemoizer();
+    return ChangeNotifierProvider(
+      create:  (context) => RecipeViewProvider(),
+      child: Consumer<RecipeViewProvider>(
+          builder: (context, recipeView, _)=> Scaffold(
+          backgroundColor: Colors.white,
+          appBar: _appBar(),
+          body: _body(context, recipeView),
+        ),
+      ),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, RecipeViewProvider provider) {
     return Container(
         margin: const EdgeInsets.symmetric(horizontal:  10.0),
         child:
-            CustomScrollView(controller: _scrollController, slivers: <Widget>[
+            CustomScrollView(controller: provider.scrollController, slivers: <Widget>[
           SliverToBoxAdapter(
             child: Column(
               children: [
-                SavedecipeCard(showTitle: false,recipe: widget.recipe,),
+                SavedecipeCard(showTitle: false,recipe: recipe,),
                 _titleRow(context),
-                _userRow(context),
+                _userRow(context, provider),
               ],
             ),
           ),
@@ -58,7 +49,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
             backgroundColor: Colors.white,
             leading: Container(),
             pinned: true,
-            title: _tabsRow(),
+            title: _tabsRow(context, provider),
           ),
           SliverAppBar(
               backgroundColor: Colors.white,
@@ -72,11 +63,11 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
                       Icon(Icons.room_service_outlined),
                       Text('1 Serve'),
                     ]),
-                    _tabsContent()
+                    _tabsContent(provider)
                   ],
                 ),
               ])),
-          _tabsList(),
+          _tabsList(provider),
 
           // _tabsContent(),
 
@@ -157,7 +148,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
 
   void _review() 
   {
-    Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ReviewScreen()) );
+    // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ReviewScreen()) );
   }
 
   void _unsave() {}
@@ -170,7 +161,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
         SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
             child: Text(
-              widget.recipe.name,
+              recipe.name,
               overflow: TextOverflow.clip,
               style: Theme.of(context).textTheme.labelMedium,
             )),
@@ -181,79 +172,89 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
     );
   }
 
-  Widget _userRow(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            flex: 8,
-            child: Row(
-              children: [
-                ClipOval(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: Image.asset(
-                      Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _userRow(BuildContext context, RecipeViewProvider provider) {
+    return FutureBuilder(
+      future: _memoizer.runOnce(() async {
+          await provider.fetchUser(recipe.chefId);
+        }),
+      builder: (context, asyncSnapshot) {
+        if(asyncSnapshot.connectionState == ConnectionState.done) {
+        if(provider.success)
+        {
+          return Container(
+          margin: const EdgeInsets.symmetric(vertical: 30),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                flex: 8,
+                child: Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.6,
-                      child: Text(
-                        'William Johns' * 4,
-                        style: Theme.of(context).textTheme.labelMedium,
-                        overflow: TextOverflow.ellipsis,
+                    ClipOval(
+                      child: SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: Image.asset(
+                          Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
+                          fit: BoxFit.fill,
+                        ),
                       ),
                     ),
-                    Row(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.location_on_sharp,
-                          color: Constants.BUTTON_COLOR,
-                        ),
-                        const Text('Faisalabad, Pakistan')
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          margin: const EdgeInsets.only(left: 24),
+                          child: Text(
+                            provider.user!.name,
+                            style: Theme.of(context).textTheme.labelMedium,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ), 
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_sharp,
+                              color: Constants.BUTTON_COLOR,
+                            ),
+                            const Text('Faisalabad, Pakistan')
+                          ],
+                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              provider.myId == recipe.chefId?Container(): Expanded(
+                flex: 2,
+                  child:
+                      GestureDetector(onTap: () {}, child: Container(
+                        
+                        width: MediaQuery.of(context).size.width*0.1,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                          color: Constants.BUTTON_COLOR
+                        ),
+                        child: const Text('Followed',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
+            ],
           ),
-          Expanded(
-            flex: 2,
-              child:
-                  GestureDetector(onTap: () {}, child: Container(
-                    
-                    width: MediaQuery.of(context).size.width*0.1,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(const Radius.circular(10.0)),
-                      color: Constants.BUTTON_COLOR
-                    ),
-                    child: const Text('Followed',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
-        ],
-      ),
+        );}}
+        else{ Container();}
+        return Container();
+      }
     );
   }
 
-  Widget _tabsRow() {
+  Widget _tabsRow(BuildContext context, RecipeViewProvider provider) {
     return ChipsChoice<int>.single(
       scrollToSelectedOnChanged: true,
       mainAxisAlignment: MainAxisAlignment.center,
       padding: EdgeInsets.zero,
-      value: widget._selectedPage,
-      onChanged: (val) => setState(() {
-        widget._selectedPage = val;
-        _scrollController.jumpTo(0);
-      }),
+      value: provider.selectedPage,
+      onChanged: (val) => provider.changePage(val),
       choiceItems: C2Choice.listFrom<int, String>(
         source: ['Ingredients', 'Procedure'],
         value: (i, v) => i,
@@ -273,16 +274,16 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
     );
   }
 
-  Widget _tabsContent() {
-    return Text(widget._selectedPage == 0 ? '${widget.recipe.ingredients.length} items' : '${widget.recipe.procedure.length} steps');
+  Widget _tabsContent(RecipeViewProvider provider) {
+    return Text(provider.selectedPage == 0 ? '${recipe.ingredients.length} items' : '${recipe.procedure.length} steps');
   }
 
-  Widget _tabsList() {
+  Widget _tabsList(RecipeViewProvider provider) {
     return SliverList.builder(
             itemBuilder: (BuildContext context, int index) {
-              return widget._selectedPage == 0? IngredientCard(ingredient: widget.recipe.ingredients[index],):ProcedureCard(procedure: widget.recipe.procedure[index],);
+              return provider.selectedPage == 0? IngredientCard(ingredient: recipe.ingredients[index],):ProcedureCard(procedure: recipe.procedure[index],);
             },
-            itemCount: widget._selectedPage == 0?widget.recipe.ingredients.length:widget.recipe.procedure.length
+            itemCount: provider.selectedPage == 0?recipe.ingredients.length:recipe.procedure.length
           );
   }
 }
