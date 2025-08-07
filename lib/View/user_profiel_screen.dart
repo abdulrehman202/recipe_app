@@ -71,7 +71,7 @@ class UserProfielScreen extends StatelessWidget {
                               margin:
                                   const EdgeInsets.symmetric(vertical: 10.0),
                               child: Text(
-                                provider.name,
+                                provider.user!.name,
                                 style: Theme.of(ctx)
                                     .textTheme
                                     .headlineSmall!
@@ -122,8 +122,8 @@ class UserProfielScreen extends StatelessWidget {
           ),
         ),
         _dataColumn('Recipes', provider.listOfRecipes.length),
-        _dataColumn('Followers', 10),
-        _dataColumn('Following', 7),
+        _dataColumn('Followers', provider.user!.followers.length),
+        _dataColumn('Following', provider.user!.following.length),
       ],
     );
   }
@@ -149,7 +149,7 @@ class UserProfielScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       child: ReadMoreText(
-        provider.bio,
+        provider.user!.bio,
         trimMode: TrimMode.Line,
         trimLines: 3,
         colorClickableText: Constants.BUTTON_COLOR,

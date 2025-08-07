@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
+import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 import 'package:recipe_app/View/review_screen.dart';
 
 class RecipeViewScreen extends StatefulWidget {
+
+  Recipe recipe;
   int _selectedPage = 0;
-  RecipeViewScreen({super.key});
+  RecipeViewScreen({super.key, required this.recipe});
 
   @override
   State<RecipeViewScreen> createState() => _RecipeViewScreenState();
@@ -44,7 +48,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
           SliverToBoxAdapter(
             child: Column(
               children: [
-                // SavedecipeCard(showTitle: false),
+                SavedecipeCard(showTitle: false,recipe: widget.recipe,),
                 _titleRow(context),
                 _userRow(context),
               ],
@@ -166,7 +170,7 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
         SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
             child: Text(
-              'Traditional spare ribs baked ',
+              widget.recipe.name,
               overflow: TextOverflow.clip,
               style: Theme.of(context).textTheme.labelMedium,
             )),
@@ -270,15 +274,15 @@ class _RecipeViewScreenState extends State<RecipeViewScreen>
   }
 
   Widget _tabsContent() {
-    return Text(widget._selectedPage == 0 ? '10 items' : '10 steps');
+    return Text(widget._selectedPage == 0 ? '${widget.recipe.ingredients.length} items' : '${widget.recipe.procedure.length} steps');
   }
 
   Widget _tabsList() {
     return SliverList.builder(
             itemBuilder: (BuildContext context, int index) {
-              return widget._selectedPage == 0? IngredientCard(ingredient: Ingredient('id', 'Sample', 100),):ProcedureCard(procedure: Procedure('id', 1, 'Sample'),);
+              return widget._selectedPage == 0? IngredientCard(ingredient: widget.recipe.ingredients[index],):ProcedureCard(procedure: widget.recipe.procedure[index],);
             },
-            itemCount: 25,
+            itemCount: widget._selectedPage == 0?widget.recipe.ingredients.length:widget.recipe.procedure.length
           );
   }
 }

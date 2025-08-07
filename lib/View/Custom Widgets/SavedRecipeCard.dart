@@ -19,7 +19,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
   Widget build(BuildContext context) {
 
     return GestureDetector(
-      onTap: () => widget.showTitle? Navigator.push(context, MaterialPageRoute(builder: (context)=>RecipeViewScreen())):(){},
+      onTap: () => widget.showTitle? Navigator.push(context, MaterialPageRoute(builder: (context)=>RecipeViewScreen(recipe: widget.recipe,))):(){},
       child: Container(
         margin: const EdgeInsets.only(bottom: 10.0),
         height: MediaQuery.of(context).size.height*0.2,

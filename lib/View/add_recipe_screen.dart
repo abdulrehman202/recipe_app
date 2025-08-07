@@ -160,6 +160,9 @@ class AddRecipeScreen extends StatelessWidget {
               flex: 1,
               child: FlexibleButton(
                 func: () {
+                  if(procedureCtrlr.text.isNotEmpty)
+                  {
+                    
                   Procedure p = Procedure(
                       (provider.procedureList.length + 1).toString(),
                       provider.procedureList.length + 1,
@@ -167,6 +170,7 @@ class AddRecipeScreen extends StatelessWidget {
                   provider.addProcedure(p);
                   procedureCtrlr.clear();
                   procedureFocusNode.requestFocus();
+                  }
                 },
                 btnText: 'Add',
               ))
@@ -239,6 +243,7 @@ class AddRecipeScreen extends StatelessWidget {
       ),
     );
   }
+
 
   Widget _tabsList(AddRecipeProvider provider) {
     return SliverList.builder(

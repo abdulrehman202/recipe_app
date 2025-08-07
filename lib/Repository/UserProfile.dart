@@ -9,7 +9,12 @@ class UserProfile {
 
   Future<Either<String, String>> setupUser(String name,String bio,String uid) async { 
     try {
-      await db.collection(collectionName).doc(uid).set({'name': name, 'bio':bio,});
+      await db.collection(collectionName).doc(uid).set({
+        'name': name, 
+        'bio':bio,
+        'followers':[],
+        'following':[],
+        });
       return Right('ok');
     } on FirebaseException catch (_) {
       return Left(_.message ?? 'Error!');

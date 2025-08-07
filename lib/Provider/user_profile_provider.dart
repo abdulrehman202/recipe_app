@@ -14,8 +14,7 @@ class UserProfileProvider extends ChangeNotifier {
   int selectedPage = 0;
   ScrollController scrollController = ScrollController();
   double scrollPosition = 0.0;
-  String name = '';
-  String bio = '';
+  User? user;
   List<Recipe> listOfRecipes = [];
   RecipeRepository recipeRepository = RecipeRepository();
 
@@ -42,8 +41,7 @@ class UserProfileProvider extends ChangeNotifier {
       listOfRecipes.clear();
       listOfRecipes.addAll(list);
       success = true;
-      name = value.name;
-      bio = value.bio;
+      user = value;
       });
     });
     notifyListeners();
