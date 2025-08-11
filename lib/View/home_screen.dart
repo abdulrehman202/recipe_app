@@ -99,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         recipes(provider.newRecipes),
+                         recipes(provider.viewedRecipes),
                   Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                             .headlineMedium!
                             .copyWith(color: Colors.black, fontSize: 25),
                       )),
-                      recentRecipes(),
+                      recentRecipes(provider.newRecipes),
                       ],
                     ),
                   ),
@@ -155,7 +155,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget recipes(List<Recipe> recipes) {
-    return SizedBox(
+    return recipes.isEmpty?Container(): SizedBox(
       height: 300,
       child: ListView.builder(
           shrinkWrap: true,
@@ -167,16 +167,16 @@ class HomeScreen extends StatelessWidget {
     );
   }
   
-  Widget recentRecipes()
+  Widget recentRecipes(List<Recipe> recipes)
   {
     return SizedBox(
       height: 200,
       child: ListView.builder(
         padding: EdgeInsets.zero,
-          itemCount: 5,
+          itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
-            return const RecentRecipeCard();
+            return RecentRecipeCard(recipe: recipes[i]);
           }),
     );
   }

@@ -34,7 +34,8 @@ class HomeScreenProvider extends ChangeNotifier{
 
       List<Recipe> listOfRecipes = [];
       listOfRecipes.addAll(list);
-      newRecipes.addAll(listOfRecipes);
+      viewedRecipes.addAll(listOfRecipes);
+      newRecipes.addAll(listOfRecipes);//.where((r)=>r.chefId != myUid));
       success = true;
       });
     notifyListeners();

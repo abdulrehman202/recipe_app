@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 
 class RecentRecipeCard extends StatelessWidget {
-  const RecentRecipeCard({super.key});
+  Recipe recipe;
+  RecentRecipeCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class RecentRecipeCard extends StatelessWidget {
                     SizedBox(
                       width: (MediaQuery.of(context).size.width*0.7) - 120,
                       child: Text(
-                        'Classic Greek Salad',
+                        recipe.name,
                         style: Theme.of(context)
                             .textTheme
                             .labelMedium!
@@ -57,9 +59,9 @@ class RecentRecipeCard extends StatelessWidget {
                               ],
                             ),
                           ),
-                          const Expanded(
+                          Expanded(
                             flex: 3,
-                            child: Text('20 min', textAlign: TextAlign.end,))
+                            child: Text('${recipe.duration} min', textAlign: TextAlign.end,))
                         ],
                       ),
                     ),
