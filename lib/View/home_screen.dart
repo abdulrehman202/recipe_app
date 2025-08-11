@@ -6,11 +6,14 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/home_screen_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+import 'package:recipe_app/View/Custom%20Widgets/NoRecipeWidget.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
+import 'package:recipe_app/View/recipe_view_screen.dart';
 
 class HomeScreen extends StatelessWidget {
+  String uid;
 
   late AsyncMemoizer _memoizer;
   final List<String> _listCategories = [
@@ -23,6 +26,8 @@ class HomeScreen extends StatelessWidget {
     'Continental',
     'Fast Food',
   ];
+
+  HomeScreen({super.key, required this.uid});
   @override
   Widget build(BuildContext context) {
     
@@ -31,12 +36,12 @@ class HomeScreen extends StatelessWidget {
           builder: (context, provider, _)=>FutureBuilder(
             future: _memoizer.runOnce(()
             async {
-              await provider.fetchRecipes();
+              await provider.fetchRecipes(uid);
             }),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done)
               {
-                return _body(context, provider); 
+                return snapshot.hasError?Container(): _body(context, provider); 
               }
               return CustomProgressIndicator();
             }
@@ -51,7 +56,7 @@ class HomeScreen extends StatelessWidget {
           direction: Axis.vertical,
           children: [
             Text(
-              'Hello ${provider.me!.name}!',
+              'Hello ${provider.me?.name??''}!',
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
@@ -94,12 +99,12 @@ class HomeScreen extends StatelessWidget {
                 titleRow(context, provider),
                 searchRow(),
                 categories(provider),
-                Expanded(
+                provider.listOfRecipes.isEmpty?const NoRecipeWidget(): Expanded(
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         recipes(provider.viewedRecipes),
+                         recipes(context, provider.viewedRecipes),
                   Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
@@ -109,7 +114,7 @@ class HomeScreen extends StatelessWidget {
                             .headlineMedium!
                             .copyWith(color: Colors.black, fontSize: 25),
                       )),
-                      recentRecipes(provider.newRecipes),
+                      recentRecipes(context, provider.newRecipes, provider),
                       ],
                     ),
                   ),
@@ -154,7 +159,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget recipes(List<Recipe> recipes) {
+  Widget recipes(BuildContext context, List<Recipe> recipes) {
     return recipes.isEmpty?Container(): SizedBox(
       height: 300,
       child: ListView.builder(
@@ -162,12 +167,14 @@ class HomeScreen extends StatelessWidget {
           itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
-            return RecipeCard(recipe:  recipes[i]);
+            return GestureDetector(
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: recipes[i]))),
+              child: RecipeCard(recipe:  recipes[i]));
           }),
     );
   }
   
-  Widget recentRecipes(List<Recipe> recipes)
+  Widget recentRecipes(BuildContext context, List<Recipe> recipes, HomeScreenProvider provider)
   {
     return SizedBox(
       height: 200,
@@ -176,7 +183,14 @@ class HomeScreen extends StatelessWidget {
           itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
-            return RecentRecipeCard(recipe: recipes[i]);
+            return GestureDetector(
+              onTap: ()async{
+                Recipe rr = recipes[i];
+                provider.updateView(recipes[i]);
+                await provider.addToViewRecipe();
+                Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: rr)));
+                },
+              child: RecentRecipeCard(recipe: recipes[i]));
           }),
     );
   }

@@ -16,11 +16,25 @@ class HomeScreenProvider extends ChangeNotifier{
   String msg = '';
   int selectedCAtegory = 0; 
   UserProfile userProfileRepository = UserProfile();
+  List<Recipe> listOfRecipes = [];
+
+  updateView(Recipe recipe)
+  {
+    newRecipes.remove(recipe);
+    viewedRecipes.add(recipe);
+    me!.viewedRecipes.add(recipe.id);
+    notifyListeners();
+  }
+
+  Future<void> addToViewRecipe() async
+  {
+    String myUid = await Constants.getUserId();
+    await userProfileRepository.updateViewRecipeList(myUid , me!.viewedRecipes);
+  }
   
-  Future<void> fetchRecipes() async {
+  Future<void> fetchRecipes(String myUid) async {
     
     Either<String, List<Recipe>> resRecipe = await recipeRepository.getAllRecipes();
-    String myUid = await Constants.getUserId();
     Either<String, User> getMyDetails = await userProfileRepository.fetchUser(myUid);
 
     resRecipe.fold(ifLeft: (value) 
@@ -32,10 +46,9 @@ class HomeScreenProvider extends ChangeNotifier{
       
       getMyDetails.fold(ifLeft: (ifLeft){}, ifRight: (user) => me = user);
 
-      List<Recipe> listOfRecipes = [];
-      listOfRecipes.addAll(list);
-      viewedRecipes.addAll(listOfRecipes);
-      newRecipes.addAll(listOfRecipes);//.where((r)=>r.chefId != myUid));
+      listOfRecipes.addAll(list.where((r)=>r.chefId!=myUid));
+      viewedRecipes.addAll(listOfRecipes.where((r)=>me!.viewedRecipes.contains(r.id)));
+      newRecipes.addAll(listOfRecipes.where((r)=>!me!.viewedRecipes.contains(r.id)));
       success = true;
       });
     notifyListeners();
