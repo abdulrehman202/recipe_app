@@ -154,20 +154,33 @@ class RecipeViewScreen extends StatelessWidget {
   void _unsave() {}
 
   Widget _titleRow(BuildContext context) {
-    return Row(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        SizedBox(
-            width: MediaQuery.of(context).size.width * 0.7,
-            child: Text(
-              recipe.name,
-              overflow: TextOverflow.clip,
-              style: Theme.of(context).textTheme.labelMedium,
-            )),
-        const Expanded(
-            child: Align(
-                alignment: Alignment.centerRight, child: Text('(13k reviews)')))
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Text(
+                  recipe.name,
+                  overflow: TextOverflow.clip,
+                  style: Theme.of(context).textTheme.labelMedium,
+                )),
+            const Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight, child: Text('(13k reviews)')))
+          ],
+        ),
+        Row(
+          children: [
+            const Icon(Icons.alarm_rounded),
+            Container(
+              margin: const EdgeInsets.only(left: 5),
+              child: Text('${recipe.duration} mins')),
+          ],
+        )
       ],
     );
   }

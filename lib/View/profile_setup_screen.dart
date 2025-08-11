@@ -10,8 +10,8 @@ import 'package:recipe_app/View/main_screen.dart';
 class ProfileSetupScreen extends StatelessWidget {
   String uid;
 
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _bioController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
   ProfileSetupScreen({super.key, required this.uid});
 
   @override
@@ -57,7 +57,7 @@ class ProfileSetupScreen extends StatelessWidget {
                 Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen(uid: uid)));
               }
       
-            }, child: provider.loading? CustomProgressIndicator(): Text('Set Profile'))
+            }, child: provider.loading? CustomProgressIndicator(): const Text('Set Profile'))
           ],
         ),
       ),
