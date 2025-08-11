@@ -1,13 +1,18 @@
+import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Provider/home_screen_provider.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
 
-class HomeScreen extends StatefulWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
 
+  late AsyncMemoizer _memoizer;
   final List<String> _listCategories = [
     'All',
     'Indian',
@@ -18,20 +23,27 @@ class HomeScreen extends StatefulWidget {
     'Continental',
     'Fast Food',
   ];
-
-  int _selectedCAtegory = 0;
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return _body();
+    
+    _memoizer = AsyncMemoizer();
+    return ChangeNotifierProvider(create:  (context) => HomeScreenProvider(),child: Consumer<HomeScreenProvider>(
+          builder: (context, provider, _)=>FutureBuilder(
+            future: _memoizer.runOnce(()
+            async {
+              await provider.fetchRecipes();
+            }),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.done)
+              {
+                return _body(context, provider); 
+              }
+              return CustomProgressIndicator();
+            }
+          )));
   }
 
-  Widget titleRow() {
+  Widget titleRow(BuildContext context, HomeScreenProvider provider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -39,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           direction: Axis.vertical,
           children: [
             Text(
-              'Hello Jegga!',
+              'Hello ${provider.me!.name}!',
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
@@ -71,42 +83,42 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _body() { 
+  Widget _body(BuildContext context, HomeScreenProvider provider) { 
     return SafeArea(
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal:  5.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            titleRow(),
-            searchRow(),
-            categories(),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     recipes(),
-              Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: Text(
-                    'New Recipes',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineMedium!
-                        .copyWith(color: Colors.black, fontSize: 25),
-                  )),
-                  recentRecipes(),
-                  ],
+          child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal:  5.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                titleRow(context, provider),
+                searchRow(),
+                categories(provider),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                         recipes(provider.newRecipes),
+                  Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        'New Recipes',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.black, fontSize: 25),
+                      )),
+                      recentRecipes(),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+               
+              ],
             ),
-           
-          ],
-        ),
-      ),
-    );
+          ),
+        );
   }
 
   Widget searchRow() {
@@ -117,13 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget categories() {
+  Widget categories(HomeScreenProvider provider) {
     return ChipsChoice<int>.single(
-      value: widget._selectedCAtegory,
-      onChanged: (val) => setState(() => widget._selectedCAtegory = val),
+      value: provider.selectedCAtegory,
+      onChanged: (val) => provider.changeCategory(val),
       choiceItems: C2Choice.listFrom<int, String>(
         
-        source: widget._listCategories,
+        source: _listCategories,
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,
@@ -142,15 +154,15 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget recipes() {
+  Widget recipes(List<Recipe> recipes) {
     return SizedBox(
       height: 300,
       child: ListView.builder(
           shrinkWrap: true,
-          itemCount: 5,
+          itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
-            return const RecipeCard();
+            return RecipeCard(recipe:  recipes[i]);
           }),
     );
   }

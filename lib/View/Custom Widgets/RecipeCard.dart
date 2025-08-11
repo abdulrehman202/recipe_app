@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 
 class RecipeCard extends StatelessWidget {
-  const RecipeCard({super.key});
+  Recipe recipe;
+  RecipeCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,7 @@ class RecipeCard extends StatelessWidget {
                   children: [
                     Expanded(
                         child: Text(
-                      'Classic Greek Salad',
+                      recipe.name,
                       style: Theme.of(context)
                           .textTheme
                           .labelMedium!
@@ -51,10 +53,10 @@ class RecipeCard extends StatelessWidget {
                                         .textTheme
                                         .headlineSmall!
                                         .copyWith(color: Colors.black)),
-                                const SizedBox(
+                                SizedBox(
                                     width: 70,
                                     child: Text(
-                                      '20min',
+                                      '${recipe.duration} min',
                                       overflow: TextOverflow.ellipsis,
                                     ))
                               ],

@@ -38,4 +38,23 @@ class RecipeRepository {
       return Left(_.message ?? 'Error!');
     }
   }
+
+  Future<Either<String, List<Recipe>>> getAllRecipes() async {
+    try {
+      List<Recipe> recipesList = [];
+      QuerySnapshot<Map<String, dynamic>> res = await db
+          .collection(collectionName)
+          .get();
+
+      for(int i = 0;i<res.docs.length;i++)
+      {
+        Recipe recipe =
+            Recipe.fromJson(res.docs [i].data());
+        recipesList.add(recipe);
+      }    
+      return Right(recipesList);
+    } on FirebaseException catch (_) {
+      return Left(_.message ?? 'Error!');
+    }
+  }
 }
