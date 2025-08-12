@@ -23,7 +23,7 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     _screens = [
       HomeScreen(uid: widget.uid,),
-      const SavedRecipeScreen(),
+      SavedRecipeScreen(uid: widget.uid,),
       Container(),
       UserProfielScreen(uid: widget.uid),
     ];
