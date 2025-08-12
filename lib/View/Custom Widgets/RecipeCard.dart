@@ -4,7 +4,8 @@ import 'package:recipe_app/Model/Recipe.dart';
 
 class RecipeCard extends StatelessWidget {
   Recipe recipe;
-  RecipeCard({super.key, required this.recipe});
+  bool saved;
+  RecipeCard({super.key, required this.recipe, this.saved = false});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class RecipeCard extends StatelessWidget {
                                     child: GestureDetector(
                                         onTap: () {},
                                         child:
-                                            const Icon(Icons.bookmark_border))))
+                                           saved? Icon(Icons.bookmark, color: Constants.YELLOW_LABEL_COLOR,): const  Icon(Icons.bookmark_border))))
                           ],
                         ),
                       ),

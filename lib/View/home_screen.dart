@@ -104,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                         recipes(context, provider.viewedRecipes),
+                         recipes(context, provider.viewedRecipes,provider.me!.savedRecipes),
                   Container(
                       margin: const EdgeInsets.only(bottom: 10),
                       child: Text(
@@ -159,7 +159,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget recipes(BuildContext context, List<Recipe> recipes) {
+  Widget recipes(BuildContext context, List<Recipe> recipes, List<String> savedRecipes) {
     return recipes.isEmpty?Container(): SizedBox(
       height: 300,
       child: ListView.builder(
@@ -169,7 +169,7 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (ctx, i) {
             return GestureDetector(
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: recipes[i]))),
-              child: RecipeCard(recipe:  recipes[i]));
+              child: RecipeCard(recipe:  recipes[i],saved: savedRecipes.contains(recipes[i].id)));
           }),
     );
   }
