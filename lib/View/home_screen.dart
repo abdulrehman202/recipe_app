@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               {
                 return snapshot.hasError?Container(): _body(context, provider); 
               }
-              return CustomProgressIndicator();
+              return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
             }
           )));
   }

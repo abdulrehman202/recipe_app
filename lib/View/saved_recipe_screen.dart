@@ -1,6 +1,7 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/saved_recipe_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -26,7 +27,7 @@ class SavedRecipeScreen extends StatelessWidget {
       {
         if(snapshot.connectionState == ConnectionState.waiting)
         {
-          return CustomProgressIndicator();
+          return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
         }
 
         return snapshot.hasError?Container():_body(provider);
