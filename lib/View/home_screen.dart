@@ -55,12 +55,18 @@ class HomeScreen extends StatelessWidget {
         Wrap(
           direction: Axis.vertical,
           children: [
-            Text(
-              'Hello ${provider.me?.name??''}!',
-              style: Theme.of(context)
-                  .textTheme
-                  .headlineMedium!
-                  .copyWith(color: Colors.black),
+            FittedBox(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width*0.8,
+                child: Text(
+                  'Hellooooooooo ${provider.me?.name??''}!',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineMedium!
+                      .copyWith(color: Colors.black, fontSize: 22.0),
+                      overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ),
             Text(
               'What are you cooking today?',
@@ -71,19 +77,17 @@ class HomeScreen extends StatelessWidget {
             )
           ],
         ),
-        GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                  color: Constants.BITMOJI_COLOR,
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              child: Image.asset(
-                Constants.BASE_IMG_PATH + Constants.BITMOJI_IMAGE,
-                fit: BoxFit.fill,
-              ),
-            ))
+        Container(
+          width: 40,
+          height: 40,
+          decoration: BoxDecoration(
+              color: Constants.BITMOJI_COLOR,
+              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          child: Image.asset(
+            Constants.BASE_IMG_PATH + Constants.BITMOJI_IMAGE,
+            fit: BoxFit.fill,
+          ),
+        )
       ],
     );
   }
@@ -91,11 +95,13 @@ class HomeScreen extends StatelessWidget {
   Widget _body(BuildContext context, HomeScreenProvider provider) { 
     return SafeArea(
           child: Container(
+            width: double.infinity,
             color: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal:  5.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const SizedBox(height: 50,),
                 titleRow(context, provider),
                 searchRow(),
                 categories(provider),
@@ -130,7 +136,7 @@ class HomeScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 50,
-      child: SearchFieldButton(),
+      child: const SearchFieldButton(),
     );
   }
 

@@ -213,28 +213,30 @@ class RecipeViewScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          margin: const EdgeInsets.only(left: 24),
-                          child: Text(
-                            provider.user!.name,
-                            style: Theme.of(context).textTheme.labelMedium,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ), 
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_sharp,
-                              color: Constants.BUTTON_COLOR,
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            margin: const EdgeInsets.only(left: 24),
+                            child: Text(
+                              provider.user!.name,
+                              style: Theme.of(context).textTheme.labelMedium,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            const Text('Faisalabad, Pakistan')
-                          ],
-                        )
-                      ],
+                          ), 
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.location_on_sharp,
+                                color: Constants.BUTTON_COLOR,
+                              ),
+                              const Text('Faisalabad, Pakistan')
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -251,7 +253,7 @@ class RecipeViewScreen extends StatelessWidget {
                           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                           color: Constants.BUTTON_COLOR
                         ),
-                        child: const Text('Followed',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
+                        child: const Text('Follow',style: TextStyle(color: Colors.white), overflow: TextOverflow.fade, ))))
             ],
           ),
         );}}
