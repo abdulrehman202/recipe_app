@@ -65,14 +65,26 @@ class _HomeSreenState extends State<HomeSreen> {
             FittedBox(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width*0.8,
-                child: Text(
-                  'Hello ${provider.me?.name??''}!',
-                  style: Theme.of(context)
+                child: 
+                Text.rich(
+                  softWrap: true,
+  TextSpan(
+    children: [
+      TextSpan(text: 'Hello, ',style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(fontSize: 16),),
+      TextSpan(
+        text: '${provider.me?.name ??''}!',
+          style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
                       .copyWith(color: Colors.black, fontSize: 22.0),
-                      overflow: TextOverflow.ellipsis,
-                ),
+                      // overflow: TextOverflow.ellipsis,
+      ),
+    ],
+  ),
+)
               ),
             ),
             Text(
