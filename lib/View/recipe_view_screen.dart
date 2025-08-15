@@ -14,7 +14,8 @@ import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 class RecipeViewScreen extends StatelessWidget {
   late AsyncMemoizer _memoizer;
   Recipe recipe;
-  RecipeViewScreen({super.key, required this.recipe});
+  bool isSAved;
+  RecipeViewScreen({super.key, required this.recipe, this.isSAved=false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class RecipeViewScreen extends StatelessWidget {
       child: Consumer<RecipeViewProvider>(
           builder: (context, recipeView, _)=> Scaffold(
           backgroundColor: Colors.white,
-          appBar: _appBar(),
+          appBar: _appBar(recipeView),
           body: _body(context, recipeView),
         ),
       ),
@@ -83,13 +84,13 @@ class RecipeViewScreen extends StatelessWidget {
         ]));
   }
 
-  PreferredSizeWidget _appBar() {
+  PreferredSizeWidget _appBar(RecipeViewProvider provider) {
     return AppBar(
       actions: [
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: PopupMenuButton(
-            onSelected: (value) => _doSomething(value),
+            onSelected: (value) => _doSomething(value, provider),
             itemBuilder: (_) => <PopupMenuItem<String>>[
               PopupMenuItem<String>(
                   value: 'Share', child: _popUpMenuTile('Share', Icons.share)),
@@ -100,9 +101,9 @@ class RecipeViewScreen extends StatelessWidget {
                   value: 'Review',
                   child: _popUpMenuTile('Review', Icons.rate_review)),
               PopupMenuItem<String>(
-                  value: 'Unsave',
+                  value: isSAved?'Unsave':'Save',
                   child:
-                      _popUpMenuTile('Unsave', Icons.bookmark_border_outlined)),
+                      _popUpMenuTile(isSAved?'Unsave':'Save', Icons.bookmark_border_outlined)),
             ],
           ),
         )
@@ -122,7 +123,7 @@ class RecipeViewScreen extends StatelessWidget {
     );
   }
 
-  _doSomething(String value) {
+  _doSomething(String value, RecipeViewProvider provider) {
     switch (value) {
       case 'Share':
         _share();
@@ -137,7 +138,11 @@ class RecipeViewScreen extends StatelessWidget {
         break;
 
       case 'Unsave':
-        _unsave();
+        _unsave(provider);
+        break;
+
+      case 'Save':
+        _save(provider);
         break;
     }
   }
@@ -151,7 +156,18 @@ class RecipeViewScreen extends StatelessWidget {
     // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ReviewScreen()) );
   }
 
-  void _unsave() {}
+  Future<void> _unsave(RecipeViewProvider provider)
+  async{
+    provider.removeFromSavedRecipeList(recipe.id);
+    await provider.updateSavedrecipes();
+    isSAved = false;
+  }
+  Future<void> _save(RecipeViewProvider provider) async
+  {
+    provider.addToSavedRecipeList(recipe.id);
+    await provider.updateSavedrecipes();
+    isSAved = true;
+  }
 
   Widget _titleRow(BuildContext context) {
     return Column(

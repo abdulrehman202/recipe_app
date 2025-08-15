@@ -5,36 +5,42 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/saved_recipe_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
+import 'package:recipe_app/View/recipe_view_screen.dart';
 
-class SavedRecipeScreen extends StatelessWidget {
+class SavedRecipeScreen extends StatefulWidget {
   String uid;
+  SavedRecipeScreen({super.key, required this.uid});
+
+  @override
+  State<SavedRecipeScreen> createState() => _SavedRecipeScreenState();
+}
+
+class _SavedRecipeScreenState extends State<SavedRecipeScreen> {
   late AsyncMemoizer _memoizer;
   late SavedRecipeProvider provider;
-  SavedRecipeScreen({super.key, required this.uid});
 
   @override
   Widget build(BuildContext context) {
     _memoizer = AsyncMemoizer();
-    return Scaffold( 
-      appBar: _appBar(context),
-      body: ChangeNotifierProvider(
-      create:  (context) => SavedRecipeProvider(),
-      child: Consumer<SavedRecipeProvider>(
-          builder: (context, provider, _)=> FutureBuilder(future: _memoizer.runOnce(()async
-          {
-           await provider.fetchRecipes(uid);
-          }) , builder: (ctx, snapshot)
-      {
-        if(snapshot.connectionState == ConnectionState.waiting)
-        {
-          return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
-        }
+    return Scaffold(
+        appBar: _appBar(context),
+        body: ChangeNotifierProvider(
+            create: (context) => SavedRecipeProvider(),
+            child: Consumer<SavedRecipeProvider>(
+                builder: (context, provider, _) =>
+                    FutureBuilder(future: _memoizer.runOnce(() async {
+                      await provider.fetchRecipes(widget.uid);
+                    }), builder: (ctx, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CustomProgressIndicator(
+                          pColor: Constants.BUTTON_COLOR,
+                        );
+                      }
 
-        return snapshot.hasError?Container():_body(provider);
-
-      }) )));
+                      return snapshot.hasError ? Container() : _body(provider);
+                    }))));
   }
-  
+
   Widget _body(SavedRecipeProvider provider) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -44,24 +50,40 @@ class SavedRecipeScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListView.builder(
-              physics: const ScrollPhysics(),
-              itemCount: provider.listOfRecipes.length,
-              shrinkWrap: true,
-              itemBuilder: (context, i) {
-                return SavedecipeCard(showTitle: true, recipe: provider.listOfRecipes[i],);
-              }
-            ),
+                physics: const ScrollPhysics(),
+                itemCount: provider.listOfRecipes.length,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  return GestureDetector(
+                      onTap: () async {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => RecipeViewScreen(
+                                      recipe: provider.listOfRecipes[i],
+                                      isSAved: true,
+                                    )));
+                        setState(() {});
+                      },
+                      child: SavedecipeCard(
+                        showTitle: true,
+                        recipe: provider.listOfRecipes[i],
+                      ));
+                }),
           ],
         ),
       ),
     );
   }
-  
-  PreferredSizeWidget? _appBar(BuildContext context) 
-  {
+
+  PreferredSizeWidget? _appBar(BuildContext context) {
     return AppBar(
       leading: Container(),
-      title: Center(child: Text('Saved Recipes', style: Theme.of(context).textTheme.labelMedium,)),
+      title: Center(
+          child: Text(
+        'Saved Recipes',
+        style: Theme.of(context).textTheme.labelMedium,
+      )),
     );
   }
 }

@@ -43,7 +43,9 @@ class HomeScreenProvider extends ChangeNotifier{
       msg = value;
       throw value;
     }, ifRight: (list){
-      
+      listOfRecipes.clear();
+      viewedRecipes.clear();
+      newRecipes.clear();
       getMyDetails.fold(ifLeft: (ifLeft){}, ifRight: (user) => me = user);
 
       listOfRecipes.addAll(list.where((r)=>r.chefId!=myUid));

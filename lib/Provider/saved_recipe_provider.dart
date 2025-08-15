@@ -27,6 +27,7 @@ class SavedRecipeProvider extends ChangeNotifier{
     }, ifRight: (list){
       
       getMyDetails.fold(ifLeft: (ifLeft){}, ifRight: (user) => me = user);
+      listOfRecipes.clear();
 
       listOfRecipes.addAll(list.where((r)=>r.chefId!=myUid && me!.savedRecipes.contains(r.id) ));
       success = true;

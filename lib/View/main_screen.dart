@@ -22,7 +22,7 @@ class _MainScreenState extends State<MainScreen> {
     // TODO: implement initState
     super.initState();
     _screens = [
-      HomeScreen(uid: widget.uid,),
+      HomeSreen(uid: widget.uid,),
       SavedRecipeScreen(uid: widget.uid,),
       Container(),
       UserProfielScreen(uid: widget.uid),

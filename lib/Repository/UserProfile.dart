@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
+import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/User.dart';
 
 class UserProfile {
@@ -34,6 +35,32 @@ class UserProfile {
     } on FirebaseException catch (_) {
       return Left(_.message ?? 'Error!');
     }
+
+
   }
 
+  Future<List< String>> getMySavedRecipe() async { 
+    try {
+      List<String> list = [];
+      String myId = await Constants.getUserId();
+      DocumentSnapshot documentSnapshot =  await db.collection(collectionName).doc(myId).get();
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      User user = User.fromJson(data);
+      list.addAll(user.savedRecipes);
+      return list;
+    } on FirebaseException catch (_) {
+      return [];
+    }
+
+    
+  }
+
+  Future<void> updateSavedRecipeList(String uid, List<String>ids)
+  async {
+    try{
+    await db.collection(collectionName).doc(uid).update({'savedRecipes':ids});
+    }
+    catch(e) {
+    }
+  }
 }

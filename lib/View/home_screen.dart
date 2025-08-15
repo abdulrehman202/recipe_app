@@ -12,8 +12,16 @@ import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
 import 'package:recipe_app/View/recipe_view_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeSreen extends StatefulWidget {
   String uid;
+  HomeSreen({super.key, required this.uid});
+
+  @override
+  State<HomeSreen> createState() => _HomeSreenState();
+}
+
+class _HomeSreenState extends State<HomeSreen> {
+  
 
   late AsyncMemoizer _memoizer;
   final List<String> _listCategories = [
@@ -27,7 +35,6 @@ class HomeScreen extends StatelessWidget {
     'Fast Food',
   ];
 
-  HomeScreen({super.key, required this.uid});
   @override
   Widget build(BuildContext context) {
     
@@ -36,7 +43,7 @@ class HomeScreen extends StatelessWidget {
           builder: (context, provider, _)=>FutureBuilder(
             future: _memoizer.runOnce(()
             async {
-              await provider.fetchRecipes(uid);
+              await provider.fetchRecipes(widget.uid);
             }),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.done)
@@ -59,7 +66,7 @@ class HomeScreen extends StatelessWidget {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width*0.8,
                 child: Text(
-                  'Hellooooooooo ${provider.me?.name??''}!',
+                  'Hello ${provider.me?.name??''}!',
                   style: Theme.of(context)
                       .textTheme
                       .headlineMedium!
@@ -174,7 +181,12 @@ class HomeScreen extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
             return GestureDetector(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: recipes[i]))),
+              onTap: ()async{
+                await Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: recipes[i],isSAved: savedRecipes.contains(recipes[i].id),)));
+              setState(() {
+                
+              });
+              },
               child: RecipeCard(recipe:  recipes[i],saved: savedRecipes.contains(recipes[i].id)));
           }),
     );

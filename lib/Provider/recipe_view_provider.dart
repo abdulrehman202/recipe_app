@@ -16,13 +16,18 @@ class RecipeViewProvider extends ChangeNotifier {
   double scrollPosition = 0.0;
   User? user;
   String myId = '';
+  List<String> mySavedRecipes = [];
 
   RecipeViewProvider(){
   scrollController.addListener((){scrollPosition = scrollController.position.pixels;});
 }
   Future<void> fetchUser(String uid) async {
-    myId = await Constants.getUserId();
+    
     Either<String, User> res = await userProfile.fetchUser(uid);
+    mySavedRecipes.clear();
+    mySavedRecipes = await userProfile.getMySavedRecipe();
+    
+    myId = await Constants.getUserId();
     res.fold(ifLeft: (value) 
     {
       success = false;
@@ -32,6 +37,25 @@ class RecipeViewProvider extends ChangeNotifier {
    success = true;
       user = value;
     });
+    notifyListeners();
+  }
+
+  Future<void> updateSavedrecipes() async {
+    try{
+      await userProfile.updateSavedRecipeList(myId, mySavedRecipes);
+    }
+    catch(e){}
+  }
+
+  addToSavedRecipeList(String id)
+  {
+    mySavedRecipes.add(id);
+    notifyListeners();
+  }
+
+  removeFromSavedRecipeList(String id)
+  {
+    mySavedRecipes.remove(id);
     notifyListeners();
   }
 
