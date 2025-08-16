@@ -7,6 +7,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/View/ChooseCategoryScreen.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FlexibleButton.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
@@ -39,7 +40,11 @@ class AddRecipeScreen extends StatelessWidget {
                             horizontal: 10.0, vertical: 5.0),
                         child: recipe.loading?CustomProgressIndicator(): FilledButton(
                             onPressed: () async {
-                              if (textEditingController.text.isEmpty) {
+                              if (recipe.catIndex == -1) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Please add category')));
+                              }else if (textEditingController.text.isEmpty) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                         content: Text('Recipe name required')));
@@ -59,6 +64,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     '0',
                                     textEditingController.text,
                                     int.parse(timeController.text),
+                                    recipe.catIndex,
                                     recipe.ingredientsList,
                                     recipe.procedureList,
                                     uid);
@@ -186,6 +192,17 @@ class AddRecipeScreen extends StatelessWidget {
           child: CustomScrollView(
               controller: recipe.scrollController,
               slivers: <Widget>[
+                SliverToBoxAdapter(
+                  child: ListTile(
+                    onTap: ()async
+                    {
+                      int? catIndex = await Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ChooseCategoryScreen()))??-1;
+                      recipe.changeCategory(catIndex);
+                    },
+                    trailing: const Icon(Icons.arrow_forward_ios),
+                    title: Text(recipe.catIndex == -1?'Choose Category':Constants.listCategories[recipe.catIndex],style: TextStyle(fontWeight: FontWeight.bold),),
+                  ),
+                ),
                 SliverToBoxAdapter(
                   child: CustomTextField(
                       lbl: '*Recipe Name', controller: textEditingController),

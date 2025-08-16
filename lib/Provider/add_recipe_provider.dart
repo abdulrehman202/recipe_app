@@ -13,6 +13,7 @@ class AddRecipeProvider extends ChangeNotifier
   ScrollController scrollController = ScrollController();
   RecipeRepository recipeRepository = RecipeRepository();
   bool loading = false;
+  int catIndex = -1;
   
   switchPage(int val){
     selectedPage = val;
@@ -24,6 +25,13 @@ class AddRecipeProvider extends ChangeNotifier
   {
     loading = !loading;
     notifyListeners();
+  }
+
+  changeCategory(int c)
+  {
+    catIndex = c;
+    notifyListeners()
+    ;
   }
 
   addIngredient(Ingredient ingredient) async

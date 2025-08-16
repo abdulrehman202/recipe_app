@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart'; 
 
 class Constants{
   static String APP_NAME = 'Recipe App';
@@ -24,6 +24,16 @@ class Constants{
   static String PROFILE_ICON = 'profile.png';
   static String PROFILE_IMAGE_ICON = 'profile_image.png';
   static String NO_RECIPE_IMAGE = 'no_recipe.png';
+
+  static List<String> listCategories = [
+    'Indian',
+    'Italian',
+    'Asian',
+    'Chinese',
+    'Turkish',
+    'Continental',
+    'Fast Food',
+  ];
 
 
   static Color BUTTON_COLOR = Color(0xff129575);

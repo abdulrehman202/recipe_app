@@ -10,6 +10,7 @@ class Recipe {
   String id;
   String name;
   int duration;
+  int? categoryId;
   List<Ingredient> ingredients;
   List<Procedure> procedure;
   String chefId;
@@ -18,6 +19,7 @@ class Recipe {
     this.id,
   this.name,
   this.duration,
+  this.categoryId,
   this.ingredients,
   this.procedure,
   this.chefId

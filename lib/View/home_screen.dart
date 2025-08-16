@@ -24,16 +24,15 @@ class _HomeSreenState extends State<HomeSreen> {
   
 
   late AsyncMemoizer _memoizer;
-  final List<String> _listCategories = [
-    'All',
-    'Indian',
-    'Italian',
-    'Asian',
-    'Chinese',
-    'Turkish',
-    'Continental',
-    'Fast Food',
-  ];
+  List<String> cList = ['All']; 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cList.addAll(Constants.listCategories);
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -162,10 +161,10 @@ class _HomeSreenState extends State<HomeSreen> {
   Widget categories(HomeScreenProvider provider) {
     return ChipsChoice<int>.single(
       value: provider.selectedCAtegory,
-      onChanged: (val) => provider.changeCategory(val),
+      onChanged: (val){provider.changeCategory(val);provider.updateRecipeBasedOnCategory();},
       choiceItems: C2Choice.listFrom<int, String>(
         
-        source: _listCategories,
+        source: cList,
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,

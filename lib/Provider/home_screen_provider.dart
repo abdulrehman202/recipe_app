@@ -44,16 +44,29 @@ class HomeScreenProvider extends ChangeNotifier{
       throw value;
     }, ifRight: (list){
       listOfRecipes.clear();
-      viewedRecipes.clear();
-      newRecipes.clear();
       getMyDetails.fold(ifLeft: (ifLeft){}, ifRight: (user) => me = user);
 
       listOfRecipes.addAll(list.where((r)=>r.chefId!=myUid));
-      viewedRecipes.addAll(listOfRecipes.where((r)=>me!.viewedRecipes.contains(r.id)));
-      newRecipes.addAll(listOfRecipes.where((r)=>!me!.viewedRecipes.contains(r.id)));
+      updateRecipeBasedOnCategory();
       success = true;
       });
     notifyListeners();
+  }
+
+  updateRecipeBasedOnCategory()
+  {
+    
+      viewedRecipes.clear();
+      newRecipes.clear();
+      if(selectedCAtegory == 0)
+      {
+      viewedRecipes.addAll(listOfRecipes.where((r)=> me!.viewedRecipes.contains(r.id)));
+      newRecipes.addAll(listOfRecipes.where((r)=>!me!.viewedRecipes.contains(r.id)));  
+      }
+      else{
+      viewedRecipes.addAll(listOfRecipes.where((r)=> me!.viewedRecipes.contains(r.id) && r.categoryId == selectedCAtegory-1));
+      newRecipes.addAll(listOfRecipes.where((r)=>!me!.viewedRecipes.contains(r.id) && r.categoryId == selectedCAtegory-1));}
+notifyListeners();
   }
 
   changeCategory(int val)
