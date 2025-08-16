@@ -7,6 +7,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/user_profile_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
+import 'package:recipe_app/View/recipe_view_screen.dart';
 
 class UserProfielScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();
@@ -197,9 +198,12 @@ class UserProfielScreen extends StatelessWidget {
             itemCount: provider.listOfRecipes.length,
             shrinkWrap: true,
             itemBuilder: (ctx, i) {
-              return SavedecipeCard(
-                recipe: provider.listOfRecipes[i],
-                showTitle: true,
+              return GestureDetector(
+                onTap: ()=>Navigator.push(ctx, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: provider.listOfRecipes[i]))),
+                child: SavedecipeCard(
+                  recipe: provider.listOfRecipes[i],
+                  showTitle: true,
+                ),
               );
             }),
       ],
