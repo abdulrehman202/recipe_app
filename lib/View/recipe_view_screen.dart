@@ -10,8 +10,11 @@ import 'package:recipe_app/Provider/recipe_view_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
+import 'package:recipe_app/View/review_screen.dart';
+import 'package:path/path.dart' as Path;
 
 class RecipeViewScreen extends StatelessWidget {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   late AsyncMemoizer _memoizer;
   Recipe recipe;
   bool isSAved;
@@ -24,6 +27,7 @@ class RecipeViewScreen extends StatelessWidget {
       create:  (context) => RecipeViewProvider(),
       child: Consumer<RecipeViewProvider>(
           builder: (context, recipeView, _)=> Scaffold(
+            key: _scaffoldKey,
           backgroundColor: Colors.white,
           appBar: _appBar(recipeView),
           body: _body(context, recipeView),
@@ -153,7 +157,7 @@ class RecipeViewScreen extends StatelessWidget {
 
   void _review() 
   {
-    // Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ReviewScreen()) );
+    Navigator.push( _scaffoldKey.currentState!.context , MaterialPageRoute(builder: (ctx)=> ReviewScreen(recipeId: recipe.id,)) );
   }
 
   Future<void> _unsave(RecipeViewProvider provider)

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
-import 'package:recipe_app/Provider/add_recipe_provider.dart';
 import 'package:recipe_app/Provider/login_provider.dart';
 import 'package:recipe_app/Provider/profile_setup_provider.dart';
 import 'package:recipe_app/Provider/sign_up_provider.dart';
-import 'package:recipe_app/Provider/user_profile_provider.dart';
 import 'package:recipe_app/View/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';

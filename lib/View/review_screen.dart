@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Review.dart';
+import 'package:recipe_app/Provider/review_screen_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CommentCard.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+
 
 class ReviewScreen extends StatefulWidget {
-  const ReviewScreen({super.key});
+  String recipeId;
+  ReviewScreen({super.key, required this.recipeId,});
 
   @override
   State<ReviewScreen> createState() => _ReviewScreenState();
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _scrollController = ScrollController();
+  TextEditingController _commentController = TextEditingController();
 
   double _scrollPosition=0.0;
 
@@ -30,13 +38,23 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
-          onPressed: () => _scrollController.animateTo(0,
-              duration: const Duration(milliseconds: 500), curve: Curves.ease),
-          child: const Icon(Icons.arrow_upward,color: Colors.white,)),
-      appBar: _appBar(),
-      body: _body(),
+    return ChangeNotifierProvider(
+      create:  (context) => ReviewProvider(),
+      
+      child: ChangeNotifierProvider(
+      create:  (context) => ReviewProvider(),
+      child: Consumer<ReviewProvider>(
+          builder: (context, reviewProvider, _)=> Scaffold(
+            key: _scaffoldKey,
+        floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
+            onPressed: () => _scrollController.animateTo(0,
+                duration: const Duration(milliseconds: 500), curve: Curves.ease),
+            child: const Icon(Icons.arrow_upward,color: Colors.white,)),
+        appBar: _appBar(),
+        body: _body(reviewProvider),
+      ),
+      ),
+    ) 
     );
   }
 
@@ -60,7 +78,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget _body() {
+  Widget _body(ReviewProvider  provider) {
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -79,7 +97,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       .labelMedium!
                       .copyWith(fontSize: 16),
                 )),
-            _writeReview(),
+            _writeReview(provider),
             _commentsList(),
           ],
         ),
@@ -87,7 +105,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
     ));
   }
 
-  Widget _writeReview() {
+  Widget _writeReview(ReviewProvider provider ) {
     return Container(
 
       
@@ -105,6 +123,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         maxHeight: 150
       ),
                 child: TextFormField(
+                  controller: _commentController,
                   scrollPadding: EdgeInsets.zero,
                   style: Theme.of(context)
                       .textTheme
@@ -118,22 +137,40 @@ class _ReviewScreenState extends State<ReviewScreen> {
               )),
           Expanded(
               flex: 2,
-              child: Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.only(left: 10),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 5.0, vertical: 10.0),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(10.0)),
-                      color: Constants.BUTTON_COLOR),
-                  child: Text(
-                    'Send',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelMedium!
-                        .copyWith(color: Colors.white),
-                  )))
+              child: GestureDetector(
+                onTap: () async
+                {
+                  if(_commentController.text.isEmpty)
+                  {
+                    ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(content: Text('Comment cannot be empty')));
+                  }
+                  else{
+                    Review review = Review('0', widget.recipeId, 'Unknown', DateTime.now(), _commentController.text , 0, 0);
+                    await provider.addReview(review);
+                    if(provider.success)
+                    {
+                      _commentController.clear();
+                    }
+
+                  }
+                },
+                child: Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.only(left: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0, vertical: 10.0),
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10.0)),
+                        color: Constants.BUTTON_COLOR),
+                    child: provider.loading?CustomProgressIndicator(): Text(
+                      'Send',
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium!
+                          .copyWith(color: Colors.white),
+                    )),
+              ))
         ],
       ),
     );
