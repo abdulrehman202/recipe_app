@@ -62,34 +62,31 @@ class UserProfielScreen extends StatelessWidget {
               return SafeArea(
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: SingleChildScrollView(
+                  child: ListView(
                     controller: provider.scrollController,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _headingRow(provider),
-                          Container(
-                              margin:
-                                  const EdgeInsets.symmetric(vertical: 10.0),
-                              child: Text(
-                                provider.user!.name,
-                                style: Theme.of(ctx)
-                                    .textTheme
-                                    .headlineSmall!
-                                    .copyWith(color: Colors.black),
-                              )),
-                          Container(
-                              child: const Text(
-                                'Chef',
-                              )),
-                          _bioRow(provider),
-                          _tabsRow(provider),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          _contentList(provider),
-                        ]),
-                  ),
+                      children: [
+                        _headingRow(provider),
+                        Container(
+                            margin:
+                                const EdgeInsets.symmetric(vertical: 10.0),
+                            child: Text(
+                              provider.user!.name,
+                              style: Theme.of(ctx)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: Colors.black),
+                            )),
+                        Container(
+                            child: const Text(
+                              'Chef',
+                            )),
+                        _bioRow(provider),
+                        _tabsRow(provider),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        _contentList(provider),
+                      ]),
                 ),
               );
             } else {

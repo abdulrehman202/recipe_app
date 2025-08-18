@@ -124,23 +124,20 @@ class _HomeSreenState extends State<HomeSreen> {
                 searchRow(),
                 categories(provider),
                 provider.listOfRecipes.isEmpty?const NoRecipeWidget(): Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                         recipes(context, provider.viewedRecipes,provider.me!.savedRecipes),
-                  Container(
-                      margin: const EdgeInsets.only(bottom: 10),
-                      child: Text(
-                        'New Recipes',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headlineMedium!
-                            .copyWith(color: Colors.black, fontSize: 25),
-                      )),
-                      recentRecipes(context, provider.newRecipes, provider),
-                      ],
-                    ),
+                  child: ListView(
+                    children: [
+                       recipes(context, provider.viewedRecipes,provider.me!.savedRecipes),
+                                    Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'New Recipes',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium!
+                          .copyWith(color: Colors.black, fontSize: 25),
+                    )),
+                    recentRecipes(context, provider.newRecipes, provider),
+                    ],
                   ),
                 ),
                

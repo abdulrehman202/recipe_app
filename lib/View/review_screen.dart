@@ -96,25 +96,22 @@ class _ReviewScreenState extends State<ReviewScreen> {
     return SafeArea(
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: SingleChildScrollView(
+      child: ListView(
         controller: _scrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _infoRow(provider.reviewsList.length),
-            Container(
-                margin: const EdgeInsets.only(top: 10.0),
-                child: Text(
-                  'Leave a Comment',
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(fontSize: 16),
-                )),
-            _writeReview(provider),
-            _commentsList(provider.reviewsList),
-          ],
-        ),
+        children: [
+          _infoRow(provider.reviewsList.length),
+          Container(
+              margin: const EdgeInsets.only(top: 10.0),
+              child: Text(
+                'Leave a Comment',
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium!
+                    .copyWith(fontSize: 16),
+              )),
+          _writeReview(provider),
+          _commentsList(provider.reviewsList),
+        ],
       ),
     ));
   }

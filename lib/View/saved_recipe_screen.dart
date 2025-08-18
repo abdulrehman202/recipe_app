@@ -45,33 +45,30 @@ class _SavedRecipeScreenState extends State<SavedRecipeScreen> {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10.0),
       height: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListView.builder(
-                physics: const ScrollPhysics(),
-                itemCount: provider.listOfRecipes.length,
-                shrinkWrap: true,
-                itemBuilder: (context, i) {
-                  return GestureDetector(
-                      onTap: () async {
-                        await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => RecipeViewScreen(
-                                      recipe: provider.listOfRecipes[i],
-                                      isSAved: true,
-                                    )));
-                        setState(() {});
-                      },
-                      child: SavedecipeCard(
-                        showTitle: true,
-                        recipe: provider.listOfRecipes[i],
-                      ));
-                }),
-          ],
-        ),
+      child: ListView(
+        children: [
+          ListView.builder(
+              physics: const ScrollPhysics(),
+              itemCount: provider.listOfRecipes.length,
+              shrinkWrap: true,
+              itemBuilder: (context, i) {
+                return GestureDetector(
+                    onTap: () async {
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RecipeViewScreen(
+                                    recipe: provider.listOfRecipes[i],
+                                    isSAved: true,
+                                  )));
+                      setState(() {});
+                    },
+                    child: SavedecipeCard(
+                      showTitle: true,
+                      recipe: provider.listOfRecipes[i],
+                    ));
+              }),
+        ],
       ),
     );
   }
