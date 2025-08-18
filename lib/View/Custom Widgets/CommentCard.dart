@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Review.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({super.key});
+  Review comment;
+  CommentCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CommentCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'William John',
+                        comment.reviewedByName,
                         style: Theme.of(context).textTheme.labelMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -41,14 +43,14 @@ class CommentCard extends StatelessWidget {
           ),
           Container(
               margin: const EdgeInsets.symmetric(vertical: 10.0),
-              child: const Text(
-                'Lorem Ipsum tempor incididunt ut labore et dolore,inise voluptate velit esse cillum',
+              child: Text(
+                comment.comment,
                 overflow: TextOverflow.clip,
               )),
           Row(
             children: [
-              _thumbsIcon(context, Icons.thumb_up, 2, true),
-              _thumbsIcon(context, Icons.thumb_down, 10, false),
+              _thumbsIcon(context, Icons.thumb_up, comment.likes.length , false),
+              _thumbsIcon(context, Icons.thumb_down, comment.dislikes.length , false),
             ],
           )
         ],

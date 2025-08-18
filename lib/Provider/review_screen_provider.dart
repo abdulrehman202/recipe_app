@@ -44,6 +44,7 @@ class ReviewProvider extends ChangeNotifier
     Either<String, List<Review>> res = await reviewRepository.getReviews(recipeId);
     res.fold(ifLeft: (ifLeft){}, ifRight: (list)
     {
+      reviewsList.clear();
       reviewsList.addAll(list);
     });
   }

@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
@@ -16,6 +17,7 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
+  AsyncMemoizer _memoizer = AsyncMemoizer();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   ScrollController _scrollController = ScrollController();
   TextEditingController _commentController = TextEditingController();
@@ -53,7 +55,16 @@ class _ReviewScreenState extends State<ReviewScreen> {
                   duration: const Duration(milliseconds: 500), curve: Curves.ease),
               child: const Icon(Icons.arrow_upward,color: Colors.white,)),
                     appBar: _appBar(),
-                    body: _body(reviewProvider),
+                    body: FutureBuilder(
+                      future: _memoizer.runOnce(()async{await reviewProvider.getReviews(widget.recipeId);}),
+                      builder: (context, asyncSnapshot) {
+                        if(asyncSnapshot.connectionState == ConnectionState.waiting)
+                        {
+                          return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
+                        }
+                        return _body(reviewProvider);
+                      }
+                    ),
                   ),
           ),
       ),
@@ -71,12 +82,12 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget _infoRow() {
-    return const Row(
+  Widget _infoRow(int reviewsCount) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text('13k Reviews'),
-        Text('225 Saved'),
+        Text('$reviewsCount Reviews'),
+        const Text('225 Saved'),
       ],
     );
   }
@@ -90,7 +101,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _infoRow(),
+            _infoRow(provider.reviewsList.length),
             Container(
                 margin: const EdgeInsets.only(top: 10.0),
                 child: Text(
@@ -101,7 +112,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       .copyWith(fontSize: 16),
                 )),
             _writeReview(provider),
-            _commentsList(),
+            _commentsList(provider.reviewsList),
           ],
         ),
       ),
@@ -179,15 +190,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget _commentsList() {
+  Widget _commentsList(List<Review> reviews) {
     return Column(
       children: [
         ListView.builder(
             physics: const ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 100,
+            itemCount: reviews.length,
             itemBuilder: (ctx, i) {
-              return const CommentCard();
+              return CommentCard(comment: reviews[i]);
             }),
       ],
     );
