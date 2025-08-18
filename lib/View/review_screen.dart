@@ -193,13 +193,14 @@ class _ReviewScreenState extends State<ReviewScreen> {
   Widget _commentsList(List<Review> reviews) {
     return Column(
       children: [
-        ListView.builder(
+        ListView.separated(
             physics: const ScrollPhysics(),
             shrinkWrap: true,
             itemCount: reviews.length,
             itemBuilder: (ctx, i) {
               return CommentCard(comment: reviews[i]);
-            }),
+            }, 
+            separatorBuilder: (BuildContext context, int index) { return Divider(); },),
       ],
     );
   }
