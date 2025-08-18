@@ -11,7 +11,6 @@ import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 import 'package:recipe_app/View/review_screen.dart';
-import 'package:path/path.dart' as Path;
 
 class RecipeViewScreen extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
-import 'package:recipe_app/View/recipe_view_screen.dart';
 
 class SavedecipeCard extends StatefulWidget {
   Recipe recipe;
