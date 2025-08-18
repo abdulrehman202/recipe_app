@@ -159,7 +159,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(content: Text('Comment cannot be empty')));
                   }
                   else{
-                    Review review = Review('0', widget.recipeId, 'Unknown', DateTime.now(), _commentController.text , [], []);
+                    String myName = await provider.getMyName();
+                    Review review = Review('0', widget.recipeId, myName, DateTime.now(), _commentController.text , [], []);
                     await provider.addReview(review);
                     if(provider.success)
                     {

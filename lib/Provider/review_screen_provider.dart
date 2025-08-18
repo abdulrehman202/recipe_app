@@ -1,7 +1,10 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
+import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Review.dart';
+import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/Repository/ReviewRepo.dart';
+import 'package:recipe_app/Repository/UserProfile.dart';
 
 class ReviewProvider extends ChangeNotifier 
 {
@@ -9,6 +12,7 @@ class ReviewProvider extends ChangeNotifier
   bool loading = false;
   ReviewRepository reviewRepository = ReviewRepository();
   bool success = false;
+  UserProfile userProfile = UserProfile();
   
   addReviewToList(Review review)
   {
@@ -49,5 +53,23 @@ class ReviewProvider extends ChangeNotifier
       reviewsList.addAll(list);
       reviewsList.sort((a,b)=>b.time.compareTo(a.time));
     });
+  }
+
+  Future<String> getMyName()async
+  {
+    try{
+      String uid = await Constants.getUserId();
+      String name = '';
+    Either<String, User> res = await userProfile.fetchUser(uid);
+
+    res.fold(ifLeft: (ifLeft){name = 'Unknown';}, ifRight: (u) =>name=u.name);
+
+
+    return name;
+    }
+    catch (e)
+    {
+      return 'Unknown';
+    }
   }
 }

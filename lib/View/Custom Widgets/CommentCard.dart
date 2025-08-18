@@ -60,30 +60,32 @@ class CommentCard extends StatelessWidget {
 
   Widget _thumbsIcon(
       BuildContext context, IconData thumb, int i, bool isSelected) {
-    return Container(
-        padding: const EdgeInsets.symmetric(horizontal:  10.0, vertical: 5.0),
-        decoration: isSelected
-            ? const BoxDecoration(
-                color: Color(0xffD9D9D9),
-                borderRadius: BorderRadius.all(Radius.circular(20.0)))
-            : const BoxDecoration(),
-        child: Row(
-          children: [
-            Icon(
-              thumb,
-              color: Constants.YELLOW_LABEL_COLOR,
-            ),
-            Container(
-                margin: const EdgeInsets.only(left: 5.0),
-                child: Text(
-                  i.toString(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(fontSize: 16),
-                ))
-          ],
-        ));
+    return InkWell(
+      child: Container(
+          padding: const EdgeInsets.symmetric(horizontal:  10.0, vertical: 5.0),
+          decoration: isSelected
+              ? const BoxDecoration(
+                  color: Color(0xffD9D9D9),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0)))
+              : const BoxDecoration(),
+          child: Row(
+            children: [
+              Icon(
+                thumb,
+                color: Constants.YELLOW_LABEL_COLOR,
+              ),
+              Container(
+                  margin: const EdgeInsets.only(left: 5.0),
+                  child: Text(
+                    i.toString(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(fontSize: 16),
+                  ))
+            ],
+          )),
+    );
   }
 
   String _getDateTime(DateTime dt) {
