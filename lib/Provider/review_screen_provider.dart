@@ -33,6 +33,7 @@ class ReviewProvider extends ChangeNotifier
     }, ifRight: (ok)
     {
       addReviewToList(review);
+      reviewsList.sort((a,b)=>b.time.compareTo(a.time));
       success = true;
       });
     toggleLoader();
@@ -46,6 +47,7 @@ class ReviewProvider extends ChangeNotifier
     {
       reviewsList.clear();
       reviewsList.addAll(list);
+      reviewsList.sort((a,b)=>b.time.compareTo(a.time));
     });
   }
 }

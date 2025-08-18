@@ -36,7 +36,7 @@ class CommentCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.labelMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(_getDateTime(DateTime.now()))
+                      Text(_getDateTime(comment.time))
                     ],
                   ))
             ],
@@ -90,7 +90,7 @@ class CommentCard extends StatelessWidget {
     String day = dt.day.toString();
     String month = Constants.getMonth(dt.month);
     String year = dt.year.toString();
-    String time = Constants.get12hrsTime(DateTime.now());
+    String time = Constants.get12hrsTime(dt);
 
     return '$month $day, $year - $time';
   }
