@@ -44,15 +44,18 @@ class _ReviewScreenState extends State<ReviewScreen> {
       child: ChangeNotifierProvider(
       create:  (context) => ReviewProvider(),
       child: Consumer<ReviewProvider>(
-          builder: (context, reviewProvider, _)=> Scaffold(
-            key: _scaffoldKey,
-        floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
-            onPressed: () => _scrollController.animateTo(0,
-                duration: const Duration(milliseconds: 500), curve: Curves.ease),
-            child: const Icon(Icons.arrow_upward,color: Colors.white,)),
-        appBar: _appBar(),
-        body: _body(reviewProvider),
-      ),
+          builder: (context, reviewProvider, _)=> IgnorePointer(
+            ignoring: reviewProvider.loading,
+            child: Scaffold(
+              key: _scaffoldKey,
+                    floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
+              onPressed: () => _scrollController.animateTo(0,
+                  duration: const Duration(milliseconds: 500), curve: Curves.ease),
+              child: const Icon(Icons.arrow_upward,color: Colors.white,)),
+                    appBar: _appBar(),
+                    body: _body(reviewProvider),
+                  ),
+          ),
       ),
     ) 
     );
@@ -145,7 +148,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(content: Text('Comment cannot be empty')));
                   }
                   else{
-                    Review review = Review('0', widget.recipeId, 'Unknown', DateTime.now(), _commentController.text , 0, 0);
+                    Review review = Review('0', widget.recipeId, 'Unknown', DateTime.now(), _commentController.text , [], []);
                     await provider.addReview(review);
                     if(provider.success)
                     {

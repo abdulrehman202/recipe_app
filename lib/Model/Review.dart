@@ -10,8 +10,8 @@ class Review{
   String reviewedByName;
   DateTime time;
   String comment;
-  int likes;
-  int dislikes;
+  List<String> likes;
+  List<String> dislikes;
 
   Review(
   this.id, 

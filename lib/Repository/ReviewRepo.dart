@@ -3,7 +3,7 @@ import 'package:dart_either/dart_either.dart';
 import 'package:recipe_app/Model/Review.dart';
 
 class ReviewRepository {
-  String collectionName = 'Review';
+  String collectionName = 'Reviews';
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<Either<bool, bool>> addReview(Review review) async {

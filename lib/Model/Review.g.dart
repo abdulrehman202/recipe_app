@@ -12,8 +12,8 @@ Review _$ReviewFromJson(Map<String, dynamic> json) => Review(
       json['reviewedByName'] as String,
       DateTime.parse(json['time'] as String),
       json['comment'] as String,
-      (json['likes'] as num).toInt(),
-      (json['dislikes'] as num).toInt(),
+      (json['likes'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['dislikes'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ReviewToJson(Review instance) => <String, dynamic>{
