@@ -50,7 +50,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             ignoring: reviewProvider.loading,
             child: Scaffold(
               key: _scaffoldKey,
-                    floatingActionButton: _scrollPosition==0.0?Container(): FloatingActionButton(
+                    floatingActionButton: _scrollPosition<=500.0?Container(): FloatingActionButton(
               onPressed: () => _scrollController.animateTo(0,
                   duration: const Duration(milliseconds: 500), curve: Curves.ease),
               child: const Icon(Icons.arrow_upward,color: Colors.white,)),
