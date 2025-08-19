@@ -5,7 +5,6 @@ import 'package:recipe_app/Model/Recipe.dart';
 class SavedecipeCard extends StatefulWidget {
   Recipe recipe;
   bool showTitle;
-
   SavedecipeCard({super.key,this.showTitle = true, required this.recipe});
 
   @override
@@ -13,9 +12,11 @@ class SavedecipeCard extends StatefulWidget {
 }
 
 class _SavedecipeCardState extends State<SavedecipeCard> {
+  late double netRating;
 
   @override
   Widget build(BuildContext context) {
+    netRating = (widget.recipe.totalRating??0)/(widget.recipe.totalUsersWhoRated??1);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10.0),
@@ -106,13 +107,13 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
               decoration: BoxDecoration(
                   color: Constants.BITMOJI_COLOR,
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child: const Row(
+              child:  Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Colors.yellow,
                   ),
-                  Text('4.0'),
+                  Text(netRating.toString().padRight(2,'.0')),
                 ],
               ),
             ),

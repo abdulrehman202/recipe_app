@@ -14,6 +14,8 @@ class Recipe {
   List<Ingredient> ingredients;
   List<Procedure> procedure;
   String chefId;
+  int? totalRating;
+  int? totalUsersWhoRated;
 
   Recipe(
     this.id,
@@ -22,7 +24,9 @@ class Recipe {
   this.categoryId,
   this.ingredients,
   this.procedure,
-  this.chefId
+  this.chefId,
+  this.totalRating,
+  this.totalUsersWhoRated,
   );
   
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);

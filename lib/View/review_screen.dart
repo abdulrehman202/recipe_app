@@ -97,6 +97,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
         child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: ListView(
+        
         controller: _scrollController,
         children: [
           _infoRow(provider.reviewsList.length),

@@ -67,7 +67,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     recipe.catIndex,
                                     recipe.ingredientsList,
                                     recipe.procedureList,
-                                    uid);
+                                    uid,0,0);
                               Either<String, String> res =  await recipe.addRecipe(recipeObj);
                               res.fold(ifLeft: (s){
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s)));
