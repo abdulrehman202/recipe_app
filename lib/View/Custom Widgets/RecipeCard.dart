@@ -5,12 +5,12 @@ import 'package:recipe_app/Model/Recipe.dart';
 class RecipeCard extends StatelessWidget {
   Recipe recipe;
   bool saved;
-  late double netRating;
+  late double? netRating;
   RecipeCard({super.key, required this.recipe, this.saved = false});
 
   @override
   Widget build(BuildContext context) {
-    netRating = (recipe.totalRating??0)/(recipe.totalUsersWhoRated??1);
+    netRating = Constants.getNetRating(recipe.totalRating ??0 , recipe.totalUsersWhoRated ??0);
     return Container(
       margin: const EdgeInsets.only(right: 20),
       width: 150,
@@ -105,7 +105,7 @@ class RecipeCard extends StatelessWidget {
               child: Row(
                 children: [
                   const Icon(Icons.star),
-                  Text(netRating.toString().padRight(2,'.0')),
+                  Text((netRating).toString().padRight(2,'.0')),
                 ],
               ),
             ),

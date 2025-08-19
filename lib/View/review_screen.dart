@@ -6,6 +6,7 @@ import 'package:recipe_app/Model/Review.dart';
 import 'package:recipe_app/Provider/review_screen_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CommentCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 
 
 class ReviewScreen extends StatefulWidget {
@@ -154,7 +155,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 {
                   if(_commentController.text.isEmpty)
                   {
-                    ScaffoldMessenger.of(_scaffoldKey.currentState!.context).showSnackBar(const SnackBar(content: Text('Comment cannot be empty')));
+                    mySnackBar(context, 'Comment cannot be empty');
                   }
                   else{
                     String myName = await provider.getMyName();

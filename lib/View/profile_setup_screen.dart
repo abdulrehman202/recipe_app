@@ -3,12 +3,14 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/profile_setup_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 import 'package:recipe_app/View/Custom%20Widgets/DefaultProfileImageWidget.dart';
 import 'package:recipe_app/View/main_screen.dart';
 
 class ProfileSetupScreen extends StatelessWidget {
   String uid;
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -16,7 +18,9 @@ class ProfileSetupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      key: _scaffoldKey,
       body: Consumer<UserProfileSetupProvider>(builder: (context, user,_) => _body(context, user)),
     );
   }
@@ -50,7 +54,7 @@ class ProfileSetupScreen extends StatelessWidget {
       
               if(!provider.success)
               {
-                ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(provider.msg)));
+                mySnackBar(_scaffoldKey.currentState!.context , provider.msg);
               }
               else{
                 await Constants.setUserId(uid);

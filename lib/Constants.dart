@@ -121,5 +121,10 @@ static setUserId(String uid) async
    final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', uid);
 }
+
+static double getNetRating(int r, int t)
+{
+    return t==0?0:r/t;
+}
   
 }

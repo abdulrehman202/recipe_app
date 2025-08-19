@@ -187,9 +187,9 @@ class RecipeViewScreen extends StatelessWidget {
                   overflow: TextOverflow.clip,
                   style: Theme.of(context).textTheme.labelMedium,
                 )),
-            const Expanded(
+            Expanded(
                 child: Align(
-                    alignment: Alignment.centerRight, child: Text('(13k reviews)')))
+                    alignment: Alignment.centerRight, child: Text('${recipe.totalUsersWhoRated??0} rating(s)')))
           ],
         ),
         Row(

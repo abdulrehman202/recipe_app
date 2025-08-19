@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/sign_up_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
 import 'package:recipe_app/View/profile_setup_screen.dart';
 
@@ -79,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
             
                           var res = await provider.registerUser(_emailController.text,_passwordController.text,_confirmPasswordController.text);
                           res.fold(ifLeft: (l)=>
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l.toString()))),ifRight: (r){
+                          mySnackBar(context, l.toString()),ifRight: (r){
                             _emailController.clear();
                             _passwordController.clear();
                             _confirmPasswordController.clear();
@@ -88,7 +89,7 @@ class SignUpScreen extends StatelessWidget {
                             
                             });}
                         else{
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(provider.msg)));
+                          mySnackBar(context, provider.msg);
                         }
                         }, child: provider.loading?CustomProgressIndicator(): const Text('Sign Up'))),
                 Container(

@@ -9,6 +9,7 @@ import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/View/ChooseCategoryScreen.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FlexibleButton.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
@@ -41,23 +42,13 @@ class AddRecipeScreen extends StatelessWidget {
                         child: recipe.loading?CustomProgressIndicator(): FilledButton(
                             onPressed: () async {
                               if (recipe.catIndex == -1) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Please add category')));
+                                mySnackBar(context, 'Category required!');
                               }else if (textEditingController.text.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Recipe name required')));
+                                mySnackBar(context, 'Recipe name required!');
                               } else if (recipe.ingredientsList.length < 3) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Please add atleast 3 ingredients')));
+                                mySnackBar(context, 'Recipe should have atleast 3 ingredients');
                               } else if (recipe.procedureList.length < 3) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text(
-                                            'Please add atleast 3 procedures')));
+                                mySnackBar(context, 'Recipe should have atleast 3 procedures');
                               } else {
                                 String uid = await Constants.getUserId();
                                 Recipe recipeObj = Recipe(
@@ -70,7 +61,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     uid,0,0);
                               Either<String, String> res =  await recipe.addRecipe(recipeObj);
                               res.fold(ifLeft: (s){
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(s)));
+                                mySnackBar(context, s);
                               }, ifRight: (s){
                                 Navigator.pop(context);
                               });
