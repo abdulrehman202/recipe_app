@@ -212,9 +212,12 @@ class _HomeSreenState extends State<HomeSreen> {
             return GestureDetector(
               onTap: ()async{
                 Recipe rr = recipes[i];
-                provider.updateView(recipes[i]);
+                
+                await Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: rr))).whenComplete(()async
+                {
+provider.updateView(rr);
                 await provider.addToViewRecipe();
-                Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: rr)));
+                });
                 },
               child: RecentRecipeCard(recipe: recipes[i]));
           }),
