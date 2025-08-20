@@ -52,10 +52,10 @@ class RecipeViewProvider extends ChangeNotifier {
     try {
       if (chef!.followers.contains(myId)) {
         chef!.followers.remove(myId);
-        me!.following.remove(myId);
+        me!.following.remove(chefId);
       } else {
         chef!.followers.add(myId);
-        me!.following.add(myId);
+        me!.following.add(chefId);
       }
       notifyListeners();
       await userProfile.updateFollowersList(chefId, chef!.followers);

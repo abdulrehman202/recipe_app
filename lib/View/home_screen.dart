@@ -21,10 +21,8 @@ class HomeSreen extends StatefulWidget {
 }
 
 class _HomeSreenState extends State<HomeSreen> {
-  
-
   late AsyncMemoizer _memoizer;
-  List<String> cList = ['All']; 
+  List<String> cList = ['All'];
 
   @override
   void initState() {
@@ -32,26 +30,26 @@ class _HomeSreenState extends State<HomeSreen> {
     super.initState();
     cList.addAll(Constants.listCategories);
   }
-  
 
   @override
   Widget build(BuildContext context) {
-    
     _memoizer = AsyncMemoizer();
-    return ChangeNotifierProvider(create:  (context) => HomeScreenProvider(),child: Consumer<HomeScreenProvider>(
-          builder: (context, provider, _)=>FutureBuilder(
-            future: _memoizer.runOnce(()
-            async {
-              await provider.fetchRecipes(widget.uid);
-            }),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.done)
-              {
-                return snapshot.hasError?Container(): _body(context, provider); 
-              }
-              return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
-            }
-          )));
+    return ChangeNotifierProvider(
+        create: (context) => HomeScreenProvider(),
+        child: Consumer<HomeScreenProvider>(
+            builder: (context, provider, _) =>
+                FutureBuilder(future: _memoizer.runOnce(() async {
+                  await provider.fetchRecipes(widget.uid);
+                }), builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return snapshot.hasError
+                        ? Container()
+                        : _body(context, provider);
+                  }
+                  return CustomProgressIndicator(
+                    pColor: Constants.BUTTON_COLOR,
+                  );
+                })));
   }
 
   Widget titleRow(BuildContext context, HomeScreenProvider provider) {
@@ -63,28 +61,29 @@ class _HomeSreenState extends State<HomeSreen> {
           children: [
             FittedBox(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width*0.8,
-                child: 
-                Text.rich(
-                  softWrap: true,
-  TextSpan(
-    children: [
-      TextSpan(text: 'Hello, ',style: Theme.of(context)
-                  .textTheme
-                  .labelSmall!
-                  .copyWith(fontSize: 16),),
-      TextSpan(
-        text: '${provider.me?.name ??''}!',
-          style: Theme.of(context)
-                      .textTheme
-                      .headlineMedium!
-                      .copyWith(color: Colors.black, fontSize: 22.0),
-                      // overflow: TextOverflow.ellipsis,
-      ),
-    ],
-  ),
-)
-              ),
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Text.rich(
+                    softWrap: true,
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Hello, ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(fontSize: 16),
+                        ),
+                        TextSpan(
+                          text: '${provider.me?.name ?? ''}!',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineMedium!
+                              .copyWith(color: Colors.black, fontSize: 22.0),
+                          // overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  )),
             ),
             Text(
               'What are you cooking today?',
@@ -110,41 +109,77 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget _body(BuildContext context, HomeScreenProvider provider) { 
+  Widget _body(BuildContext context, HomeScreenProvider provider) {
     return SafeArea(
-          child: Container(
-            width: double.infinity,
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal:  5.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 50,),
-                titleRow(context, provider),
-                searchRow(),
-                categories(provider),
-                provider.listOfRecipes.isEmpty?const NoRecipeWidget(): Expanded(
-                  child: ListView(
-                    children: [
-                       recipes(context, provider.viewedRecipes,provider.me!.savedRecipes),
-                                    Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'New Recipes',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineMedium!
-                          .copyWith(color: Colors.black, fontSize: 25),
-                    )),
-                    recentRecipes(context, provider.newRecipes, provider),
-                    ],
-                  ),
-                ),
-               
-              ],
+      child: Container(
+        width: double.infinity,
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 50,
             ),
-          ),
-        );
+            titleRow(context, provider),
+            searchRow(),
+            categories(provider),
+            provider.listOfRecipes.isEmpty
+                ? const NoRecipeWidget()
+                : Expanded(
+                    child: ListView(
+                      children: [
+                        recipes(context, provider.viewedRecipes,
+                            provider.me!.savedRecipes),
+                            provider.myChefsRecipe.isEmpty
+                            ? Container()
+                            : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        'Chefs you follow',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!
+                                            .copyWith(
+                                                color: Colors.black,
+                                                fontSize: 25),
+                                      )),
+                                  recipes(
+                                      context, provider.myChefsRecipe, provider.me!.savedRecipes),
+                                ],
+                              ),
+                        provider.newRecipes.isEmpty
+                            ? Container()
+                            : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                      margin: const EdgeInsets.only(bottom: 10),
+                                      child: Text(
+                                        'New Recipes',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineMedium!
+                                            .copyWith(
+                                                color: Colors.black,
+                                                fontSize: 25),
+                                      )),
+                                  recentRecipes(
+                                      context, provider.newRecipes, provider),
+                                ],
+                              ),
+
+                              
+                      ],
+                    ),
+                  ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget searchRow() {
@@ -158,9 +193,11 @@ class _HomeSreenState extends State<HomeSreen> {
   Widget categories(HomeScreenProvider provider) {
     return ChipsChoice<int>.single(
       value: provider.selectedCAtegory,
-      onChanged: (val){provider.changeCategory(val);provider.updateRecipeBasedOnCategory();},
+      onChanged: (val) {
+        provider.changeCategory(val);
+        provider.updateRecipeBasedOnCategory();
+      },
       choiceItems: C2Choice.listFrom<int, String>(
-        
         source: cList,
         value: (i, v) => i,
         label: (i, v) => v,
@@ -180,46 +217,60 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget recipes(BuildContext context, List<Recipe> recipes, List<String> savedRecipes) {
-    return recipes.isEmpty?Container(): SizedBox(
-      height: 300,
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: recipes.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (ctx, i) {
-            return GestureDetector(
-              onTap: ()async{
-                await Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: recipes[i],isSAved: savedRecipes.contains(recipes[i].id),)));
-              setState(() {
-                
-              });
-              },
-              child: RecipeCard(recipe:  recipes[i],saved: savedRecipes.contains(recipes[i].id)));
-          }),
-    );
+  Widget recipes(
+      BuildContext context, List<Recipe> recipes, List<String> savedRecipes) {
+    return recipes.isEmpty
+        ? Container()
+        : SizedBox(
+            height: 300,
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: recipes.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (ctx, i) {
+                  return GestureDetector(
+                      onTap: () async {
+                        await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => RecipeViewScreen(
+                                      recipe: recipes[i],
+                                      isSAved:
+                                          savedRecipes.contains(recipes[i].id),
+                                    )));
+                        setState(() {});
+                      },
+                      child: RecipeCard(
+                          recipe: recipes[i],
+                          saved: savedRecipes.contains(recipes[i].id)));
+                }),
+          );
   }
-  
-  Widget recentRecipes(BuildContext context, List<Recipe> recipes, HomeScreenProvider provider)
-  {
+
+  Widget recentRecipes(
+      BuildContext context, List<Recipe> recipes, HomeScreenProvider provider) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
-        padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero,
           itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
             return GestureDetector(
-              onTap: ()async{
-                Recipe rr = recipes[i];
-                
-                await Navigator.push(context, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: rr))).whenComplete(()async
-                {
-provider.updateView(rr);
-                await provider.addToViewRecipe();
-                });
+                onTap: () async {
+                  Recipe rr = recipes[i];
+
+                  await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (builder) =>
+                                  RecipeViewScreen(recipe: rr)))
+                      .whenComplete(() async {
+                    provider.updateView(rr);
+                    await provider.addToViewRecipe();
+                  });
                 },
-              child: RecentRecipeCard(recipe: recipes[i]));
+                child: RecentRecipeCard(recipe: recipes[i]));
           }),
     );
   }
