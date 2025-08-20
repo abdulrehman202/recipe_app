@@ -211,7 +211,7 @@ class RecipeViewScreen extends StatelessWidget {
           await provider.fetchUser(recipe.chefId);
         }),
       builder: (context, asyncSnapshot) {
-        if(asyncSnapshot.connectionState == ConnectionState.done)
+        if(asyncSnapshot.connectionState == ConnectionState.waiting)
         {
           return Container(
           margin: const EdgeInsets.symmetric(vertical: 30),
