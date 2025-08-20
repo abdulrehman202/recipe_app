@@ -269,6 +269,9 @@ class _HomeSreenState extends State<HomeSreen> {
                     provider.updateView(rr);
                     await provider.addToViewRecipe();
                   });
+                  setState(() {
+                    
+                  });
                 },
                 child: RecentRecipeCard(recipe: recipes[i]));
           }),

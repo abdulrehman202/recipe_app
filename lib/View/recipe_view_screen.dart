@@ -240,7 +240,7 @@ class RecipeViewScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 8,
+                  flex: 7,
                   child: Row(
                     children: [
                       ClipOval(
@@ -258,7 +258,6 @@ class RecipeViewScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
                               margin: const EdgeInsets.only(left: 24),
                               child: Text(
                                 provider.chef!.name,
@@ -284,13 +283,13 @@ class RecipeViewScreen extends StatelessWidget {
                 provider.myId == recipe.chefId 
                     ? Container()
                     : Expanded(
-                        flex: 2,
+                        flex: 3,
                         child: GestureDetector(
                             onTap:()async{ 
                               await provider.followThisChef(recipe.chefId);
                               },
                             child: Container(
-                                width: MediaQuery.of(context).size.width * 0.1,
+                                // width: MediaQuery.of(context).size.width * 0.1,
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(8.0),
                                 decoration: BoxDecoration(
