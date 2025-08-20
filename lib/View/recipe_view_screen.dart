@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -210,7 +211,23 @@ class RecipeViewScreen extends StatelessWidget {
           await provider.fetchUser(recipe.chefId);
         }),
       builder: (context, asyncSnapshot) {
-        if(asyncSnapshot.connectionState == ConnectionState.done) {
+        if(asyncSnapshot.connectionState == ConnectionState.done)
+        {
+          return Container(
+          margin: const EdgeInsets.symmetric(vertical: 30),
+            height: 50,
+            alignment: Alignment.centerLeft,
+            child: userInfoShimmer(
+                                
+                    Container(
+                      color: Colors.white,
+                    ),
+                  
+                              ),)
+            // child: const Text('Fetching recipe owner\'s detail...',))
+            ;
+        }
+        else if(asyncSnapshot.connectionState == ConnectionState.done) {
         if(provider.success)
         {
           return Container(

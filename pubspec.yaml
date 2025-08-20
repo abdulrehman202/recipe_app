@@ -45,6 +45,7 @@ dependencies:
   json_annotation: ^4.9.0
   async: ^2.13.0
   shared_preferences: ^2.5.3
+  shimmer_animation: ^2.2.2
 
 dev_dependencies:
   flutter_test:
