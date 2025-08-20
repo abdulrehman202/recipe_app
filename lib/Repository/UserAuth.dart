@@ -7,8 +7,8 @@ class UserAuth {
       UserCredential res = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       return Right(res.user!.uid);
-    } on FirebaseAuthException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseAuthException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
@@ -17,8 +17,18 @@ class UserAuth {
       UserCredential loginData =   await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       return  Right(loginData.user!.uid);
-    } on FirebaseAuthException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseAuthException catch (e) {
+      return Left(e.message ?? 'Error!');
+    }
+  }
+
+  Future<Either<String, String>> resetPasswordEmail(String email) async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: email,);
+          return const Right('Email sent!');
+    } on FirebaseAuthException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 }

@@ -1,7 +1,9 @@
+import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/login_provider.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomDialogBox.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
@@ -61,15 +63,26 @@ class LoginScreen extends StatelessWidget {
                 textInputType: TextInputType.visiblePassword,
                 controller: _passwordController,
               ),
-              TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Forgot Password?',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: Constants.YELLOW_LABEL_COLOR),
-                  )),
+              Align(
+                alignment: Alignment.topLeft,
+                child: TextButton(
+                    onPressed: ()async{
+                      
+                      Either<String, String> res = await provider.resetPassword(_emailController.text);
+                      
+                      res.fold(ifLeft: (msg)=>mySnackBar(context, msg),ifRight: (uid)
+                       {
+                         passwordResetDialogBox(context, 'We have sent a link to your email. Click on the link to reset your password');
+                        
+                        } );},
+                    child: Text(
+                      'Forgot Password?',
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(color: Constants.YELLOW_LABEL_COLOR),
+                    )),
+              ),
               SizedBox(
                   width: double.infinity,
                   child: FilledButton(

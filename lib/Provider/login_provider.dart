@@ -44,4 +44,12 @@ class LoginProvider extends ChangeNotifier {
     
   }
 
+  Future<Either<String, String>> resetPassword(String email,)async
+  {
+        Either<String, String> res =  await userAuth.resetPasswordEmail(email ,);
+
+    return res;
+    
+  }
+
 }
