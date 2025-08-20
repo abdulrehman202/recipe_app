@@ -6,7 +6,6 @@ import 'package:recipe_app/Repository/UserProfile.dart';
 import '../Model/User.dart';
 
 class RecipeViewProvider extends ChangeNotifier {
-
   bool loading = false;
   bool success = false;
   UserProfile userProfile = UserProfile();
@@ -14,53 +13,67 @@ class RecipeViewProvider extends ChangeNotifier {
   int selectedPage = 0;
   ScrollController scrollController = ScrollController();
   double scrollPosition = 0.0;
-  User? user;
+  User? chef;
+  User? me;
   String myId = '';
   List<String> mySavedRecipes = [];
 
-  RecipeViewProvider(){
-  scrollController.addListener((){scrollPosition = scrollController.position.pixels;});
-}
+  RecipeViewProvider() {
+    scrollController.addListener(() {
+      scrollPosition = scrollController.position.pixels;
+    });
+  }
   Future<void> fetchUser(String uid) async {
-    
-    Either<String, User> res = await userProfile.fetchUser(uid);
+    Either<String, User> chefRes = await userProfile.fetchUser(uid);
     mySavedRecipes.clear();
     mySavedRecipes = await userProfile.getMySavedRecipe();
-    
+
     myId = await Constants.getUserId();
-    res.fold(ifLeft: (value) 
-    {
+    Either<String, User> meRes = await userProfile.fetchUser(myId);
+    chefRes.fold(ifLeft: (value) {
       success = false;
       msg = value;
       throw value;
-    } , ifRight: (value){
-   success = true;
-      user = value;
+    }, ifRight: (value) {
+      meRes.fold(ifLeft: (ifLeft) {}, ifRight: (myData) => me = myData);
+      success = true;
+      chef = value;
     });
     notifyListeners();
   }
 
   Future<void> updateSavedrecipes() async {
-    try{
+    try {
       await userProfile.updateSavedRecipeList(myId, mySavedRecipes);
-    }
-    catch(e){}
+    } catch (e) {}
   }
 
-  addToSavedRecipeList(String id)
-  {
+  followThisChef(String chefId) async {
+    try {
+      if (chef!.followers.contains(myId)) {
+        chef!.followers.remove(myId);
+        me!.following.remove(myId);
+      } else {
+        chef!.followers.add(myId);
+        me!.following.add(myId);
+      }
+      notifyListeners();
+      await userProfile.updateFollowersList(chefId, chef!.followers);
+      await userProfile.updateFollowingsList(myId, me!.following);
+    } catch (e) {}
+  }
+
+  addToSavedRecipeList(String id) {
     mySavedRecipes.add(id);
     notifyListeners();
   }
 
-  removeFromSavedRecipeList(String id)
-  {
+  removeFromSavedRecipeList(String id) {
     mySavedRecipes.remove(id);
     notifyListeners();
   }
 
-  changePage(val)
-  {
+  changePage(val) {
     selectedPage = val;
     notifyListeners();
   }

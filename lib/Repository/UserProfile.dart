@@ -63,4 +63,22 @@ class UserProfile {
     catch(e) {
     }
   }
+
+  Future<void> updateFollowersList(String uid, List<String>ids)
+  async {
+    try{
+    await db.collection(collectionName).doc(uid).update({'followers':ids});
+    }
+    catch(e) {
+    }
+  }
+
+  Future<void> updateFollowingsList(String uid, List<String>ids)
+  async {
+    try{
+    await db.collection(collectionName).doc(uid).update({'following':ids});
+    }
+    catch(e) {
+    }
+  }
 }

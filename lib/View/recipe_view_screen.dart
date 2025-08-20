@@ -261,7 +261,7 @@ class RecipeViewScreen extends StatelessWidget {
                               width: MediaQuery.of(context).size.width * 0.6,
                               margin: const EdgeInsets.only(left: 24),
                               child: Text(
-                                provider.user!.name,
+                                provider.chef!.name,
                                 style: Theme.of(context).textTheme.labelMedium,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -281,12 +281,14 @@ class RecipeViewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                provider.myId == recipe.chefId
+                provider.myId == recipe.chefId 
                     ? Container()
                     : Expanded(
                         flex: 2,
                         child: GestureDetector(
-                            onTap: () {},
+                            onTap:()async{ 
+                              await provider.followThisChef(recipe.chefId);
+                              },
                             child: Container(
                                 width: MediaQuery.of(context).size.width * 0.1,
                                 alignment: Alignment.center,
@@ -295,9 +297,9 @@ class RecipeViewScreen extends StatelessWidget {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0)),
                                     color: Constants.BUTTON_COLOR),
-                                child: const Text(
-                                   'Follow',
-                                  style: TextStyle(color: Colors.white),
+                                child:  Text(
+                                    provider.chef!.followers.contains(provider.myId)?'Followed': 'Follow',
+                                  style: const TextStyle(color: Colors.white),
                                   overflow: TextOverflow.fade,
                                 ))))
               ],
