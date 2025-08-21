@@ -4,6 +4,7 @@ import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Provider/login_provider.dart';
 import 'package:recipe_app/Provider/profile_setup_provider.dart';
 import 'package:recipe_app/Provider/sign_up_provider.dart';
+import 'package:recipe_app/Service/PushNotificationService.dart';
 import 'package:recipe_app/View/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -13,6 +14,8 @@ void main()async {
 await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
+PushNotificationService _notificationService = PushNotificationService();
+await _notificationService.initialise();
   runApp(MyApp());
 }
 

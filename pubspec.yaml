@@ -46,6 +46,8 @@ dependencies:
   async: ^2.13.0
   shared_preferences: ^2.5.3
   shimmer_animation: ^2.2.2
+  firebase_messaging: ^15.2.10
+  overlay_support: ^2.1.0
 
 dev_dependencies:
   flutter_test:
