@@ -17,6 +17,7 @@ class RecipeViewProvider extends ChangeNotifier {
   User? me;
   String myId = '';
   List<String> mySavedRecipes = [];
+  double rating = 0.0;
 
   RecipeViewProvider() {
     scrollController.addListener(() {
@@ -76,6 +77,12 @@ class RecipeViewProvider extends ChangeNotifier {
   changePage(val) {
     selectedPage = val;
     notifyListeners();
+  }
+
+  updateRating(double r)
+  {
+    rating = r;
+    notifyListeners();    
   }
 
   toggleLoader() {

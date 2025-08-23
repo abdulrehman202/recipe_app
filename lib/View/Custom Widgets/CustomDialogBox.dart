@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-_dialogBox(BuildContext context, AlertDialog dialog) {
+dialogBox(BuildContext context, AlertDialog dialog) {
   return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -8,8 +7,11 @@ _dialogBox(BuildContext context, AlertDialog dialog) {
       });
 }
 
-passwordResetDialogBox(BuildContext context, String msg,) {
-  return _dialogBox(
+passwordResetDialogBox(
+  BuildContext context,
+  String msg,
+) {
+  return dialogBox(
       context,
       AlertDialog(
         content: Text(
@@ -17,11 +19,9 @@ passwordResetDialogBox(BuildContext context, String msg,) {
         ),
         actions: [
           FilledButton(
-              onPressed: (){
-                
+              onPressed: () {
                 Navigator.pop(context);
-                
-                },
+              },
               child: const Center(child: Text('Reset Password')))
         ],
       ));

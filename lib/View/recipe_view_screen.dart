@@ -3,10 +3,13 @@ import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomDialogBox.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
@@ -140,7 +143,7 @@ class RecipeViewScreen extends StatelessWidget {
         break;
 
       case 'Rate Recipe':
-        _rateRecipe();
+        _rateRecipe(provider);
         break;
 
       case 'Review':
@@ -159,7 +162,72 @@ class RecipeViewScreen extends StatelessWidget {
 
   void _share() {}
 
-  void _rateRecipe() {}
+  void _rateRecipe(RecipeViewProvider provider) {
+    provider.rating = 0.0;
+    List<String> ratingComments = [
+      'Poor',
+      'Below Average',
+      'Average',
+      'Good',
+      'Execellent',
+    ];
+
+    showDialog(
+      context: _scaffoldKey.currentState!.context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text(
+                'Rate Recipe',
+                style: Theme.of(_scaffoldKey.currentState!.context)
+                    .textTheme
+                    .displaySmall!
+                    .copyWith(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  StarRating(
+                    size: 40.0,
+                    rating: provider.rating,
+                    color: Constants.YELLOW_LABEL_COLOR,
+                    borderColor: Colors.grey,
+                    starCount: 5,
+                    onRatingChanged: (rating) => setState((){
+                      
+                        provider.updateRating(rating);
+                    }),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  provider.rating == 0
+                      ? Container()
+                      : Text(
+                          ratingComments[provider.rating.toInt() - 1],
+                          style: Theme.of(_scaffoldKey.currentState!.context)
+                              .textTheme
+                              .labelMedium,
+                        ),
+                ],
+              ),
+              actions: [
+                FilledButton(
+                    onPressed: () {
+                      Navigator.pop(_scaffoldKey.currentState!.context);
+                    },
+                    child: Center(child: provider.loading?CustomProgressIndicator():const Text('Submit')))
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
 
   void _review() {
     Navigator.push(
@@ -280,14 +348,14 @@ class RecipeViewScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                provider.myId == recipe.chefId 
+                provider.myId == recipe.chefId
                     ? Container()
                     : Expanded(
                         flex: 3,
                         child: GestureDetector(
-                            onTap:()async{ 
+                            onTap: () async {
                               await provider.followThisChef(recipe.chefId);
-                              },
+                            },
                             child: Container(
                                 // width: MediaQuery.of(context).size.width * 0.1,
                                 alignment: Alignment.center,
@@ -296,8 +364,11 @@ class RecipeViewScreen extends StatelessWidget {
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0)),
                                     color: Constants.BUTTON_COLOR),
-                                child:  Text(
-                                    provider.chef!.followers.contains(provider.myId)?'Followed': 'Follow',
+                                child: Text(
+                                  provider.chef!.followers
+                                          .contains(provider.myId)
+                                      ? 'Followed'
+                                      : 'Follow',
                                   style: const TextStyle(color: Colors.white),
                                   overflow: TextOverflow.fade,
                                 ))))
