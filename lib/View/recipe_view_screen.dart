@@ -10,12 +10,15 @@ import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
+import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
 import 'package:recipe_app/View/review_screen.dart';
+import 'package:shake_widget_flutter/shake_widget_flutter.dart';
 
 class RecipeViewScreen extends StatelessWidget {
+  final GlobalKey<ShakeWidgetState> keyShake = GlobalKey<ShakeWidgetState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late AsyncMemoizer _memoizer;
   Recipe recipe;
@@ -135,7 +138,7 @@ class RecipeViewScreen extends StatelessWidget {
     );
   }
 
-  _doSomething(String value, RecipeViewProvider provider) { 
+  _doSomething(String value, RecipeViewProvider provider) {
     switch (value) {
       case 'Share':
         _share();
@@ -177,51 +180,69 @@ class RecipeViewScreen extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              
-              title:recipe.usersWhoRated.contains(provider.myId)?Container(): Text(
-                'Rate Recipe',
-                style: Theme.of(_scaffoldKey.currentState!.context)
-                    .textTheme
-                    .displaySmall!
-                    .copyWith(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-              ),
-              content: recipe.usersWhoRated.contains(provider.myId)?const Text('You have already rated this recipe'): Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  StarRating(
-                    size: 40.0,
-                    rating: provider.rating,
-                    color: Constants.YELLOW_LABEL_COLOR,
-                    borderColor: Colors.grey,
-                    starCount: 5,
-                    onRatingChanged: (rating) => setState((){
-                      
-                        provider.updateRating(rating);
-                    }),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  provider.rating == 0
-                      ? Container()
-                      : Text(
-                          ratingComments[provider.rating.toInt() - 1],
-                          style: Theme.of(_scaffoldKey.currentState!.context)
-                              .textTheme
-                              .labelMedium,
+              title: recipe.usersWhoRated.contains(provider.myId)
+                  ? Container()
+                  : Text(
+                      'Rate this Recipe',
+                      style: Theme.of(_scaffoldKey.currentState!.context)
+                          .textTheme
+                          .displaySmall!
+                          .copyWith(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                    ),
+              content: recipe.usersWhoRated.contains(provider.myId)
+                  ? const Text('You have already rated this recipe')
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ShakeAnimatedWidget(
+                          key: keyShake,
+                          shakeCount: 3,
+                          shakeOffset: 10,
+                          shakeDuration: const Duration(milliseconds: 500),
+                          child: StarRating(
+                            size: 40.0,
+                            rating: provider.rating,
+                            color: Constants.YELLOW_LABEL_COLOR,
+                            borderColor: Colors.grey,
+                            starCount: 5,
+                            onRatingChanged: (rating) => setState(() {
+                              provider.updateRating(rating);
+                            }),
+                          ),
                         ),
-                ],
-              ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        provider.rating == 0
+                            ? Container()
+                            : Text(
+                                ratingComments[provider.rating.toInt() - 1],
+                                style:
+                                    Theme.of(_scaffoldKey.currentState!.context)
+                                        .textTheme
+                                        .labelMedium,
+                              ),
+                      ],
+                    ),
               actions: [
                 FilledButton(
                     onPressed: () async {
-                      await provider.rateRecipe(recipe);
-                      Navigator.pop(_scaffoldKey.currentState!.context);
+                      if (provider.rating > 0) {
+                        await provider.rateRecipe(recipe);
+                        Navigator.pop(_scaffoldKey.currentState!.context);
+                      } else {
+                        keyShake.currentState?.shake();
+                      }
                     },
-                    child: Center(child: provider.loading?CustomProgressIndicator():Text(recipe.usersWhoRated.contains(provider.myId)?'Return': 'Submit')))
+                    child: Center(
+                        child: provider.loading
+                            ? CustomProgressIndicator()
+                            : Text(recipe.usersWhoRated.contains(provider.myId)
+                                ? 'Return'
+                                : 'Submit')))
               ],
             );
           },

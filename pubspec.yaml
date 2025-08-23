@@ -49,6 +49,7 @@ dependencies:
   firebase_messaging: ^15.2.10
   overlay_support: ^2.1.0
   flutter_rating: ^2.0.2
+  shake_widget_flutter: ^0.0.2
 
 dev_dependencies:
   flutter_test:

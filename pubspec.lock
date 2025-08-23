@@ -640,6 +640,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  shake_widget_flutter:
+    dependency: "direct main"
+    description:
+      name: shake_widget_flutter
+      sha256: "5298c8c308772d6b1740548ef2dda2cf13186edc0f8b43c6b63ccb7e1fc3630f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   shared_preferences:
     dependency: "direct main"
     description:
