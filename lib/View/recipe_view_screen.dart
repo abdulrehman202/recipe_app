@@ -10,7 +10,6 @@ import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -166,12 +165,13 @@ class RecipeViewScreen extends StatelessWidget {
 
   void _rateRecipe(RecipeViewProvider provider) {
     provider.rating = 0.0;
+    bool alreadyRated = recipe.usersWhoRated.contains(provider.myId);
     List<String> ratingComments = [
       'Poor',
       'Below Average',
       'Average',
       'Good',
-      'Execellent',
+      'Excellent',
     ];
 
     showDialog(
@@ -180,7 +180,7 @@ class RecipeViewScreen extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: recipe.usersWhoRated.contains(provider.myId)
+              title: alreadyRated
                   ? Container()
                   : Text(
                       'Rate this Recipe',
@@ -192,7 +192,7 @@ class RecipeViewScreen extends StatelessWidget {
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                     ),
-              content: recipe.usersWhoRated.contains(provider.myId)
+              content: alreadyRated
                   ? const Text('You have already rated this recipe')
                   : Column(
                       mainAxisSize: MainAxisSize.min,
@@ -230,19 +230,21 @@ class RecipeViewScreen extends StatelessWidget {
               actions: [
                 FilledButton(
                     onPressed: () async {
-                      if (provider.rating > 0) {
-                        await provider.rateRecipe(recipe);
+                      if (alreadyRated) {
                         Navigator.pop(_scaffoldKey.currentState!.context);
                       } else {
-                        keyShake.currentState?.shake();
+                        if (provider.rating > 0) {
+                          await provider.rateRecipe(recipe);
+                          Navigator.pop(_scaffoldKey.currentState!.context);
+                        } else {
+                          keyShake.currentState?.shake();
+                        }
                       }
                     },
                     child: Center(
                         child: provider.loading
                             ? CustomProgressIndicator()
-                            : Text(recipe.usersWhoRated.contains(provider.myId)
-                                ? 'Return'
-                                : 'Submit')))
+                            : Text(alreadyRated ? 'Return' : 'Submit')))
               ],
             );
           },

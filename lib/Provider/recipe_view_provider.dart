@@ -53,13 +53,11 @@ class RecipeViewProvider extends ChangeNotifier {
   }
 
   rateRecipe(Recipe recipe) async {
-    if (!recipe.usersWhoRated.contains(myId)) {
       toggleLoader();
       recipe.totalRating += rating.toInt();
       recipe.usersWhoRated.add(myId);
       await recipeRepository.rateRecipe(recipe);
       toggleLoader();
-    }
   }
 
   followThisChef(String chefId) async {

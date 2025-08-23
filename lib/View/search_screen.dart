@@ -80,7 +80,6 @@ class _SearchScreenState extends State<SearchScreen> {
     return 
     Flexible(
       child: GridView.builder(
-        
         shrinkWrap: true,
         itemCount: 8,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
