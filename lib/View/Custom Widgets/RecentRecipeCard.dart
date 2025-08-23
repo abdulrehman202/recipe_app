@@ -35,7 +35,7 @@ class RecentRecipeCard extends StatelessWidget {
                     ),
                     Wrap(
                       children: [
-                        for (int i = 0; i < Constants.getNetRating(recipe.totalRating ??0 ,recipe.totalUsersWhoRated ??0).toInt() ; i++)  Icon(Icons.star, color: Constants.YELLOW_LABEL_COLOR,),
+                        for (int i = 0; i < Constants.getNetRating(recipe.totalRating ,recipe.usersWhoRated.length).toInt() ; i++)  Icon(Icons.star, color: Constants.YELLOW_LABEL_COLOR,),
                       ],
                     ),
                     Container(

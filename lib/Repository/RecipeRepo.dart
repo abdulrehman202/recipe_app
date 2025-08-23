@@ -18,6 +18,15 @@ class RecipeRepository {
     }
   }
 
+  Future<Either<String, String>> rateRecipe(Recipe recipe) async {
+    try {
+      await db.collection(collectionName).doc(recipe.id).update(recipe.toJson());
+      return const Right('Recipe rated successfully');
+    } on FirebaseException catch (_) {
+      return Left(_.message ?? 'Error!');
+    }
+  }
+
   Future<Either<String, List<Recipe>>> getRecipes() async {
     try {
       List<Recipe> recipesList = [];

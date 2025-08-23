@@ -1,6 +1,8 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Repository/RecipeRepo.dart';
 import 'package:recipe_app/Repository/UserProfile.dart';
 
 import '../Model/User.dart';
@@ -9,6 +11,7 @@ class RecipeViewProvider extends ChangeNotifier {
   bool loading = false;
   bool success = false;
   UserProfile userProfile = UserProfile();
+  RecipeRepository recipeRepository = RecipeRepository();
   String msg = '';
   int selectedPage = 0;
   ScrollController scrollController = ScrollController();
@@ -49,6 +52,16 @@ class RecipeViewProvider extends ChangeNotifier {
     } catch (e) {}
   }
 
+  rateRecipe(Recipe recipe) async {
+    if (!recipe.usersWhoRated.contains(myId)) {
+      toggleLoader();
+      recipe.totalRating += rating.toInt();
+      recipe.usersWhoRated.add(myId);
+      await recipeRepository.rateRecipe(recipe);
+      toggleLoader();
+    }
+  }
+
   followThisChef(String chefId) async {
     try {
       if (chef!.followers.contains(myId)) {
@@ -79,10 +92,9 @@ class RecipeViewProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  updateRating(double r)
-  {
+  updateRating(double r) {
     rating = r;
-    notifyListeners();    
+    notifyListeners();
   }
 
   toggleLoader() {

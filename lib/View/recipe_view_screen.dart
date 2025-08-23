@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomDialogBox.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
 import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
@@ -136,7 +135,7 @@ class RecipeViewScreen extends StatelessWidget {
     );
   }
 
-  _doSomething(String value, RecipeViewProvider provider) {
+  _doSomething(String value, RecipeViewProvider provider) { 
     switch (value) {
       case 'Share':
         _share();
@@ -178,7 +177,8 @@ class RecipeViewScreen extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text(
+              
+              title:recipe.usersWhoRated.contains(provider.myId)?Container(): Text(
                 'Rate Recipe',
                 style: Theme.of(_scaffoldKey.currentState!.context)
                     .textTheme
@@ -188,7 +188,7 @@ class RecipeViewScreen extends StatelessWidget {
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
               ),
-              content: Column(
+              content: recipe.usersWhoRated.contains(provider.myId)?const Text('You have already rated this recipe'): Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   StarRating(
@@ -217,10 +217,11 @@ class RecipeViewScreen extends StatelessWidget {
               ),
               actions: [
                 FilledButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await provider.rateRecipe(recipe);
                       Navigator.pop(_scaffoldKey.currentState!.context);
                     },
-                    child: Center(child: provider.loading?CustomProgressIndicator():const Text('Submit')))
+                    child: Center(child: provider.loading?CustomProgressIndicator():Text(recipe.usersWhoRated.contains(provider.myId)?'Return': 'Submit')))
               ],
             );
           },
@@ -268,7 +269,7 @@ class RecipeViewScreen extends StatelessWidget {
             Expanded(
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text('${recipe.totalUsersWhoRated ?? 0} rating(s)')))
+                    child: Text('${recipe.usersWhoRated.length} rating(s)')))
           ],
         ),
         Row(

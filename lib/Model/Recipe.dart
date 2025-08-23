@@ -14,8 +14,10 @@ class Recipe {
   List<Ingredient> ingredients;
   List<Procedure> procedure;
   String chefId;
-  int? totalRating;
-  int? totalUsersWhoRated;
+  @JsonKey(defaultValue: 0)
+  int totalRating;
+  @JsonKey(defaultValue: [])
+  List<String> usersWhoRated;
 
   Recipe(
     this.id,
@@ -26,7 +28,7 @@ class Recipe {
   this.procedure,
   this.chefId,
   this.totalRating,
-  this.totalUsersWhoRated,
+  this.usersWhoRated,
   );
   
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);

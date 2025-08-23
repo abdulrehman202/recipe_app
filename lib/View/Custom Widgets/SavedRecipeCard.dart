@@ -16,7 +16,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
 
   @override
   Widget build(BuildContext context) {
-    netRating = Constants.getNetRating(widget.recipe.totalRating ??0 , widget.recipe.totalUsersWhoRated ??0);
+    netRating = Constants.getNetRating(widget.recipe.totalRating , widget.recipe.usersWhoRated.length);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10.0),

@@ -58,7 +58,7 @@ class AddRecipeScreen extends StatelessWidget {
                                     recipe.catIndex,
                                     recipe.ingredientsList,
                                     recipe.procedureList,
-                                    uid,0,0);
+                                    uid,0,[]);
                               Either<String, String> res =  await recipe.addRecipe(recipeObj);
                               res.fold(ifLeft: (s){
                                 mySnackBar(context, s);

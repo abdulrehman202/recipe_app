@@ -10,7 +10,7 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    netRating = Constants.getNetRating(recipe.totalRating ??0 , recipe.totalUsersWhoRated ??0);
+    netRating = Constants.getNetRating(recipe.totalRating , recipe.usersWhoRated.length);
     return Container(
       margin: const EdgeInsets.only(right: 20),
       width: 150,
