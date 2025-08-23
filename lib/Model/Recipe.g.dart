@@ -20,7 +20,7 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
       json['chefId'] as String,
       (json['totalRating'] as num?)?.toInt() ?? 0,
       (json['usersWhoRated'] as List<dynamic>?)
-              ?.map((e) => e as String)
+              ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
     );
@@ -34,5 +34,5 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'procedure': instance.procedure.map((e) => e.toJson()).toList(),
       'chefId': instance.chefId,
       'totalRating': instance.totalRating,
-      'usersWhoRated': instance.usersWhoRated,
+      'usersWhoRated': instance.usersWhoRated.map((e) => e.toJson()).toList(),
     };

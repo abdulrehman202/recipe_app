@@ -1,6 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
+import 'package:recipe_app/Model/Rating.dart';
 
 part 'Recipe.g.dart';
 
@@ -17,7 +18,7 @@ class Recipe {
   @JsonKey(defaultValue: 0)
   int totalRating;
   @JsonKey(defaultValue: [])
-  List<String> usersWhoRated;
+  List<Rating> usersWhoRated;
 
   Recipe(
     this.id,

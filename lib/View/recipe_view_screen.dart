@@ -165,7 +165,7 @@ class RecipeViewScreen extends StatelessWidget {
 
   void _rateRecipe(RecipeViewProvider provider) {
     provider.rating = 0.0;
-    bool alreadyRated = recipe.usersWhoRated.contains(provider.myId);
+    bool alreadyRated = recipe.usersWhoRated.where((r)=>r.uid.contains(provider.myId)).isNotEmpty;
     List<String> ratingComments = [
       'Poor',
       'Below Average',
