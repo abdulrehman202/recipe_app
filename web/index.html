@@ -36,16 +36,21 @@
 </head>
 
 <body>
+  
   <script src="flutter_bootstrap.js" async></script>
-  <script type="application/javascript">
+  <script  type="module">
   if ("serviceWorker" in navigator) {
+    console.log('Service Workers are supported in this browser.');
     window.addEventListener("load", function () {
       // navigator.serviceWorker.register("/flutter_service_worker.js");
       // navigator.serviceWorkerContainer
       // .register('firebase-messaging-sw.js')
       // .then(function(reg){});
-      navigator.serviceWorker.register("/firebase-messaging-sw.js",'/firebase-cloud-messaging-push-scope');
+      navigator.serviceWorker.register("./firebase-messaging-sw.js");
     });
+  }else{
+    
+    console.log('Service Workers are not supported in this browser.');
   }
 </script>
 </body>
