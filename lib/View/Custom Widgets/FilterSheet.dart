@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 
 class FilterSheet extends StatefulWidget {
-  const FilterSheet({super.key});
+  int selectedRating = 0;
+  List<int> selectedCategory;
+  FilterSheet({super.key, required this.selectedRating, required this.selectedCategory});
 
   @override
   State<FilterSheet> createState() => _FilterSheetState();
@@ -12,7 +14,6 @@ class FilterSheet extends StatefulWidget {
 class _FilterSheetState extends State<FilterSheet> {
   int _selectedTime = 0,_selectedRating = 0;
   List<int> _selectedCategory = [];
-  
   var chipStyle = C2ChipStyle.outlined(
         color: Constants.BUTTON_COLOR,
         selectedStyle: C2ChipStyle.filled(
@@ -23,17 +24,15 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
         ),
       );
-
-  final List<String> _categories = [
-    'All',
-    'Indian',
-    'Italian',
-    'Asian',
-    'Chinese',
-    'Turkish',
-    'Continental',
-    'Fast Food',
-  ];
+      
+      @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedRating = widget.selectedRating;
+    _selectedCategory = widget.selectedCategory;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -43,7 +42,7 @@ class _FilterSheetState extends State<FilterSheet> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+        children: [ 
           Text('Time',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
           _timeChoices(),
           Text('Rate',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
@@ -54,7 +53,12 @@ class _FilterSheetState extends State<FilterSheet> {
             width: double.infinity,
             margin: const EdgeInsets.only(bottom: 20.0, top: 20.0),
             alignment: Alignment.center,
-            child: FilledButton(onPressed: (){}, child: const Text('Filter'))),
+            child: FilledButton(onPressed: (){
+              Navigator.pop(context,[
+                _selectedRating,
+                _selectedCategory
+              ]);
+            }, child: const Text('Filter'))),
     
         ],
       ),
@@ -103,7 +107,7 @@ class _FilterSheetState extends State<FilterSheet> {
       onChanged: (val) => setState(() => _selectedCategory = val),
       choiceItems: C2Choice.listFrom<int, String>(
         
-        source: _categories,
+        source: Constants.listCategories,
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,
