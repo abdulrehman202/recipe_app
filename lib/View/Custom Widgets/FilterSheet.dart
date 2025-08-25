@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 
 class FilterSheet extends StatefulWidget {
-  int selectedRating = 0;
+  int? selectedRating = 0;
   List<int> selectedCategory;
   FilterSheet({super.key, required this.selectedRating, required this.selectedCategory});
 
@@ -12,7 +12,7 @@ class FilterSheet extends StatefulWidget {
 }
 
 class _FilterSheetState extends State<FilterSheet> {
-  int _selectedTime = 0,_selectedRating = 0;
+  int? _selectedTime = 0,_selectedRating = 0;
   List<int> _selectedCategory = [];
   var chipStyle = C2ChipStyle.outlined(
         color: Constants.BUTTON_COLOR,
