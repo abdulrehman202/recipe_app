@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     filterResultObl.selectedCategories = result[1];
           
                     List<Recipe> temp = widget.allRecipesList
-              .where((r) => filterResultObl.selectedCategories.contains(r.categoryId) && filterResultObl.selectedRating +1 == Constants.getNetRating( r.totalRating , r.usersWhoRated.length ).round() )
+              .where((r) => filterResultObl.selectedCategories.contains(r.categoryId) && Constants.getNetRating( r.totalRating , r.usersWhoRated.length )>= filterResultObl.selectedRating +1)
               .toList();
           
               setState(() {

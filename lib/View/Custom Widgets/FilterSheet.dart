@@ -45,7 +45,7 @@ class _FilterSheetState extends State<FilterSheet> {
         children: [ 
           Text('Time',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
           _timeChoices(),
-          Text('Rate',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
+          Text('Rating',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
           _ratingChoices(),
           Text('Category',style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black)),
           _categoryChoices(),
@@ -89,7 +89,7 @@ class _FilterSheetState extends State<FilterSheet> {
       onChanged: (val) => setState(() => _selectedRating = val),
       choiceItems: C2Choice.listFrom<int, String>(
         
-        source: ['5 \u2605', '4 \u2605','3 \u2605','2 \u2605','1 \u2605'],
+        source: ['≥ 1 \u2605','≥ 2 \u2605','≥ 3 \u2605', '≥ 4 \u2605','5 \u2605'],
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,
