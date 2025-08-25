@@ -75,40 +75,39 @@ class _SearchScreenState extends State<SearchScreen> {
               });
             },
           )),
-          GestureDetector(
-              child: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: Constants.BUTTON_COLOR,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: GestureDetector(
-                    onTap: ()async {
-                      
-                      var result = await showModalBottomSheet(
-                        context: _scaffoldKey.currentState!.context,
-                        builder: (context) => FilterSheet(selectedRating:  filterResultObl.selectedRating,selectedCategory: filterResultObl.selectedCategories),
-                        enableDrag: true,
-                        isScrollControlled: true);
-                        
-                        filterResultObl.selectedRating = result[0];
-                        filterResultObl.selectedCategories = result[1];
-
-                        List<Recipe> temp = widget.allRecipesList
-                  .where((r) => filterResultObl.selectedCategories.contains(r.categoryId) && filterResultObl.selectedRating +1 == Constants.getNetRating( r.totalRating , r.usersWhoRated.length ).round() )
-                  .toList();
-
-                  setState(() {
-                    searchResultList = temp;
-                  });
-                        },
-                    child: ImageIcon(
-                      AssetImage(
-                        Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
-                      ),
-                      color: Colors.white,
-                    ),
-                  )))
+          Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                  color: Constants.BUTTON_COLOR,
+                  borderRadius: BorderRadius.circular(10)),
+              child: GestureDetector(
+                onTap: ()async {
+                  
+                  var result = await showModalBottomSheet(
+                    context: _scaffoldKey.currentState!.context,
+                    builder: (context) => FilterSheet(selectedRating:  filterResultObl.selectedRating,selectedCategory: filterResultObl.selectedCategories),
+                    enableDrag: true,
+                    isScrollControlled: true);
+                    
+                    filterResultObl.selectedRating = result[0];
+                    filterResultObl.selectedCategories = result[1];
+          
+                    List<Recipe> temp = widget.allRecipesList
+              .where((r) => filterResultObl.selectedCategories.contains(r.categoryId) && filterResultObl.selectedRating +1 == Constants.getNetRating( r.totalRating , r.usersWhoRated.length ).round() )
+              .toList();
+          
+              setState(() {
+                searchResultList = temp;
+              });
+                    },
+                child: ImageIcon(
+                  AssetImage(
+                    Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
+                  ),
+                  color: Colors.white,
+                ),
+              ))
         ],
       ),
     );
