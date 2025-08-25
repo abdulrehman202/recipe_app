@@ -54,10 +54,7 @@ class RecipeViewProvider extends ChangeNotifier {
   }
 
   rateRecipe(Recipe recipe) async {
-      toggleLoader(); 
-      recipe.totalRating += rating.toInt();
-      Rating ratingObj = Rating(myId, rating.toInt());
-      recipe.usersWhoRated.add(ratingObj);
+      toggleLoader();
       await recipeRepository.rateRecipe(recipe);
       toggleLoader();
   }

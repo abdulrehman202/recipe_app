@@ -1,50 +1,49 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class PushNotificationService {
-  final FirebaseMessaging _fcm = FirebaseMessaging.instance;
+Future<void> _firebaseBackgroundMessagingHandler(RemoteMessage message) async
+{
+  // await NotificationService.
+}
 
-  PushNotificationService();
+class NotificationService {
+
+  NotificationService._();
+
+  static final NotificationService instance = NotificationService._();
+  
+  final FirebaseMessaging _messaging = FirebaseMessaging.instance;
+  final FlutterLocalNotificationsPlugin _localNotifications = FlutterLocalNotificationsPlugin();
+  bool _isFlutterLocalNotificationsInitialized = false;
 
   Future initialise() async {
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessagingHandler);
+
+    await _requestPermision();
     
-    _fcm.requestPermission();
+    await _setupMessageHandlers();
 
-// For apple platforms, ensure the APNS token is available before making any FCM plugin API calls
-    final apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-    if (apnsToken != null) {
-      // APNS token is available, make FCM plugin API requests...
+    final String? token = await _messaging.getToken();
+
+    await subscribeToTopic('sample'); 
+  }
+  
+  Future<void> _requestPermision() async {}
+  
+  Future<void> _setupMessageHandlers() async 
+  {
+    _localNotifications.initialize(InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher')
+    ),
+    onDidReceiveNotificationResponse: (details)
+    {
+      
     }
-
-    String m = ''; 
-    try {
-      String? token = await _fcm.getToken( vapidKey: 'BKQRKvKur8F-o5fcmfBM_4brez4Syt4n1ODjeGeXpNqlnZtoqe54OrslMw7oQAAMdXu2GaBT75qZ5PBymTfWJb4' );
-
-      m = 'FirebaseMessaging token: $token';
-    } catch (e) {
-      m = e.toString();
-    }
-
-    print('Output: $m');
-
-    FirebaseMessaging.instance.onTokenRefresh
-    .listen((fcmToken) {
-      // TODO: If necessary send token to application server.
-
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
-    })
-    .onError((err) {
-      // Error getting token.
-    });
-
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Message data: ${message.data}');
-      if (message.notification != null) {
-        print('Message also contained a notification again: ${message.notification}');
-      }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Message clicked! ${message.messageId}');
-    });
+    );    
+  }
+  
+  Future<void> subscribeToTopic(String s) async {
+    await FirebaseMessaging.instance.subscribeToTopic(s);
   }
 }

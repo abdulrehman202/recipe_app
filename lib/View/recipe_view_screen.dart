@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Rating.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
@@ -164,8 +165,9 @@ class RecipeViewScreen extends StatelessWidget {
   void _share() {}
 
   void _rateRecipe(RecipeViewProvider provider) {
-    provider.rating = 0.0;
-    bool alreadyRated = recipe.usersWhoRated.where((r)=>r.uid.contains(provider.myId)).isNotEmpty;
+    late Rating previousRating;
+    late int indexOfPreviousRating = 0;
+    bool alreadyRated = recipe.usersWhoRated.where((r)=>r.uid.contains(provider.myId)).isNotEmpty;    
     List<String> ratingComments = [
       'Poor',
       'Below Average',
@@ -173,6 +175,16 @@ class RecipeViewScreen extends StatelessWidget {
       'Good',
       'Excellent',
     ];
+
+    if(alreadyRated)
+    {
+      indexOfPreviousRating = recipe.usersWhoRated.indexWhere((r)=>r.uid.contains(provider.myId));
+      previousRating = recipe.usersWhoRated[indexOfPreviousRating];
+    }
+    else{
+      previousRating = Rating(provider.myId, 0);
+    }
+    provider.rating = previousRating.rating as double;
 
     showDialog(
       context: _scaffoldKey.currentState!.context,
@@ -192,9 +204,7 @@ class RecipeViewScreen extends StatelessWidget {
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                     ),
-              content: alreadyRated
-                  ? const Text('You have already rated this recipe')
-                  : Column(
+              content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ShakeAnimatedWidget(
@@ -230,21 +240,31 @@ class RecipeViewScreen extends StatelessWidget {
               actions: [
                 FilledButton(
                     onPressed: () async {
-                      if (alreadyRated) {
-                        Navigator.pop(_scaffoldKey.currentState!.context);
-                      } else {
-                        if (provider.rating > 0) {
-                          await provider.rateRecipe(recipe);
-                          Navigator.pop(_scaffoldKey.currentState!.context);
-                        } else {
-                          keyShake.currentState?.shake();
-                        }
+                      if(alreadyRated)
+                      {
+                        recipe.totalRating -=recipe.usersWhoRated[indexOfPreviousRating].rating;
+                        recipe.usersWhoRated[indexOfPreviousRating].rating = provider.rating as int;
+                        recipe.totalRating += provider.rating as int;
                       }
+                      else{
+                        recipe.usersWhoRated.add(previousRating);
+                      }
+                        await provider.rateRecipe(recipe);Navigator.pop(_scaffoldKey.currentState!.context);
+                      // if (alreadyRated) {
+                      //   Navigator.pop(_scaffoldKey.currentState!.context);
+                      // } else {
+                      //   if (provider.rating > 0) {
+                      //     await provider.rateRecipe(recipe);
+                      //     Navigator.pop(_scaffoldKey.currentState!.context);
+                      //   } else {
+                      //     keyShake.currentState?.shake();
+                      //   }
+                      // }
                     },
                     child: Center(
                         child: provider.loading
                             ? CustomProgressIndicator()
-                            : Text(alreadyRated ? 'Return' : 'Submit')))
+                            : Text('Submit')))
               ],
             );
           },
