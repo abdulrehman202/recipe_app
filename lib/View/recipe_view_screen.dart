@@ -167,7 +167,9 @@ class RecipeViewScreen extends StatelessWidget {
   void _rateRecipe(RecipeViewProvider provider) {
     late Rating previousRating;
     late int indexOfPreviousRating = 0;
-    bool alreadyRated = recipe.usersWhoRated.where((r)=>r.uid.contains(provider.myId)).isNotEmpty;    
+    bool alreadyRated = recipe.usersWhoRated
+        .where((r) => r.uid.contains(provider.myId))
+        .isNotEmpty;
     List<String> ratingComments = [
       'Poor',
       'Below Average',
@@ -176,12 +178,11 @@ class RecipeViewScreen extends StatelessWidget {
       'Excellent',
     ];
 
-    if(alreadyRated)
-    {
-      indexOfPreviousRating = recipe.usersWhoRated.indexWhere((r)=>r.uid.contains(provider.myId));
+    if (alreadyRated) {
+      indexOfPreviousRating =
+          recipe.usersWhoRated.indexWhere((r) => r.uid.contains(provider.myId));
       previousRating = recipe.usersWhoRated[indexOfPreviousRating];
-    }
-    else{
+    } else {
       previousRating = Rating(provider.myId, 0);
     }
     provider.rating = previousRating.rating as double;
@@ -205,61 +206,51 @@ class RecipeViewScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold),
                     ),
               content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ShakeAnimatedWidget(
-                          key: keyShake,
-                          shakeCount: 3,
-                          shakeOffset: 10,
-                          shakeDuration: const Duration(milliseconds: 500),
-                          child: StarRating(
-                            size: 40.0,
-                            rating: provider.rating,
-                            color: Constants.YELLOW_LABEL_COLOR,
-                            borderColor: Colors.grey,
-                            starCount: 5,
-                            onRatingChanged: (rating) => setState(() {
-                              provider.updateRating(rating);
-                            }),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        provider.rating == 0
-                            ? Container()
-                            : Text(
-                                ratingComments[provider.rating.toInt() - 1],
-                                style:
-                                    Theme.of(_scaffoldKey.currentState!.context)
-                                        .textTheme
-                                        .labelMedium,
-                              ),
-                      ],
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShakeAnimatedWidget(
+                    key: keyShake,
+                    shakeCount: 3,
+                    shakeOffset: 10,
+                    shakeDuration: const Duration(milliseconds: 500),
+                    child: StarRating(
+                      size: 40.0,
+                      rating: provider.rating,
+                      color: Constants.YELLOW_LABEL_COLOR,
+                      borderColor: Colors.grey,
+                      starCount: 5,
+                      onRatingChanged: (rating) => setState(() {
+                        provider.updateRating(rating);
+                      }),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  provider.rating == 0
+                      ? Container()
+                      : Text(
+                          ratingComments[provider.rating.toInt() - 1],
+                          style: Theme.of(_scaffoldKey.currentState!.context)
+                              .textTheme
+                              .labelMedium,
+                        ),
+                ],
+              ),
               actions: [
                 FilledButton(
                     onPressed: () async {
-                      if(alreadyRated)
-                      {
-                        recipe.totalRating -=recipe.usersWhoRated[indexOfPreviousRating].rating;
-                        recipe.usersWhoRated[indexOfPreviousRating].rating = provider.rating as int;
+                      if (alreadyRated) {
+                        recipe.totalRating -=
+                            recipe.usersWhoRated[indexOfPreviousRating].rating;
+                        recipe.usersWhoRated[indexOfPreviousRating].rating =
+                            provider.rating as int;
                         recipe.totalRating += provider.rating as int;
-                      }
-                      else{
+                      } else {
                         recipe.usersWhoRated.add(previousRating);
                       }
-                        await provider.rateRecipe(recipe);Navigator.pop(_scaffoldKey.currentState!.context);
-                      // if (alreadyRated) {
-                      //   Navigator.pop(_scaffoldKey.currentState!.context);
-                      // } else {
-                      //   if (provider.rating > 0) {
-                      //     await provider.rateRecipe(recipe);
-                      //     Navigator.pop(_scaffoldKey.currentState!.context);
-                      //   } else {
-                      //     keyShake.currentState?.shake();
-                      //   }
-                      // }
+                      await provider.rateRecipe(recipe);
+                      Navigator.pop(_scaffoldKey.currentState!.context);
                     },
                     child: Center(
                         child: provider.loading
