@@ -1,48 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FilterSheet.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchResultDishCard.dart';
+import 'package:recipe_app/View/recipe_view_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  List<Recipe> allRecipesList;
+  SearchScreen({super.key, required this.allRecipesList});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController txtController = TextEditingController();
+  List<Recipe> searchResultList = [];
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text('Search Recipe', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black, fontSize: 18) ,)),
+        title: Center(
+            child: Text(
+          'Search Recipe',
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall!
+              .copyWith(color: Colors.black, fontSize: 18),
+        )),
       ),
       body: _body(),
     );
   }
-  
-  Widget _body()
-  {
-    return Padding(padding: const EdgeInsets.all(8.0),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        searchRow(),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Text('Recent Search', style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.black, fontSize: 20) ,),
-            
-        ),
-        searchResults()
-      ],
-    ),
+
+  Widget _body() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [searchRow(), searchResults()],
+      ),
     );
   }
 
@@ -52,7 +53,18 @@ class _SearchScreenState extends State<SearchScreen> {
       height: 50,
       child: Row(
         children: [
-          Expanded(child: SearchField()),
+          Expanded(
+              child: SearchField(
+            controller: txtController,
+            callback: (s) {
+              List<Recipe> temp = widget.allRecipesList
+                  .where((r) => r.name.toLowerCase().contains(s.toString().toLowerCase()))
+                  .toList();
+              setState(() {
+                searchResultList = temp;
+              });
+            },
+          )),
           GestureDetector(
               child: Container(
                   width: 40,
@@ -61,7 +73,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Constants.BUTTON_COLOR,
                       borderRadius: BorderRadius.circular(10)),
                   child: GestureDetector(
-                    onTap: () => showModalBottomSheet(context: context, builder: (context)=>FilterSheet(), enableDrag: true, isScrollControlled: true),
+                    onTap: () => showModalBottomSheet(
+                        context: _scaffoldKey.currentState!.context,
+                        builder: (context) => FilterSheet(),
+                        enableDrag: true,
+                        isScrollControlled: true),
                     child: ImageIcon(
                       AssetImage(
                         Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
@@ -73,24 +89,24 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
-  
-  Widget searchResults() 
-  {
+
+  Widget searchResults() {
     double margin = 5.0;
-    return 
-    Flexible(
+    return Flexible(
       child: GridView.builder(
-        shrinkWrap: true,
-        itemCount: 8,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2),
-        
-        itemBuilder: (c, i)
-        {
-          return Container(
-            margin: i%2==0? EdgeInsets.only(bottom: margin, right: margin):EdgeInsets.only(bottom: margin, left: margin),
-            child: const SearchResultDishCard());
-        }),
+          shrinkWrap: true,
+          itemCount: searchResultList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2),
+          itemBuilder: (c, i) {
+            return Container(
+                margin: i % 2 == 0
+                    ? EdgeInsets.only(bottom: margin, right: margin)
+                    : EdgeInsets.only(bottom: margin, left: margin),
+                child: GestureDetector(
+                  onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (ctx)=>RecipeViewScreen(recipe: searchResultList[i])) ),
+                  child: SearchResultDishCard(recipe: searchResultList[i])));
+          }),
     );
   }
 }

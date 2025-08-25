@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Model/Recipe.dart';
 
 class SearchResultDishCard extends StatelessWidget {
-  const SearchResultDishCard({super.key});
+  Recipe recipe;
+  SearchResultDishCard({super.key, required this.recipe});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +48,7 @@ class SearchResultDishCard extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.45,
                     height: 100,
                     child: Text(
-                      'Traditional spare ribs baked' * 10,
+                      recipe.name,
                       style: Theme.of(context).textTheme.labelSmall!.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -56,7 +58,7 @@ class SearchResultDishCard extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Text(
-                    'By Chef John' * 10,
+                    'By Chef John',
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall!
@@ -75,13 +77,13 @@ class SearchResultDishCard extends StatelessWidget {
               decoration: BoxDecoration(
                   color: Constants.BITMOJI_COLOR,
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
-              child: const Row(
+              child:  Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.star,
                     color: Colors.yellow,
                   ),
-                  Text('4.0'),
+                  Text( Constants.getNetRating(recipe.totalRating,recipe.usersWhoRated.length).toString().padRight(2,'.0') ),
                 ],
               ),
             ),

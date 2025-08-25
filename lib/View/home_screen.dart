@@ -11,6 +11,7 @@ import 'package:recipe_app/View/Custom%20Widgets/RecentRecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/RecipeCard.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchFIeldButton.dart';
 import 'package:recipe_app/View/recipe_view_screen.dart';
+import 'package:recipe_app/View/search_screen.dart';
 
 class HomeSreen extends StatefulWidget {
   String uid;
@@ -122,7 +123,7 @@ class _HomeSreenState extends State<HomeSreen> {
               height: 50,
             ),
             titleRow(context, provider),
-            searchRow(),
+            searchRow(provider.listOfRecipes),
             categories(provider),
             provider.listOfRecipes.isEmpty
                 ? const NoRecipeWidget()
@@ -182,11 +183,13 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget searchRow() {
+  Widget searchRow(List<Recipe> list) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 50,
-      child: const SearchFieldButton(),
+      child: GestureDetector(
+      onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context)=> SearchScreen(allRecipesList: list),)),
+      child: const SearchFieldButton()),
     );
   }
 

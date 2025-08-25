@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 
 class SearchField extends StatelessWidget {
-  SearchField({super.key});
+  TextEditingController controller;
+  Function callback;
+  SearchField({super.key, required this.controller, required this.callback});
   
   
   @override
@@ -11,6 +13,8 @@ class SearchField extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(right: 20),
       child: TextField(
+        controller: controller,
+        onChanged: (value) => callback(value),
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           hintText: 'Search recipe',
