@@ -14,7 +14,7 @@ class UserProfileSetupProvider extends ChangeNotifier {
    toggleLoader();
    notifyListeners();
    
-   User user = User(name, bio,[],[],[],[]);
+   User user = User('0',name, bio,[],[],[],[]);
 
    Either<String, String> res = await userProfile.setupUser(uid, user);
    res.fold(ifLeft: (s){success=false;msg = s;}, ifRight: (s)=>success = true);

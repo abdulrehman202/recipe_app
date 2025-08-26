@@ -4,7 +4,8 @@ import 'package:recipe_app/Model/Recipe.dart';
 
 class SearchResultDishCard extends StatelessWidget {
   Recipe recipe;
-  SearchResultDishCard({super.key, required this.recipe});
+  String name;
+  SearchResultDishCard({super.key, required this.recipe, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +59,7 @@ class SearchResultDishCard extends StatelessWidget {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Text(
-                    'By Chef John',
+                    'By $name',
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall!

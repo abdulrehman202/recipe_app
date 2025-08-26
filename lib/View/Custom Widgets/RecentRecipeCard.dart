@@ -4,7 +4,8 @@ import 'package:recipe_app/Model/Recipe.dart';
 
 class RecentRecipeCard extends StatelessWidget {
   Recipe recipe;
-  RecentRecipeCard({super.key, required this.recipe});
+  String name;
+  RecentRecipeCard({super.key, required this.recipe, required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class RecentRecipeCard extends StatelessWidget {
                                     child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
                                   ),
                                 ),
-                                   Expanded(child: Text(' By William',overflow: TextOverflow.ellipsis, ))
+                                   Expanded(child: Text(' By $name',overflow: TextOverflow.ellipsis, ))
                               ],
                             ),
                           ),

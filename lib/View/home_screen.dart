@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/Provider/home_screen_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/NoRecipeWidget.dart';
@@ -123,7 +124,7 @@ class _HomeSreenState extends State<HomeSreen> {
               height: 50,
             ),
             titleRow(context, provider),
-            searchRow(provider.listOfRecipes),
+            searchRow(provider.listOfRecipes, provider.allChefsDetails),
             categories(provider),
             provider.listOfRecipes.isEmpty
                 ? const NoRecipeWidget()
@@ -183,12 +184,12 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget searchRow(List<Recipe> list) {
+  Widget searchRow(List<Recipe> list, List<User> usersList) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       height: 50,
       child: GestureDetector(
-      onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context)=> SearchScreen(allRecipesList: list),)),
+      onTap: () => Navigator.push(context, MaterialPageRoute( builder: (context)=> SearchScreen(allRecipesList: list, chefsList: usersList,),)),
       child: const SearchFieldButton()),
     );
   }
@@ -259,6 +260,9 @@ class _HomeSreenState extends State<HomeSreen> {
           itemCount: recipes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, i) {
+            
+            int chefIndex = provider.allChefsDetails.indexWhere((c)=>c.id == recipes[i].chefId);
+            String chefName = provider.allChefsDetails[chefIndex].name;
             return GestureDetector(
                 onTap: () async {
                   Recipe rr = recipes[i];
@@ -276,7 +280,7 @@ class _HomeSreenState extends State<HomeSreen> {
                     
                   });
                 },
-                child: RecentRecipeCard(recipe: recipes[i]));
+                child: RecentRecipeCard(recipe: recipes[i],name: chefName));
           }),
     );
   }

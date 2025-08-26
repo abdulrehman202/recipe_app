@@ -11,6 +11,7 @@ class HomeScreenProvider extends ChangeNotifier {
   RecipeRepository recipeRepository = RecipeRepository();
   List<Recipe> newRecipes = [];
   List<Recipe> viewedRecipes = [];
+  List<User> allChefsDetails = [];
   bool success = false;
   String msg = '';
   int selectedCAtegory = 0;
@@ -33,8 +34,12 @@ class HomeScreenProvider extends ChangeNotifier {
   Future<void> fetchRecipes(String myUid) async {
     Either<String, List<Recipe>> resRecipe =
         await recipeRepository.getAllRecipes();
-    Either<String, User> getMyDetails =
-        await userProfileRepository.fetchUser(myUid);
+
+    allChefsDetails = await userProfileRepository.getAllUsers();
+    
+    int myIndex = allChefsDetails.indexWhere((c)=>c.id == myUid);
+    me = allChefsDetails[myIndex];
+
 
     resRecipe.fold(ifLeft: (value) {
       success = false;
@@ -42,7 +47,6 @@ class HomeScreenProvider extends ChangeNotifier {
       throw value;
     }, ifRight: (list) {
       listOfRecipes.clear();
-      getMyDetails.fold(ifLeft: (ifLeft) {}, ifRight: (user) => me = user);
 
       listOfRecipes.addAll(list.where((r) => r.chefId != myUid));
       updateRecipeBasedOnCategory();

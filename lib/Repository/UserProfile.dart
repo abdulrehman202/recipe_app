@@ -10,7 +10,8 @@ class UserProfile {
 
   Future<Either<String, String>> setupUser(String uid, User user) async { 
     try {
-      await db.collection(collectionName).doc(uid).set(user.toJson());
+      user.id = uid;
+      await db.collection(collectionName).doc(uid).set(user.toJson()); 
       return Right('ok');
     } on FirebaseException catch (_) {
       return Left(_.message ?? 'Error!');
@@ -25,6 +26,25 @@ class UserProfile {
       return Right(user);
     } on FirebaseException catch (_) {
       return Left(_.message ?? 'Error!');
+    }
+  }
+
+  Future<List<User>> getAllUsers() async { 
+    try {
+      List<User> usersList = [];
+      QuerySnapshot<Map<String, dynamic>> res = await db
+          .collection(collectionName)
+          .get();
+
+      for(int i = 0;i<res.docs.length;i++)
+      {
+        User user =
+            User.fromJson(res.docs [i].data());
+        usersList.add(user);
+      }    
+      return usersList;
+    } on FirebaseException catch (_) {
+      return [];
     }
   }
   

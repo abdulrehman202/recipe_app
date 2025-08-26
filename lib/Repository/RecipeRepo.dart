@@ -40,7 +40,7 @@ class RecipeRepository {
       {
         Recipe recipe =
             Recipe.fromJson(res.docs [i].data());
-        recipesList.add(recipe);
+        recipesList.add(recipe); 
       }    
       return Right(recipesList);
     } on FirebaseException catch (_) {

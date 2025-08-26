@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
 import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FilterSheet.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SearchResultDishCard.dart';
@@ -15,7 +16,8 @@ class FilterParams {
 
 class SearchScreen extends StatefulWidget {
   List<Recipe> allRecipesList;
-  SearchScreen({super.key, required this.allRecipesList});
+  List<User> chefsList;
+  SearchScreen({super.key, required this.allRecipesList, required this.chefsList});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -136,6 +138,9 @@ class _SearchScreenState extends State<SearchScreen> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2),
           itemBuilder: (c, i) {
+            
+            int chefIndex = widget.chefsList.indexWhere((c)=>c.id == searchResultList[i].chefId);
+            String chefName = widget.chefsList[chefIndex].name;
             return Container(
                 margin: i % 2 == 0
                     ? EdgeInsets.only(bottom: margin, right: margin)
@@ -146,7 +151,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         MaterialPageRoute(
                             builder: (ctx) =>
                                 RecipeViewScreen(recipe: searchResultList[i]))),
-                    child: SearchResultDishCard(recipe: searchResultList[i])));
+                    child: SearchResultDishCard(recipe: searchResultList[i], name: chefName)));
           }),
     );
   }
