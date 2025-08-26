@@ -78,7 +78,7 @@ class RecentRecipeCard extends StatelessWidget {
               child: SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset(Constants.BASE_IMG_PATH+Constants.DISH_IMAGE)),
+                child: Image.asset('${Constants.BASE_IMG_PATH}${Constants.listCategories[recipe.categoryId??0]}.jpeg',fit: BoxFit.fill,)),
             ),
           )
         ],

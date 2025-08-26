@@ -88,8 +88,8 @@ class RecipeCard extends StatelessWidget {
                 height: 100,
                 width: 100,
                 child: Image.asset(
-                  Constants.BASE_IMG_PATH + Constants.DISH_IMAGE,
-                  fit: BoxFit.contain,
+                  '${Constants.BASE_IMG_PATH}${Constants.listCategories[recipe.categoryId??0]}.jpeg',
+                  fit: BoxFit.fill,
                 ),
               ),
             ),

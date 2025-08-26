@@ -15,11 +15,20 @@ class ChooseCategoryScreen extends StatelessWidget {
           ListView.builder(
             shrinkWrap: true,
             itemCount: Constants.listCategories.length,
-            itemBuilder: (context, index) => ListTile(
-              title: Text(Constants.listCategories[index]),
-              onTap: () {
-                Navigator.pop(context, index);
-              },
+            itemBuilder: (context, index) => Container(
+              margin: EdgeInsets.all(10),
+              child: ListTile(
+                title: Text(Constants.listCategories[index]),
+                leading: SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: ClipOval(
+                    child: Image.asset('${Constants.BASE_IMG_PATH}${Constants.listCategories[index]}.jpeg',fit: BoxFit.fill,)),
+                ),
+                onTap: () {
+                  Navigator.pop(context, index);
+                },
+              ),
             ),
           ),
         ],
