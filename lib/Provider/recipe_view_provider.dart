@@ -1,7 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:recipe_app/Constants.dart';
-import 'package:recipe_app/Model/Rating.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Repository/RecipeRepo.dart';
 import 'package:recipe_app/Repository/UserProfile.dart';

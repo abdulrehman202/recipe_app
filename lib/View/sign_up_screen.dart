@@ -9,9 +9,9 @@ import 'package:recipe_app/View/profile_setup_screen.dart';
 
 
 class SignUpScreen extends StatelessWidget {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   SignUpScreen({super.key});
 
   @override
