@@ -10,7 +10,9 @@ class Review{
   String reviewedByName;
   DateTime time;
   String comment;
+  @JsonKey(defaultValue: [])
   List<String> likes;
+  @JsonKey(defaultValue: [])
   List<String> dislikes;
 
   Review(

@@ -36,4 +36,16 @@ class ReviewRepository {
       return Left(_.message ?? 'Error!');
     }
   }
+
+  Future<void> updateReview(Review review) async {
+    try {
+      await db
+          .collection(collectionName)
+          .doc(review.id)
+          .update(review.toJson());
+
+     
+    } on FirebaseException catch (_) {
+    }
+  }
 }

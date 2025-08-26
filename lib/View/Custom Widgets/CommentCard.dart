@@ -4,7 +4,9 @@ import 'package:recipe_app/Model/Review.dart';
 
 class CommentCard extends StatelessWidget {
   Review comment;
-  CommentCard({super.key, required this.comment});
+  VoidCallback onLiked, onDisliked;
+  String me;
+  CommentCard({super.key, required this.comment, required this.onLiked, required this.onDisliked, required this.me});
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +51,8 @@ class CommentCard extends StatelessWidget {
               )),
           Row(
             children: [
-              _thumbsIcon(context, Icons.thumb_up, comment.likes.length , false),
-              _thumbsIcon(context, Icons.thumb_down, comment.dislikes.length , false),
+              _thumbsIcon(context, Icons.thumb_up, comment.likes.length , comment.likes.contains(me), onLiked),
+              _thumbsIcon(context, Icons.thumb_down, comment.dislikes.length , comment.dislikes.contains(me) , onDisliked),
             ],
           )
         ],
@@ -59,20 +61,17 @@ class CommentCard extends StatelessWidget {
   }
 
   Widget _thumbsIcon(
-      BuildContext context, IconData thumb, int i, bool isSelected) {
+      BuildContext context, IconData thumb, int i, bool isSelected, VoidCallback callBack) {
     return InkWell(
+      onTap: callBack,
       child: Container(
           padding: const EdgeInsets.symmetric(horizontal:  10.0, vertical: 5.0),
-          decoration: isSelected
-              ? const BoxDecoration(
-                  color: Color(0xffD9D9D9),
-                  borderRadius: BorderRadius.all(Radius.circular(20.0)))
-              : const BoxDecoration(),
+          
           child: Row(
             children: [
               Icon(
                 thumb,
-                color: Constants.YELLOW_LABEL_COLOR,
+                color: isSelected? Constants.YELLOW_LABEL_COLOR:Constants.GREY_LABEL_COLOR,
               ),
               Container(
                   margin: const EdgeInsets.only(left: 5.0),

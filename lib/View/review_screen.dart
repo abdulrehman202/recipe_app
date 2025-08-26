@@ -111,8 +111,8 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     .labelMedium!
                     .copyWith(fontSize: 16),
               )),
-          _writeReview(provider),
-          _commentsList(provider.reviewsList),
+           _writeReview(provider),
+          _commentsList(provider),
         ],
       ),
     ));
@@ -190,15 +190,15 @@ class _ReviewScreenState extends State<ReviewScreen> {
     );
   }
 
-  Widget _commentsList(List<Review> reviews) {
+  Widget _commentsList(ReviewProvider provider) {
     return Column(
       children: [
         ListView.separated(
             physics: const ScrollPhysics(),
             shrinkWrap: true,
-            itemCount: reviews.length,
+            itemCount:  provider.reviewsList.length,
             itemBuilder: (ctx, i) {
-              return CommentCard(comment: reviews[i]);
+              return CommentCard(comment: provider.reviewsList[i],onLiked:()=>provider.likeReview(i), onDisliked: () =>provider.disLikeReview(i),me: provider.myUid);
             }, 
             separatorBuilder: (BuildContext context, int index) { return Divider(); },),
       ],
