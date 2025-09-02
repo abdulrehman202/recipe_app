@@ -1,6 +1,7 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 
 class FilterSheet extends StatefulWidget {
   int? selectedRating = 0;
@@ -15,9 +16,9 @@ class _FilterSheetState extends State<FilterSheet> {
   int? _selectedTime = 0,_selectedRating = 0;
   List<int> _selectedCategory = [];
   var chipStyle = C2ChipStyle.outlined(
-        color: Constants.BUTTON_COLOR,
+        color: BUTTON_COLOR,
         selectedStyle: C2ChipStyle.filled(
-          color: Constants.BUTTON_COLOR,
+          color: BUTTON_COLOR,
          foregroundColor: Colors.white,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
@@ -107,7 +108,7 @@ class _FilterSheetState extends State<FilterSheet> {
       onChanged: (val) => setState(() => _selectedCategory = val),
       choiceItems: C2Choice.listFrom<int, String>(
         
-        source: Constants.listCategories,
+        source: listCategories,
         value: (i, v) => i,
         label: (i, v) => v,
         tooltip: (i, v) => v,

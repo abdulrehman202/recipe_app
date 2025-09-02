@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/View/Custom%20Widgets/FilterSheet.dart';
@@ -80,7 +82,7 @@ class _SearchScreenState extends State<SearchScreen> {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                  color: Constants.BUTTON_COLOR,
+                  color:  BUTTON_COLOR,
                   borderRadius: BorderRadius.circular(10)),
               child: GestureDetector(
                 onTap: () async {
@@ -100,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   if (filterResultObl.selectedRating != null) {
                     temp = temp
                         .where((r) =>
-                            Constants.getNetRating(
+                             getNetRating(
                                 r.totalRating, r.usersWhoRated.length) >=
                             filterResultObl.selectedRating! + 1)
                         .toList();
@@ -117,9 +119,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     searchResultList = temp;
                   });
                 },
-                child: ImageIcon(
+                child: const ImageIcon(
                   AssetImage(
-                    Constants.BASE_IMG_PATH + Constants.FILTER_ICON,
+                     BASE_IMG_PATH +  FILTER_ICON,
                   ),
                   color: Colors.white,
                 ),

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Provider/login_provider.dart';
-import 'package:recipe_app/Provider/profile_setup_provider.dart';
+import 'package:recipe_app/Provider/profile_setup_provider.dart'; 
 import 'package:recipe_app/Provider/sign_up_provider.dart';
-import 'package:recipe_app/Service/PushNotificationService.dart';
 import 'package:recipe_app/View/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'firebase_options.dart';
 
 void main()async {
@@ -14,7 +16,14 @@ void main()async {
 await Firebase.initializeApp(
   options: DefaultFirebaseOptions.currentPlatform,
 );
-// NotificationService _notificationService = NotificationService();
+await dotenv.load();
+
+await Supabase.initialize(
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_KEY'] ?? '',
+  );
+
+  // NotificationService _notificationService = NotificationService();
 // await _notificationService.initialise();
   runApp(MyApp());
 }
@@ -35,7 +44,7 @@ class MyApp extends StatelessWidget {
         title: 'Recipes',
       theme: ThemeData(
         scaffoldBackgroundColor: Colors.white,
-        fontFamily: Constants.FONT_NAME,
+        fontFamily:  FONT_NAME,
             textTheme: TextTheme(
                 labelMedium: commonTextStyle.copyWith(
                     fontSize: 14, fontWeight: FontWeight.bold),
@@ -67,10 +76,10 @@ class MyApp extends StatelessWidget {
                     padding: const WidgetStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 50, vertical: 15)),
                     backgroundColor:
-                        WidgetStatePropertyAll(Constants.BUTTON_COLOR))),
-                        floatingActionButtonTheme: FloatingActionButtonThemeData(
-                          backgroundColor: Constants.BUTTON_COLOR,
-                          shape: const CircleBorder()
+                        const WidgetStatePropertyAll(BUTTON_COLOR))),
+                        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                          backgroundColor: BUTTON_COLOR,
+                          shape: CircleBorder()
                         ),
                         ),
                         

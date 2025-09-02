@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/View/add_recipe_screen.dart';
 import 'package:recipe_app/View/home_screen.dart';
 import 'package:recipe_app/View/saved_recipe_screen.dart';
@@ -41,17 +42,17 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _bottomNavBar() {
     double fontSize = 10;
-    ImageIcon iconHome = ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH + Constants.HOME_ICON),
+    ImageIcon iconHome = const ImageIcon(
+      AssetImage( BASE_IMG_PATH +  HOME_ICON),
     );
-    ImageIcon iconSave = ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH + Constants.SAVE_ICON),
+    ImageIcon iconSave = const ImageIcon(
+      AssetImage( BASE_IMG_PATH +  SAVE_ICON),
     );
-    ImageIcon iconNotification = ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH + Constants.NOTIFICATION_ICON),
+    ImageIcon iconNotification = const ImageIcon(
+      AssetImage( BASE_IMG_PATH +  NOTIFICATION_ICON),
     );
-    ImageIcon iconProfile = ImageIcon(
-      AssetImage(Constants.BASE_IMG_PATH + Constants.PROFILE_ICON),
+    ImageIcon iconProfile = const ImageIcon(
+      AssetImage( BASE_IMG_PATH +  PROFILE_ICON),
     );
     return Container(
       constraints: const BoxConstraints(minHeight: 75),
@@ -69,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
           showUnselectedLabels: false,
           showSelectedLabels: true,
           unselectedItemColor: Colors.black,
-          selectedItemColor: Constants.BUTTON_COLOR,
+          selectedItemColor:  BUTTON_COLOR,
           items: [
             BottomNavigationBarItem(
                 activeIcon: iconHome, icon: iconHome, label: 'Home'),
@@ -88,7 +89,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _floatingActionButton() {
     return ClipOval(
         child: FloatingActionButton(
-            backgroundColor: Constants.BUTTON_COLOR,
+            backgroundColor:  BUTTON_COLOR,
             onPressed: () async {
               await Navigator.push(
                       context,

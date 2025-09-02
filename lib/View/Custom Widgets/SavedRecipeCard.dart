@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 
 class SavedecipeCard extends StatefulWidget {
@@ -16,7 +18,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
 
   @override
   Widget build(BuildContext context) {
-    netRating = Constants.getNetRating(widget.recipe.totalRating , widget.recipe.usersWhoRated.length);
+    netRating =  getNetRating(widget.recipe.totalRating , widget.recipe.usersWhoRated.length);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10.0),
@@ -42,7 +44,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
                 width: double.infinity,
                 height: double.infinity,
                 child: Image.asset(
-                  Constants.BASE_IMG_PATH + Constants.SEARCH_DISH_IMAGE,
+                   BASE_IMG_PATH +  SEARCH_DISH_IMAGE,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -104,9 +106,9 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
             child: Container(
               margin: const EdgeInsets.all(8.0),
               width: 60,
-              decoration: BoxDecoration(
-                  color: Constants.BITMOJI_COLOR,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              decoration: const BoxDecoration(
+                  color:  BITMOJI_COLOR,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child:  Row(
                 children: [
                   const Icon(

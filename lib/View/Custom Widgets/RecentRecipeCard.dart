@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 
 class RecentRecipeCard extends StatelessWidget {
@@ -36,7 +38,7 @@ class RecentRecipeCard extends StatelessWidget {
                     ),
                     Wrap(
                       children: [
-                        for (int i = 0; i < Constants.getNetRating(recipe.totalRating ,recipe.usersWhoRated.length).toInt() ; i++)  Icon(Icons.star, color: Constants.YELLOW_LABEL_COLOR,),
+                        for (int i = 0; i <  getNetRating(recipe.totalRating ,recipe.usersWhoRated.length).toInt() ; i++)  Icon(Icons.star, color:  YELLOW_LABEL_COLOR,),
                       ],
                     ),
                     Container(
@@ -53,7 +55,7 @@ class RecentRecipeCard extends StatelessWidget {
                                   child: SizedBox(
                                     width: 40,
                                     height: 40,
-                                    child: Image.asset(Constants.BASE_IMG_PATH+Constants.DP_IMAGE, fit: BoxFit.fill,),
+                                    child: Image.asset( BASE_IMG_PATH+ DP_IMAGE, fit: BoxFit.fill,),
                                   ),
                                 ),
                                    Expanded(child: Text(' By $name',overflow: TextOverflow.ellipsis, ))
@@ -78,7 +80,7 @@ class RecentRecipeCard extends StatelessWidget {
               child: SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset('${Constants.BASE_IMG_PATH}${Constants.listCategories[recipe.categoryId??0]}.jpeg',fit: BoxFit.fill,)),
+                child: Image.asset('${ BASE_IMG_PATH}${ listCategories[recipe.categoryId??0]}.jpeg',fit: BoxFit.fill,)),
             ),
           )
         ],

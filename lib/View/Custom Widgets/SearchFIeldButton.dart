@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 
 class SearchFieldButton extends StatelessWidget {
   const SearchFieldButton({super.key});
@@ -8,20 +8,20 @@ class SearchFieldButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
     margin: const EdgeInsets.symmetric( horizontal: 10),
-    child: TextField(
+    child: const TextField(
       enabled: false,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.search),
+        prefixIcon: Icon(Icons.search),
         hintText: 'Search recipe',
         disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+            borderSide: BorderSide(color:  GREY_LABEL_COLOR),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+            borderSide: BorderSide(color:  GREY_LABEL_COLOR),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),
-            borderRadius: const BorderRadius.all(Radius.circular(10))),
+            borderSide: BorderSide(color:  GREY_LABEL_COLOR),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
       ),
     ),
         );

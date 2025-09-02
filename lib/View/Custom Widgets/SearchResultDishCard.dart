@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 
 class SearchResultDishCard extends StatelessWidget {
@@ -32,7 +34,7 @@ class SearchResultDishCard extends StatelessWidget {
                 width: double.infinity,
                 height: double.infinity,
                 child: Image.asset(
-                  Constants.BASE_IMG_PATH + Constants.SEARCH_DISH_IMAGE,
+                   BASE_IMG_PATH +  SEARCH_DISH_IMAGE,
                   fit: BoxFit.fill,
                 ),
               ),
@@ -75,16 +77,16 @@ class SearchResultDishCard extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.all(8.0),
               width: 60,
-              decoration: BoxDecoration(
-                  color: Constants.BITMOJI_COLOR,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              decoration: const BoxDecoration(
+                  color:  BITMOJI_COLOR,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child:  Row(
                 children: [
                   const Icon(
                     Icons.star,
                     color: Colors.yellow,
                   ),
-                  Text( Constants.getNetRating(recipe.totalRating,recipe.usersWhoRated.length).toString().padRight(2,'.0') ),
+                  Text(  getNetRating(recipe.totalRating,recipe.usersWhoRated.length).toString().padRight(2,'.0') ),
                 ],
               ),
             ),

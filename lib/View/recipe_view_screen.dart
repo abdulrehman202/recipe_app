@@ -3,7 +3,8 @@ import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Model/Rating.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Provider/recipe_view_provider.dart';
@@ -106,16 +107,16 @@ class RecipeViewScreen extends StatelessWidget {
             onSelected: (value) => _doSomething(value, provider),
             itemBuilder: (_) => <PopupMenuItem<String>>[
               PopupMenuItem<String>(
-                  value: 'Share', child: _popUpMenuTile('Share', Icons.share)),
+                  value: SHARE, child: _popUpMenuTile(SHARE, Icons.share)),
               PopupMenuItem<String>(
-                  value: 'Rate Recipe',
-                  child: _popUpMenuTile('Rate Recipe', Icons.star)),
+                  value: RATE,
+                  child: _popUpMenuTile(RATE, Icons.star)),
               PopupMenuItem<String>(
-                  value: 'Review',
-                  child: _popUpMenuTile('Review', Icons.rate_review)),
+                  value: REVIEW,
+                  child: _popUpMenuTile(REVIEW, Icons.rate_review)),
               PopupMenuItem<String>(
-                  value: isSAved ? 'Unsave' : 'Save',
-                  child: _popUpMenuTile(isSAved ? 'Unsave' : 'Save',
+                  value: isSAved ? UNSAVE : SAVE,
+                  child: _popUpMenuTile(isSAved ? UNSAVE : SAVE,
                       Icons.bookmark_border_outlined)),
             ],
           ),
@@ -129,7 +130,7 @@ class RecipeViewScreen extends StatelessWidget {
       children: [
         Icon(icon),
         Padding(
-          padding: const EdgeInsets.only(left: 10),
+          padding: const EdgeInsets.only(left: 10), 
           child: Text(txt),
         ),
       ],
@@ -138,23 +139,23 @@ class RecipeViewScreen extends StatelessWidget {
 
   _doSomething(String value, RecipeViewProvider provider) {
     switch (value) {
-      case 'Share':
+      case SHARE:
         _share();
         break;
 
-      case 'Rate Recipe':
+      case RATE:
         _rateRecipe(provider);
         break;
 
-      case 'Review':
+      case REVIEW:
         _review();
         break;
 
-      case 'Unsave':
+      case UNSAVE:
         _unsave(provider);
         break;
 
-      case 'Save':
+      case SAVE:
         _save(provider);
         break;
     }
@@ -169,11 +170,11 @@ class RecipeViewScreen extends StatelessWidget {
         .where((r) => r.uid.contains(provider.myId))
         .isNotEmpty;
     List<String> ratingComments = [
-      'Poor',
-      'Below Average',
-      'Average',
-      'Good',
-      'Excellent',
+      POOR,
+      B_AVERGAE,
+      AVERAGE,
+      GOOD,
+      EXCELLENT,
     ];
 
     if (alreadyRated) {
@@ -214,7 +215,7 @@ class RecipeViewScreen extends StatelessWidget {
                     child: StarRating(
                       size: 40.0,
                       rating: provider.rating,
-                      color: Constants.YELLOW_LABEL_COLOR,
+                      color:  YELLOW_LABEL_COLOR,
                       borderColor: Colors.grey,
                       starCount: 5,
                       onRatingChanged: (rating) => setState(() {
@@ -253,7 +254,7 @@ class RecipeViewScreen extends StatelessWidget {
                     child: Center(
                         child: provider.loading
                             ? CustomProgressIndicator()
-                            : Text('Submit')))
+                            : const Text('Submit')))
               ],
             );
           },
@@ -349,7 +350,7 @@ class RecipeViewScreen extends StatelessWidget {
                           width: 50,
                           height: 50,
                           child: Image.asset(
-                            Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
+                             BASE_IMG_PATH +  DP_IMAGE,
                             fit: BoxFit.fill,
                           ),
                         ),
@@ -366,13 +367,13 @@ class RecipeViewScreen extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            Row(
+                            const Row(
                               children: [
                                 Icon(
                                   Icons.location_on_sharp,
-                                  color: Constants.BUTTON_COLOR,
+                                  color:  BUTTON_COLOR,
                                 ),
-                                const Text('Faisalabad, Pakistan')
+                                Text('Faisalabad, Pakistan')
                               ],
                             )
                           ],
@@ -393,10 +394,10 @@ class RecipeViewScreen extends StatelessWidget {
                                 // width: MediaQuery.of(context).size.width * 0.1,
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.all(
+                                decoration: const BoxDecoration(
+                                    borderRadius: BorderRadius.all(
                                         Radius.circular(10.0)),
-                                    color: Constants.BUTTON_COLOR),
+                                    color:  BUTTON_COLOR),
                                 child: Text(
                                   provider.chef!.followers
                                           .contains(provider.myId)
@@ -434,7 +435,7 @@ class RecipeViewScreen extends StatelessWidget {
         selectedStyle: C2ChipStyle(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.1),
-          backgroundColor: Constants.BUTTON_COLOR,
+          backgroundColor:  BUTTON_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),

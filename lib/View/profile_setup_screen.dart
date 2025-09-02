@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Provider/profile_setup_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
@@ -37,10 +39,10 @@ class ProfileSetupScreen extends StatelessWidget {
               alignment: Alignment.bottomRight,
               children: [
                 ClipOval(
-                  child: Image.asset(Constants.BASE_IMG_PATH+Constants.MICKEY_MOUSE_DP, errorBuilder:(ctx, o,st)=> const DefaultProfileImageWidget(),),
+                  child: Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP, errorBuilder:(ctx, o,st)=> const DefaultProfileImageWidget(),),
                 ),
                 Container(
-                  decoration: BoxDecoration(color: Constants.BUTTON_COLOR,borderRadius: BorderRadius.circular(20.0)),
+                  decoration: BoxDecoration(color:  BUTTON_COLOR,borderRadius: BorderRadius.circular(20.0)),
                   margin: const EdgeInsets.only(right: 20.0, bottom: 40.0),
                   child: const Icon(Icons.add,color: Colors.white,),
                 )
@@ -57,7 +59,7 @@ class ProfileSetupScreen extends StatelessWidget {
                 mySnackBar(_scaffoldKey.currentState!.context , provider.msg);
               }
               else{
-                await Constants.setUserId(uid);
+                await  setUserId(uid);
                 Navigator.pushReplacement(ctx, MaterialPageRoute(builder: (ctx)=>MainScreen(uid: uid)));
               }
       

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 
 class CustomTextField extends StatelessWidget {
   String lbl;
@@ -32,12 +32,12 @@ class CustomTextField extends StatelessWidget {
             decoration: InputDecoration(
               
               hintText: lbl,
-              enabledBorder:  OutlineInputBorder(
-                    borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
-              focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Constants.GREY_LABEL_COLOR),
-                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              enabledBorder:  const OutlineInputBorder(
+                    borderSide: BorderSide(color: GREY_LABEL_COLOR),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: GREY_LABEL_COLOR),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               
             ),
           ),

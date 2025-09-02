@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Provider/saved_recipe_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -33,7 +33,7 @@ class _SavedRecipeScreenState extends State<SavedRecipeScreen> {
                     }), builder: (ctx, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return CustomProgressIndicator(
-                          pColor: Constants.BUTTON_COLOR,
+                          pColor:  BUTTON_COLOR,
                         );
                       }
 

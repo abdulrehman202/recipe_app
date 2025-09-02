@@ -2,7 +2,8 @@ import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/Provider/home_screen_provider.dart';
@@ -30,7 +31,7 @@ class _HomeSreenState extends State<HomeSreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cList.addAll(Constants.listCategories);
+    cList.addAll( listCategories);
   }
 
   @override
@@ -49,7 +50,7 @@ class _HomeSreenState extends State<HomeSreen> {
                         : _body(context, provider);
                   }
                   return CustomProgressIndicator(
-                    pColor: Constants.BUTTON_COLOR,
+                    pColor:  BUTTON_COLOR,
                   );
                 })));
   }
@@ -99,11 +100,11 @@ class _HomeSreenState extends State<HomeSreen> {
         Container(
           width: 40,
           height: 40,
-          decoration: BoxDecoration(
-              color: Constants.BITMOJI_COLOR,
-              borderRadius: const BorderRadius.all(Radius.circular(10))),
+          decoration: const BoxDecoration(
+              color:  BITMOJI_COLOR,
+              borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Image.asset(
-            Constants.BASE_IMG_PATH + Constants.BITMOJI_IMAGE,
+             BASE_IMG_PATH +  BITMOJI_IMAGE,
             fit: BoxFit.fill,
           ),
         )
@@ -208,12 +209,12 @@ class _HomeSreenState extends State<HomeSreen> {
         tooltip: (i, v) => v,
       ),
       choiceStyle: C2ChipStyle.filled(
-        foregroundColor: Constants.BUTTON_COLOR,
+        foregroundColor:  BUTTON_COLOR,
         color: Colors.white,
-        selectedStyle: C2ChipStyle(
+        selectedStyle: const C2ChipStyle(
           foregroundColor: Colors.white,
-          backgroundColor: Constants.BUTTON_COLOR,
-          borderRadius: const BorderRadius.all(
+          backgroundColor:  BUTTON_COLOR,
+          borderRadius: BorderRadius.all(
             Radius.circular(10),
           ),
         ),

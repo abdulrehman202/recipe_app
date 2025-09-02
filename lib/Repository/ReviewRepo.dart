@@ -32,8 +32,8 @@ class ReviewRepository {
         reviewsList.add(review);
       }    
       return Right(reviewsList);
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 

@@ -1,6 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Review.dart';
 import 'package:recipe_app/Model/User.dart';
 import 'package:recipe_app/Repository/ReviewRepo.dart';
@@ -41,7 +41,7 @@ class ReviewProvider extends ChangeNotifier {
   getReviews(String recipeId) async {
     Either<String, List<Review>> res =
         await reviewRepository.getReviews(recipeId);
-    myUid = await Constants.getUserId();
+    myUid = await getUserId();
     res.fold(
         ifLeft: (ifLeft) {},
         ifRight: (list) {
@@ -53,7 +53,7 @@ class ReviewProvider extends ChangeNotifier {
 
   Future<String> getMyName() async {
     try {
-      String uid = await Constants.getUserId();
+      String uid = await getUserId();
       String name = '';
       Either<String, User> res = await userProfile.fetchUser(uid);
 

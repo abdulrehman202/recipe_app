@@ -1,7 +1,8 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Model/Review.dart';
 import 'package:recipe_app/Provider/review_screen_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CommentCard.dart';
@@ -18,10 +19,10 @@ class ReviewScreen extends StatefulWidget {
 }
 
 class _ReviewScreenState extends State<ReviewScreen> {
-  AsyncMemoizer _memoizer = AsyncMemoizer();
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  ScrollController _scrollController = ScrollController();
-  TextEditingController _commentController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _commentController = TextEditingController();
 
   double _scrollPosition=0.0;
 
@@ -61,7 +62,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                       builder: (context, asyncSnapshot) {
                         if(asyncSnapshot.connectionState == ConnectionState.waiting)
                         {
-                          return CustomProgressIndicator(pColor: Constants.BUTTON_COLOR,);
+                          return CustomProgressIndicator(pColor:  BUTTON_COLOR,);
                         }
                         return _body(reviewProvider);
                       }
@@ -155,7 +156,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
                 {
                   if(_commentController.text.isEmpty)
                   {
-                    mySnackBar(context, 'Comment cannot be empty');
+                    mySnackBar(context, EMPTY_COMMENT);
                   }
                   else{
                     String myName = await provider.getMyName();
@@ -173,10 +174,10 @@ class _ReviewScreenState extends State<ReviewScreen> {
                     margin: const EdgeInsets.only(left: 10),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 5.0, vertical: 10.0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         borderRadius:
-                            const BorderRadius.all(Radius.circular(10.0)),
-                        color: Constants.BUTTON_COLOR),
+                            BorderRadius.all(Radius.circular(10.0)),
+                        color:  BUTTON_COLOR),
                     child: provider.loading?CustomProgressIndicator(): Text(
                       'Send',
                       style: Theme.of(context)
@@ -200,7 +201,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
             itemBuilder: (ctx, i) {
               return CommentCard(comment: provider.reviewsList[i],onLiked:()=>provider.likeReview(i), onDisliked: () =>provider.disLikeReview(i),me: provider.myUid);
             }, 
-            separatorBuilder: (BuildContext context, int index) { return Divider(); },),
+            separatorBuilder: (BuildContext context, int index) { return const Divider(); },),
       ],
     );
   }

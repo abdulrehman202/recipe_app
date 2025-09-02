@@ -1,7 +1,9 @@
 import 'package:chips_choice/chips_choice.dart';
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 import 'package:recipe_app/Model/Procedure.dart';
 import 'package:recipe_app/Model/Recipe.dart';
@@ -39,16 +41,16 @@ class AddRecipeScreen extends StatelessWidget {
                             horizontal: 10.0, vertical: 5.0),
                         child: recipe.loading?CustomProgressIndicator(): FilledButton(
                             onPressed: () async {
-                              if (recipe.catIndex == -1) {
-                                mySnackBar(context, 'Category required!');
+                              if (recipe.catIndex == -1) { 
+                                mySnackBar(context, CATEGORY_REQUIRED);
                               }else if (textEditingController.text.isEmpty) {
-                                mySnackBar(context, 'Recipe name required!');
+                                mySnackBar(context, RECIPE_NAME_REQUIRED);
                               } else if (recipe.ingredientsList.length < 3) {
-                                mySnackBar(context, 'Recipe should have atleast 3 ingredients');
+                                mySnackBar(context, ATLEAST_3_INGREDIENTS);
                               } else if (recipe.procedureList.length < 3) {
-                                mySnackBar(context, 'Recipe should have atleast 3 procedures');
+                                mySnackBar(context, ATLEAST_3_PROCEDURE);
                               } else {
-                                String uid = await Constants.getUserId();
+                                String uid = await  getUserId();
                                 Recipe recipeObj = Recipe(
                                     '0',
                                     textEditingController.text,
@@ -189,7 +191,7 @@ class AddRecipeScreen extends StatelessWidget {
                       recipe.changeCategory(catIndex);
                     },
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    title: Text(recipe.catIndex == -1?'Choose Category':Constants.listCategories[recipe.catIndex],style: TextStyle(fontWeight: FontWeight.bold),),
+                    title: Text(recipe.catIndex == -1?'Choose Category': listCategories[recipe.catIndex],style: const TextStyle(fontWeight: FontWeight.bold),),
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -241,7 +243,7 @@ class AddRecipeScreen extends StatelessWidget {
         selectedStyle: C2ChipStyle(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.1),
-          backgroundColor: Constants.BUTTON_COLOR,
+          backgroundColor:  BUTTON_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),

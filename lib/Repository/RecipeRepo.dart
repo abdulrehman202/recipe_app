@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 
 class RecipeRepository {
@@ -13,8 +13,8 @@ class RecipeRepository {
       String rId = res.id;
       await db.collection(collectionName).doc(rId).update({'id': rId});
       return const Right('Recipe added successfully');
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
@@ -22,15 +22,15 @@ class RecipeRepository {
     try {
       await db.collection(collectionName).doc(recipe.id).update(recipe.toJson());
       return const Right('Recipe rated successfully');
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
   Future<Either<String, List<Recipe>>> getRecipes() async {
     try {
       List<Recipe> recipesList = [];
-      String uid = await Constants.getUserId();
+      String uid = await getUserId();
       QuerySnapshot<Map<String, dynamic>> res = await db
           .collection(collectionName)
           .where('chefId', isEqualTo: uid)
@@ -43,8 +43,8 @@ class RecipeRepository {
         recipesList.add(recipe); 
       }    
       return Right(recipesList);
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
@@ -62,8 +62,8 @@ class RecipeRepository {
         recipesList.add(recipe);
       }    
       return Right(recipesList);
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 }

@@ -1,6 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 import 'package:recipe_app/Repository/RecipeRepo.dart';
 import 'package:recipe_app/Repository/UserProfile.dart';
@@ -32,7 +32,7 @@ class RecipeViewProvider extends ChangeNotifier {
     mySavedRecipes.clear();
     mySavedRecipes = await userProfile.getMySavedRecipe();
 
-    myId = await Constants.getUserId();
+    myId = await getUserId();
     Either<String, User> meRes = await userProfile.fetchUser(myId);
     chefRes.fold(ifLeft: (value) {
       success = false;
@@ -49,7 +49,10 @@ class RecipeViewProvider extends ChangeNotifier {
   Future<void> updateSavedrecipes() async {
     try {
       await userProfile.updateSavedRecipeList(myId, mySavedRecipes);
-    } catch (e) {}
+    } catch (e) 
+    {
+      //
+    }
   }
 
   rateRecipe(Recipe recipe) async {
@@ -70,7 +73,9 @@ class RecipeViewProvider extends ChangeNotifier {
       notifyListeners();
       await userProfile.updateFollowersList(chefId, chef!.followers);
       await userProfile.updateFollowingsList(myId, me!.following);
-    } catch (e) {}
+    } catch (e) {
+      //
+    }
   }
 
   addToSavedRecipeList(String id) {

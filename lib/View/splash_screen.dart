@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
 import 'package:recipe_app/View/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -10,10 +10,10 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
           width: double.infinity,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               image: DecorationImage(
                   image: AssetImage(
-                    Constants.BASE_IMG_PATH + Constants.SPLASH_IMAGE,
+                     BASE_IMG_PATH +  SPLASH_IMAGE,
                   ),
                   fit: BoxFit.fill)),
           child: Center(
@@ -24,7 +24,7 @@ class SplashScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                        Constants.BASE_IMG_PATH + Constants.CHEF_HAT_ICON),
+                         BASE_IMG_PATH +  CHEF_HAT_ICON),
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Text(
@@ -70,8 +70,8 @@ class SplashScreen extends StatelessWidget {
                                     Theme.of(context).textTheme.headlineSmall,
                               ),
                             ),
-                            ImageIcon(AssetImage(Constants.BASE_IMG_PATH +
-                                Constants.ARROW_RIGHT)),
+                            const ImageIcon(AssetImage( BASE_IMG_PATH +
+                                 ARROW_RIGHT)),
                           ],
                         ),
                       ),

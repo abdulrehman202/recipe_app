@@ -1,6 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Repository/UserAuth.dart';
 class SignUpProvider extends ChangeNotifier {
 
@@ -19,11 +19,6 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  isEmailValid(String email)
-  {
-    return Constants.emailRegex.hasMatch(email);
-  }
-
   passwordConfirmed(String pwd1, String pwd2)
   {
     return pwd1 == pwd2;
@@ -31,7 +26,7 @@ class SignUpProvider extends ChangeNotifier {
 
   bool checkValues(String email,String password, String confirmPassword)
   {
-    if(isEmailValid(email))
+    if(email.isValidEmail())
     {
       if(passwordConfirmed(password, confirmPassword))
       {

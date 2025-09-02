@@ -1,6 +1,6 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Repository/UserAuth.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -14,14 +14,9 @@ class LoginProvider extends ChangeNotifier {
     loading = !loading;
   }
 
-  isEmailValid(String email)
-  {
-    return Constants.emailRegex.hasMatch(email);
-  }
-
   bool checkValues(String email)
   {
-    if(isEmailValid(email))
+    if( email.isValidEmail() )
     {
       return true;
     }

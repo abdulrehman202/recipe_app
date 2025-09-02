@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Model/Ingredient.dart';
 
 class IngredientCard extends StatelessWidget {
@@ -12,9 +12,9 @@ class IngredientCard extends StatelessWidget {
       margin: const EdgeInsets.only(top: 10,),
       height: 75,
       padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Constants.RECIPE_CARD_COLOR,
-        borderRadius: const BorderRadius.all(Radius.circular(10.0))
+      decoration: const BoxDecoration(
+        color: RECIPE_CARD_COLOR,
+        borderRadius: BorderRadius.all(Radius.circular(10.0))
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,7 +1,9 @@
 import 'package:dart_either/dart_either.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Provider/login_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomDialogBox.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
@@ -80,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
-                          .copyWith(color: Constants.YELLOW_LABEL_COLOR),
+                          .copyWith(color:  YELLOW_LABEL_COLOR),
                     )),
               ),
               SizedBox(
@@ -98,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                                 _emailController.clear();
                                 _passwordController.clear();
           
-                                await Constants.setUserId(r);
+                                await  setUserId(r);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -121,7 +123,7 @@ class LoginScreen extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .labelSmall!
-                        .copyWith(color: Constants.GREY_LABEL_COLOR),
+                        .copyWith(color:  GREY_LABEL_COLOR),
                   )),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -130,15 +132,15 @@ class LoginScreen extends StatelessWidget {
                       child: IconButton(
                           onPressed: () {},
                           icon: Image.asset(
-                              Constants.BASE_IMG_PATH + Constants.FB_ICON))),
+                               BASE_IMG_PATH +  FB_ICON))),
                   const SizedBox(
                     width: 30,
                   ),
                   Card(
                       child: IconButton(
                           onPressed: () {},
-                          icon: Image.asset(Constants.BASE_IMG_PATH +
-                              Constants.GOOGLE_ICON)))
+                          icon: Image.asset( BASE_IMG_PATH +
+                               GOOGLE_ICON)))
                 ],
               ),
               Container(
@@ -159,7 +161,7 @@ class LoginScreen extends StatelessWidget {
                           style: Theme.of(context)
                               .textTheme
                               .labelSmall!
-                              .copyWith(color: Constants.YELLOW_LABEL_COLOR),
+                              .copyWith(color:  YELLOW_LABEL_COLOR),
                         )),
                   ],
                 ),

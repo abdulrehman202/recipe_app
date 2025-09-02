@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:async/async.dart';
 import 'package:chips_choice/chips_choice.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Provider/user_profile_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
@@ -20,7 +24,8 @@ class UserProfielScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ctx = context;
     _memoizer = AsyncMemoizer();
-    return ChangeNotifierProvider(create:  (context) => UserProfileProvider(),
+    return ChangeNotifierProvider(
+      create: (context) => UserProfileProvider(),
       child: Consumer<UserProfileProvider>(
           builder: (ctx, user, _) => Scaffold(
                 floatingActionButton: user.scrollPosition == 0.0
@@ -63,12 +68,11 @@ class UserProfielScreen extends StatelessWidget {
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: ListView(
-                    controller: provider.scrollController,
+                      controller: provider.scrollController,
                       children: [
                         _headingRow(provider),
                         Container(
-                            margin:
-                                const EdgeInsets.symmetric(vertical: 10.0),
+                            margin: const EdgeInsets.symmetric(vertical: 10.0),
                             child: Text(
                               provider.user!.name,
                               style: Theme.of(ctx)
@@ -78,8 +82,8 @@ class UserProfielScreen extends StatelessWidget {
                             )),
                         Container(
                             child: const Text(
-                              'Chef',
-                            )),
+                          'Chef',
+                        )),
                         _bioRow(provider),
                         _tabsRow(provider),
                         const SizedBox(
@@ -97,7 +101,7 @@ class UserProfielScreen extends StatelessWidget {
           }
           return Center(
             child: CustomProgressIndicator(
-              pColor: Constants.BUTTON_COLOR,
+              pColor:  BUTTON_COLOR,
             ),
           );
         });
@@ -109,13 +113,26 @@ class UserProfielScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         ClipOval(
-          child: Container(
-            color: const Color(0xffD9D9D9),
-            height: size,
-            width: size,
-            child: Image.asset(
-              Constants.BASE_IMG_PATH + Constants.MICKEY_MOUSE_DP,
-              fit: BoxFit.contain,
+          child: GestureDetector(
+            onTap: () async {
+              final picker = ImagePicker();
+              final imageFile = await picker.pickImage(
+                source: ImageSource.gallery,
+                maxWidth: 300,
+                maxHeight: 300,
+              );
+
+              await provider.uploadPic(File(imageFile!.path));
+            },
+            child: Container(
+              color: const Color(0xffD9D9D9),
+              height: size,
+              width: size,
+              child:  Image.file(
+                provider.profilePicFile??File(''),
+                errorBuilder: (context, error, stackTrace) => Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP),
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),
@@ -150,7 +167,7 @@ class UserProfielScreen extends StatelessWidget {
         provider.user!.bio,
         trimMode: TrimMode.Line,
         trimLines: 3,
-        colorClickableText: Constants.BUTTON_COLOR,
+        colorClickableText:  BUTTON_COLOR,
         trimCollapsedText: 'Show more',
         trimExpandedText: ' Show less',
       ),
@@ -176,7 +193,7 @@ class UserProfielScreen extends StatelessWidget {
           selectedStyle: C2ChipStyle(
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(ctx).size.width * 0.1),
-            backgroundColor: Constants.BUTTON_COLOR,
+            backgroundColor:  BUTTON_COLOR,
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
@@ -196,7 +213,11 @@ class UserProfielScreen extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (ctx, i) {
               return GestureDetector(
-                onTap: ()=>Navigator.push(ctx, MaterialPageRoute(builder: (builder)=>RecipeViewScreen(recipe: provider.listOfRecipes[i]))),
+                onTap: () => Navigator.push(
+                    ctx,
+                    MaterialPageRoute(
+                        builder: (builder) => RecipeViewScreen(
+                            recipe: provider.listOfRecipes[i]))),
                 child: SavedecipeCard(
                   recipe: provider.listOfRecipes[i],
                   showTitle: true,

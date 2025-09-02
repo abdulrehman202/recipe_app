@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Recipe.dart';
 
 class RecipeCard extends StatelessWidget {
@@ -10,7 +12,7 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    netRating = Constants.getNetRating(recipe.totalRating , recipe.usersWhoRated.length);
+    netRating =  getNetRating(recipe.totalRating , recipe.usersWhoRated.length);
     return Container(
       margin: const EdgeInsets.only(right: 20),
       width: 150,
@@ -21,7 +23,7 @@ class RecipeCard extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(bottom: 50),
               decoration: BoxDecoration(
-                  color: Constants.RECIPE_CARD_COLOR,
+                  color:  RECIPE_CARD_COLOR,
                   borderRadius: BorderRadius.circular(20)),
               height: 175,
               width: double.infinity,
@@ -71,7 +73,7 @@ class RecipeCard extends StatelessWidget {
                                     child: GestureDetector(
                                         onTap: () {},
                                         child:
-                                           saved? Icon(Icons.bookmark, color: Constants.YELLOW_LABEL_COLOR,): const  Icon(Icons.bookmark_border))))
+                                           saved? const Icon(Icons.bookmark, color:  YELLOW_LABEL_COLOR,): const  Icon(Icons.bookmark_border))))
                           ],
                         ),
                       ),
@@ -88,7 +90,7 @@ class RecipeCard extends StatelessWidget {
                 height: 100,
                 width: 100,
                 child: Image.asset(
-                  '${Constants.BASE_IMG_PATH}${Constants.listCategories[recipe.categoryId??0]}.jpeg',
+                  '$BASE_IMG_PATH${ listCategories[recipe.categoryId??0]}.jpeg',
                   fit: BoxFit.fill,
                 ),
               ),
@@ -99,9 +101,9 @@ class RecipeCard extends StatelessWidget {
             child: Container(
               margin: const EdgeInsets.only(top: 65, right: 10),
               width: 60,
-              decoration: BoxDecoration(
-                  color: Constants.BITMOJI_COLOR,
-                  borderRadius: const BorderRadius.all(Radius.circular(20))),
+              decoration: const BoxDecoration(
+                  color:  BITMOJI_COLOR,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Row(
                 children: [
                   const Icon(Icons.star),

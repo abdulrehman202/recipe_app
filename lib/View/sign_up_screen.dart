@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
 import 'package:recipe_app/Provider/sign_up_provider.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
 import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
@@ -43,7 +44,7 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,fontSize: 30)),
                       TextSpan(
-                        text: 'Welcome to recipe app. Let\'s get started!',
+                        text: WELCOME_MSG,
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
@@ -66,7 +67,7 @@ class SignUpScreen extends StatelessWidget {
                      Text('Accept terms & Condition', style: Theme.of(context)
                                   .textTheme
                                   .labelSmall!
-                                  .copyWith(color: Constants.YELLOW_LABEL_COLOR),)
+                                  .copyWith(color:  YELLOW_LABEL_COLOR),)
                    ],
                  ),
                ),
@@ -100,7 +101,7 @@ class SignUpScreen extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .labelSmall!
-                          .copyWith(color: Constants.GREY_LABEL_COLOR),
+                          .copyWith(color:  GREY_LABEL_COLOR),
                     )),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -109,7 +110,7 @@ class SignUpScreen extends StatelessWidget {
                         child: IconButton(
                             onPressed: () {},
                             icon: Image.asset(
-                                Constants.BASE_IMG_PATH + Constants.FB_ICON))),
+                                 BASE_IMG_PATH +  FB_ICON))),
                     const SizedBox(
                       width: 30,
                     ),
@@ -117,7 +118,7 @@ class SignUpScreen extends StatelessWidget {
                         child: IconButton(
                             onPressed: () {},
                             icon: Image.asset(
-                                Constants.BASE_IMG_PATH + Constants.GOOGLE_ICON)))
+                                 BASE_IMG_PATH +  GOOGLE_ICON)))
                   ],
                 ),
                 Container(
@@ -136,7 +137,7 @@ class SignUpScreen extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .labelSmall!
-                                .copyWith(color: Constants.YELLOW_LABEL_COLOR),
+                                .copyWith(color:  YELLOW_LABEL_COLOR),
                           )),
                     ],
                   ),

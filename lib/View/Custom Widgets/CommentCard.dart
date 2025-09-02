@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/app_constants.dart';
+import 'package:recipe_app/Constants/color_palette.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/Review.dart';
 
 class CommentCard extends StatelessWidget {
@@ -24,7 +26,7 @@ class CommentCard extends StatelessWidget {
                   width: 50,
                   height: 50,
                   child: Image.asset(
-                    Constants.BASE_IMG_PATH + Constants.DP_IMAGE,
+                    BASE_IMG_PATH + DP_IMAGE,
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -71,7 +73,7 @@ class CommentCard extends StatelessWidget {
             children: [
               Icon(
                 thumb,
-                color: isSelected? Constants.YELLOW_LABEL_COLOR:Constants.GREY_LABEL_COLOR,
+                color: isSelected? YELLOW_LABEL_COLOR:GREY_LABEL_COLOR,
               ),
               Container(
                   margin: const EdgeInsets.only(left: 5.0),
@@ -89,9 +91,9 @@ class CommentCard extends StatelessWidget {
 
   String _getDateTime(DateTime dt) {
     String day = dt.day.toString();
-    String month = Constants.getMonth(dt.month);
+    String month = dt.month.getMonthName();
     String year = dt.year.toString();
-    String time = Constants.get12hrsTime(dt);
+    String time = dt.get12hrsTime();
 
     return '$month $day, $year - $time';
   }

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dart_either/dart_either.dart';
-import 'package:recipe_app/Constants.dart';
+import 'package:recipe_app/Constants/utility.dart';
 import 'package:recipe_app/Model/User.dart';
 
 class UserProfile {
@@ -12,9 +12,18 @@ class UserProfile {
     try {
       user.id = uid;
       await db.collection(collectionName).doc(uid).set(user.toJson()); 
-      return Right('ok');
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+      return const Right('ok');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
+    }
+  }
+
+  Future<Either<String, String>> updateUserDetails(User user) async { 
+    try {
+      await db.collection(collectionName).doc(user.id).update(user.toJson()); 
+      return const Right('ok');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
@@ -24,8 +33,8 @@ class UserProfile {
       Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
       User user = User.fromJson(data);
       return Right(user);
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
   }
 
@@ -51,9 +60,9 @@ class UserProfile {
   Future<Either<String, String>> updateViewRecipeList(String uid, List<String> ids) async { 
     try {
       await db.collection(collectionName).doc(uid).update({'viewedRecipes':ids});
-      return Right('ok');
-    } on FirebaseException catch (_) {
-      return Left(_.message ?? 'Error!');
+      return const Right('ok');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
     }
 
 
@@ -62,13 +71,13 @@ class UserProfile {
   Future<List< String>> getMySavedRecipe() async { 
     try {
       List<String> list = [];
-      String myId = await Constants.getUserId();
+      String myId = await getUserId();
       DocumentSnapshot documentSnapshot =  await db.collection(collectionName).doc(myId).get();
       Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
       User user = User.fromJson(data);
       list.addAll(user.savedRecipes);
       return list;
-    } on FirebaseException catch (_) {
+    } on FirebaseException {
       return [];
     }
 
@@ -81,6 +90,7 @@ class UserProfile {
     await db.collection(collectionName).doc(uid).update({'savedRecipes':ids});
     }
     catch(e) {
+      //do nothing
     }
   }
 
@@ -90,6 +100,7 @@ class UserProfile {
     await db.collection(collectionName).doc(uid).update({'followers':ids});
     }
     catch(e) {
+      //do nothing
     }
   }
 
@@ -99,6 +110,7 @@ class UserProfile {
     await db.collection(collectionName).doc(uid).update({'following':ids});
     }
     catch(e) {
+      //do nothing
     }
   }
 }
