@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 Widget userInfoShimmer(Widget content)
 {

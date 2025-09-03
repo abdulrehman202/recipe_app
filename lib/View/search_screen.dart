@@ -1,14 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Constants/utility.dart';
-import 'package:recipe_app/Model/Recipe.dart';
-import 'package:recipe_app/Model/User.dart';
-import 'package:recipe_app/View/Custom%20Widgets/FilterSheet.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SearchField.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SearchResultDishCard.dart';
-import 'package:recipe_app/View/recipe_view_screen.dart';
 
+import 'package:recipe_app/View/all_libs.dart';
 class FilterParams {
   int? selectedRating;
   List<int> selectedCategories;

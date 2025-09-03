@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Model/Procedure.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class ProcedureCard extends StatelessWidget {
   Procedure procedure;

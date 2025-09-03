@@ -1,16 +1,5 @@
-import 'package:dart_either/dart_either.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Constants/utility.dart';
-import 'package:recipe_app/Provider/login_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomDialogBox.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
-import 'package:recipe_app/View/main_screen.dart';
-import 'package:recipe_app/View/sign_up_screen.dart';
+import 'package:recipe_app/View/all_libs.dart';
+
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();

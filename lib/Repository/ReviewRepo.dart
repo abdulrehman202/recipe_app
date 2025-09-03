@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dart_either/dart_either.dart';
-import 'package:recipe_app/Model/Review.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class ReviewRepository {
   String collectionName = 'Reviews';

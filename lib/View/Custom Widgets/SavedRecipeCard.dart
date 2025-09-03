@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Constants/utility.dart';
-import 'package:recipe_app/Model/Recipe.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class SavedecipeCard extends StatefulWidget {
   Recipe recipe;

@@ -1,14 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Constants/utility.dart';
-import 'package:recipe_app/Provider/profile_setup_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
-import 'package:recipe_app/View/Custom%20Widgets/DefaultProfileImageWidget.dart';
-import 'package:recipe_app/View/main_screen.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class ProfileSetupScreen extends StatelessWidget {
   String uid;

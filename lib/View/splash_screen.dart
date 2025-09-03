@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/View/login_screen.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

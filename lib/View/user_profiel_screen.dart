@@ -1,17 +1,5 @@
-import 'dart:io';
 
-import 'package:async/async.dart';
-import 'package:chips_choice/chips_choice.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:readmore/readmore.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Provider/user_profile_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
-import 'package:recipe_app/View/recipe_view_screen.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class UserProfielScreen extends StatelessWidget {
   final GlobalKey<ScaffoldState> _scaffoldkey = new GlobalKey<ScaffoldState>();

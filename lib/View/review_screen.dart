@@ -1,14 +1,4 @@
-import 'package:async/async.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Model/Review.dart';
-import 'package:recipe_app/Provider/review_screen_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CommentCard.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
-
+import 'package:recipe_app/View/all_libs.dart';
 
 class ReviewScreen extends StatefulWidget {
   String recipeId;

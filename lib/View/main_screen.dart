@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/View/add_recipe_screen.dart';
-import 'package:recipe_app/View/home_screen.dart';
-import 'package:recipe_app/View/saved_recipe_screen.dart';
-import 'package:recipe_app/View/user_profiel_screen.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class MainScreen extends StatefulWidget {
   String uid;

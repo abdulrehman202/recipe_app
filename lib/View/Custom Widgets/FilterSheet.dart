@@ -1,8 +1,4 @@
-import 'package:chips_choice/chips_choice.dart';
-import 'package:flutter/material.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-
+import 'package:recipe_app/View/all_libs.dart';
 class FilterSheet extends StatefulWidget {
   int? selectedRating = 0;
   List<int> selectedCategory;

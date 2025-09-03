@@ -1,20 +1,4 @@
-import 'package:async/async.dart';
-import 'package:chips_choice/chips_choice.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating/flutter_rating.dart';
-import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Model/Rating.dart';
-import 'package:recipe_app/Model/Recipe.dart';
-import 'package:recipe_app/Provider/recipe_view_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomShimmer.dart';
-import 'package:recipe_app/View/Custom%20Widgets/IngredientCard.dart';
-import 'package:recipe_app/View/Custom%20Widgets/ProcedureCard.dart';
-import 'package:recipe_app/View/Custom%20Widgets/SavedRecipeCard.dart';
-import 'package:recipe_app/View/review_screen.dart';
-import 'package:shake_widget_flutter/shake_widget_flutter.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class RecipeViewScreen extends StatelessWidget {
   final GlobalKey<ShakeWidgetState> keyShake = GlobalKey<ShakeWidgetState>();

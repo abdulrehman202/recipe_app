@@ -1,5 +1,5 @@
-import 'package:dart_either/dart_either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:recipe_app/View/all_libs.dart';
 
 class UserAuth {
   Future<Either<String, String>> registerUser(String email, password) async { 

@@ -1,13 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:recipe_app/Constants/app_constants.dart';
-import 'package:recipe_app/Constants/color_palette.dart';
-import 'package:recipe_app/Provider/sign_up_provider.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomProgressIndicator.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomSnackBar.dart';
-import 'package:recipe_app/View/Custom%20Widgets/CustomTextField.dart';
-import 'package:recipe_app/View/profile_setup_screen.dart';
-
+import 'package:recipe_app/View/all_libs.dart';
 
 class SignUpScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
