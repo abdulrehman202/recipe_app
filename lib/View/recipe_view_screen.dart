@@ -147,10 +147,10 @@ class RecipeViewScreen extends StatelessWidget {
 
   void _share() {}
 
-  void _rateRecipe(RecipeViewProvider provider) {
+  _rateRecipe(RecipeViewProvider provider)async {
     late Rating previousRating;
     late int indexOfPreviousRating = 0;
-    bool alreadyRated = recipe.usersWhoRated
+    bool alreadyRated =  recipe.usersWhoRated
         .where((r) => r.uid.contains(provider.myId))
         .isNotEmpty;
     List<String> ratingComments = [
@@ -168,7 +168,7 @@ class RecipeViewScreen extends StatelessWidget {
     } else {
       previousRating = Rating(provider.myId, 0);
     }
-    provider.rating = previousRating.rating as double;
+    provider.rating = double.parse(previousRating.rating.toString());
 
     showDialog(
       context: _scaffoldKey.currentState!.context,
@@ -176,9 +176,11 @@ class RecipeViewScreen extends StatelessWidget {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: alreadyRated
+              title: 
+              alreadyRated
                   ? Container()
-                  : Text(
+                  : 
+                  Text(
                       'Rate this Recipe',
                       style: Theme.of(_scaffoldKey.currentState!.context)
                           .textTheme
@@ -227,8 +229,8 @@ class RecipeViewScreen extends StatelessWidget {
                         recipe.totalRating -=
                             recipe.usersWhoRated[indexOfPreviousRating].rating;
                         recipe.usersWhoRated[indexOfPreviousRating].rating =
-                            provider.rating as int;
-                        recipe.totalRating += provider.rating as int;
+                            provider.rating.toInt();
+                        recipe.totalRating += provider.rating.toInt();
                       } else {
                         recipe.usersWhoRated.add(previousRating);
                       }
@@ -236,7 +238,7 @@ class RecipeViewScreen extends StatelessWidget {
                       Navigator.pop(_scaffoldKey.currentState!.context);
                     },
                     child: Center(
-                        child: provider.loading
+                      child: provider.loading
                             ? CustomProgressIndicator()
                             : const Text('Submit')))
               ],

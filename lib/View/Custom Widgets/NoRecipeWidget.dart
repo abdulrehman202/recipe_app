@@ -5,6 +5,22 @@ class NoRecipeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text(NO_RECIPE_MSG),); 
+    return Center(
+        child: Column(
+      children: [
+        Image.asset(
+          BASE_IMG_PATH + NO_RECIPE_IMAGE,
+          fit: BoxFit.fill,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(NO_RECIPE_MSG,
+            style: Theme.of(context)
+                .textTheme
+                .displayMedium!
+                .copyWith(color: Colors.black, fontSize: 20))
+      ],
+    ));
   }
 }

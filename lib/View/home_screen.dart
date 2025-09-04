@@ -32,7 +32,7 @@ class _HomeSreenState extends State<HomeSreen> {
                   if (snapshot.connectionState == ConnectionState.done) {
                     return snapshot.hasError
                         ? Container()
-                        : _body(context, provider);
+                        : _body(provider);
                   }
                   return CustomProgressIndicator(
                     pColor:  BUTTON_COLOR,
@@ -40,7 +40,7 @@ class _HomeSreenState extends State<HomeSreen> {
                 })));
   }
 
-  Widget titleRow(BuildContext context, HomeScreenProvider provider) {
+  Widget titleRow(HomeScreenProvider provider) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -97,7 +97,7 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget _body(BuildContext context, HomeScreenProvider provider) {
+  Widget _body(HomeScreenProvider provider) {
     return SafeArea(
       child: Container(
         width: double.infinity,
@@ -109,15 +109,15 @@ class _HomeSreenState extends State<HomeSreen> {
             const SizedBox(
               height: 50,
             ),
-            titleRow(context, provider),
+            titleRow(provider),
             searchRow(provider.listOfRecipes, provider.allChefsDetails),
             categories(provider),
             provider.listOfRecipes.isEmpty
-                ? const NoRecipeWidget()
+                ? const Expanded(child: Column( mainAxisAlignment: MainAxisAlignment.center, children: [NoRecipeWidget()]))
                 : Expanded(
                     child: ListView(
                       children: [
-                        recipes(context, provider.viewedRecipes,
+                        recipes(provider.viewedRecipes,
                             provider.me!.savedRecipes),
                             provider.myChefsRecipe.isEmpty
                             ? Container()
@@ -127,7 +127,7 @@ class _HomeSreenState extends State<HomeSreen> {
                                   Container(
                                       margin: const EdgeInsets.only(bottom: 10),
                                       child: Text(
-                                        'Chefs you follow',
+                                        'From the chefs you follow',
                                         style: Theme.of(context)
                                             .textTheme
                                             .headlineMedium!
@@ -135,8 +135,7 @@ class _HomeSreenState extends State<HomeSreen> {
                                                 color: Colors.black,
                                                 fontSize: 25),
                                       )),
-                                  recipes(
-                                      context, provider.myChefsRecipe, provider.me!.savedRecipes),
+                                  recipes(provider.myChefsRecipe, provider.me!.savedRecipes),
                                 ],
                               ),
                         provider.newRecipes.isEmpty
@@ -155,8 +154,7 @@ class _HomeSreenState extends State<HomeSreen> {
                                                 color: Colors.black,
                                                 fontSize: 25),
                                       )),
-                                  recentRecipes(
-                                      context, provider.newRecipes, provider),
+                                  recentRecipes(provider.newRecipes, provider),
                                 ],
                               ),
 
@@ -207,8 +205,7 @@ class _HomeSreenState extends State<HomeSreen> {
     );
   }
 
-  Widget recipes(
-      BuildContext context, List<Recipe> recipes, List<String> savedRecipes) {
+  Widget recipes( List<Recipe> recipes, List<String> savedRecipes) {
     return recipes.isEmpty
         ? Container()
         : SizedBox(
@@ -237,8 +234,7 @@ class _HomeSreenState extends State<HomeSreen> {
           );
   }
 
-  Widget recentRecipes(
-      BuildContext context, List<Recipe> recipes, HomeScreenProvider provider) {
+  Widget recentRecipes(List<Recipe> recipes, HomeScreenProvider provider) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
