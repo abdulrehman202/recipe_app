@@ -11,8 +11,6 @@ class UserProfileProvider extends ChangeNotifier {
   User? user;
   List<Recipe> listOfRecipes = [];
   RecipeRepository recipeRepository = RecipeRepository();
-  File? profilePicFile;
-  FileService fileServiceUser = FileService('User');
 
   UserProfileProvider() {
     listOfRecipes.clear();
@@ -40,7 +38,6 @@ class UserProfileProvider extends ChangeNotifier {
         user = value;
       });
     });
-    profilePicFile = await fileServiceUser.downloadFile(user!.profilePicURL);
     notifyListeners();
   }
 
@@ -55,7 +52,9 @@ class UserProfileProvider extends ChangeNotifier {
 
   uploadPic(File image) async {
     try {
-      fileServiceUser = FileService('User_Profile_Pic');
+
+      
+  FileService fileServiceUser = FileService('profile_pic',user!.id);
       String url = await fileServiceUser.uploadFile(image) ?? ''; 
       await userProfile.updateUserDetails(user!);
       user!.profilePicURL = url;

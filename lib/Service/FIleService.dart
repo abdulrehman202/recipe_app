@@ -6,8 +6,10 @@ import 'package:recipe_app/View/all_libs.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FileService {
-  String bucketName;
-  FileService(this.bucketName);
+  String bucketName = 'User_Profile_Pic';
+  String dir;
+  String id;
+  FileService(this.dir,this.id);
 
   Future<String?> uploadFile(File imageFile) async {
     final supabase = Supabase.instance.client;
@@ -19,13 +21,14 @@ class FileService {
     if (!isSessionExpired!) {
       try {
         final bytes = await imageFile.readAsBytes();
-        final uuiidd = await getUserId();
+        final uuiidd = id;
         final fileExt = imageFile.path.split('.').last;
         final fileName = '${DateTime.now().toString()}.$fileExt';
         final mimeType = 'image/$fileExt'; // lookupMimeType(imageFile.path);
         // var  o = await s3client.getObject(bucketName);
         StorageFileApi storageFileApi = supabase.storage.from(bucketName);
-        String uploadPath = 'public/profile_pic/$uuiidd/$fileName';storageFileApi.uploadBinary(
+        String uploadPath = 'public/$dir/$uuiidd/$fileName';
+        storageFileApi.uploadBinary(
           uploadPath,
           bytes,
           fileOptions: FileOptions(contentType: mimeType),
