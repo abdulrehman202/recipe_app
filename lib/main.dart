@@ -10,9 +10,11 @@ void main() async {
   await dotenv.load();
 
   await Supabase.initialize(
+    
     url: dotenv.env['SUPABASE_URL'] ?? '',
     anonKey: dotenv.env['SUPABASE_KEY'] ?? '',
   );
+  
 
   // NotificationService _notificationService = NotificationService();
 // await _notificationService.initialise();

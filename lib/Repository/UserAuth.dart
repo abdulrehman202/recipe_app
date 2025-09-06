@@ -1,11 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:recipe_app/View/all_libs.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserAuth {
   Future<Either<String, String>> registerUser(String email, password) async { 
     try {
       UserCredential res = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+         AuthResponse ress=  await  Supabase.instance.client.auth.signUp(
+            email: email,
+            password: password);
       return Right(res.user!.uid);
     } on FirebaseAuthException catch (e) {
       return Left(e.message ?? 'Error!');
@@ -16,6 +20,11 @@ class UserAuth {
     try {
       UserCredential loginData =   await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+          
+        AuthResponse ress= await Supabase.instance.client.auth.signInWithPassword(
+            email: email,
+            password: password);
+
       return  Right(loginData.user!.uid);
     } on FirebaseAuthException catch (e) {
       return Left(e.message ?? 'Error!');

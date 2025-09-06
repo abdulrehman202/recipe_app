@@ -51,18 +51,17 @@ class UserProfileProvider extends ChangeNotifier {
 
   toggleLoader() {
     loading = !loading;
-    notifyListeners();
-  }
+    notifyListeners();  }
 
   uploadPic(File image) async {
     try {
-      fileServiceUser = FileService('User');
-      String url = await fileServiceUser.uploadFile(image) ?? '';
-      // profilePicFile = await fileServiceUser.downloadFile(url);
-      user!.profilePicURL = url;
+      fileServiceUser = FileService('User_Profile_Pic');
+      String url = await fileServiceUser.uploadFile(image) ?? ''; 
       await userProfile.updateUserDetails(user!);
+      user!.profilePicURL = url;
       notifyListeners();
     } catch (e) {
+      print(e.toString());
       //
     }
   }

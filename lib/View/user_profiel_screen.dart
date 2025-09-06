@@ -109,18 +109,19 @@ class UserProfielScreen extends StatelessWidget {
                 maxWidth: 300,
                 maxHeight: 300,
               );
-
-              await provider.uploadPic(File(imageFile!.path));
-            },
+              if(imageFile!=null){
+              await provider.uploadPic(File(imageFile.path));
+            }},
             child: Container(
               color: const Color(0xffD9D9D9),
               height: size,
               width: size,
-              child:  Image.file(
-                provider.profilePicFile??File(''),
-                errorBuilder: (context, error, stackTrace) => Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP),
+              child: Image.network(
+                provider.user!.profilePicURL,
+                errorBuilder: (context, error, stackTrace){
+                  return Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP);},
                 fit: BoxFit.contain,
-              ),
+              )
             ),
           ),
         ),

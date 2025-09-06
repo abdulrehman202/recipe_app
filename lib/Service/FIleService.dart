@@ -1,41 +1,44 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter_aws_s3_client/flutter_aws_s3_client.dart';
 import 'package:mime/mime.dart';
+import 'package:recipe_app/View/all_libs.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class FileService {
   String bucketName;
   FileService(this.bucketName);
+
   Future<String?> uploadFile(File imageFile) async {
-      final supabase = Supabase.instance.client;
-    final session = supabase.auth.currentSession;
+    final supabase = Supabase.instance.client;
+
 // Check if the session is valid.
-final bool? isSessionExpired = session?.isExpired;
+    final session = supabase.auth.currentSession;
+    final bool? isSessionExpired = session?.isExpired;
 
-if(!isSessionExpired!){
-    try {
-      final bytes = await imageFile.readAsBytes();
-      final fileExt = imageFile.path.split('.').last;
-      final fileName = '${DateTime.now().toIso8601String()}.$fileExt';
-      final filePath = fileName;
-      final mimeType = lookupMimeType(imageFile.path);
-
-      await supabase.storage.from(bucketName).uploadBinary(
-            filePath,
-            bytes,
-            fileOptions: FileOptions(contentType: mimeType),
-          );
-
-      final imageUrlResponse = await supabase.storage
-          .from(bucketName)
-          .createSignedUrl(filePath, 60 * 60 * 24 * 365 * 10); //this url is accessible for next 10 years of the time image is uploaded
-
-      return imageUrlResponse;
-    } on StorageException {
-      return null;
-    } catch (error) {
-      return null;
-    }
+    if (!isSessionExpired!) {
+      try {
+        final bytes = await imageFile.readAsBytes();
+        final uuiidd = await getUserId();
+        final fileExt = imageFile.path.split('.').last;
+        final fileName = '${DateTime.now().toString()}.$fileExt';
+        final mimeType = 'image/$fileExt'; // lookupMimeType(imageFile.path);
+        // var  o = await s3client.getObject(bucketName);
+        StorageFileApi storageFileApi = supabase.storage.from(bucketName);
+        String uploadPath = 'public/profile_pic/$uuiidd/$fileName';storageFileApi.uploadBinary(
+          uploadPath,
+          bytes,
+          fileOptions: FileOptions(contentType: mimeType),
+        );
+        
+        String publicUrl = storageFileApi.getPublicUrl(uploadPath);
+        return publicUrl;
+      } on StorageException catch (se) {
+        
+        return null;
+      } catch (error) {
+        return null;
+      }
     }
 
     return null;
@@ -44,7 +47,8 @@ if(!isSessionExpired!){
   Future<File> downloadFile(String imagePath) async {
     try {
       final supabase = Supabase.instance.client;
-      Uint8List res=  await supabase.storage.from(bucketName).download(imagePath);
+      Uint8List res =
+          await supabase.storage.from(bucketName).download(imagePath);
       File image = File.fromRawPath(res);
       return image;
     } catch (e) {
@@ -55,6 +59,17 @@ if(!isSessionExpired!){
 
 
 /**
+ * 
+await dotenv.load(); 
+
+const region = "ap-south-1";
+  final AwsS3Client s3client = AwsS3Client(
+      region: region,
+      host: "s3.$region.ydwggqstgekucdzxbktc.storage.supabase.co",
+      bucketId: bucketName,
+      accessKey: session!.accessToken,
+      secretKey: dotenv.env['SUPABASE_SECRET_KEY'] ?? '');
+
  * Future<void> _upload() async {
     final picker = ImagePicker();
     final imageFile = await picker.pickImage(
