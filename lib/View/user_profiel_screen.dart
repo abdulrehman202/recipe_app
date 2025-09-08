@@ -19,6 +19,7 @@ class UserProfielScreen extends StatelessWidget {
                 floatingActionButton: user.scrollPosition == 0.0
                     ? Container()
                     : FloatingActionButton(
+                      
                         onPressed: () => user.scrollController.animateTo(0,
                             duration: const Duration(milliseconds: 500),
                             curve: Curves.ease),
@@ -103,12 +104,7 @@ class UserProfielScreen extends StatelessWidget {
         ClipOval(
           child: GestureDetector(
             onTap: () async {
-              final picker = ImagePicker();
-              final imageFile = await picker.pickImage(
-                source: ImageSource.gallery,
-                maxWidth: 300,
-                maxHeight: 300,
-              );
+              final imageFile = await selectImage();
               if(imageFile!=null){
               await provider.uploadPic(File(imageFile.path));
             }},
@@ -116,12 +112,7 @@ class UserProfielScreen extends StatelessWidget {
               color: const Color(0xffD9D9D9),
               height: size,
               width: size,
-              child: Image.network(
-                provider.user!.profilePicURL,
-                errorBuilder: (context, error, stackTrace){
-                  return Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP);},
-                fit: BoxFit.contain,
-              )
+              child: CustomImageWidget(imgUrl: provider.user!.profilePicURL, cBoxFit: BoxFit.contain,)
             ),
           ),
         ),

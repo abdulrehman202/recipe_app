@@ -245,6 +245,7 @@ class _HomeSreenState extends State<HomeSreen> {
             
             int chefIndex = provider.allChefsDetails.indexWhere((c)=>c.id == recipes[i].chefId);
             String chefName = provider.allChefsDetails[chefIndex].name;
+            String chefDp = provider.allChefsDetails[chefIndex].profilePicURL;
             return GestureDetector(
                 onTap: () async {
                   Recipe rr = recipes[i];
@@ -262,7 +263,7 @@ class _HomeSreenState extends State<HomeSreen> {
                     
                   });
                 },
-                child: RecentRecipeCard(recipe: recipes[i],name: chefName));
+                child: RecentRecipeCard(recipe: recipes[i],name: chefName, pic: chefDp));
           }),
     );
   }

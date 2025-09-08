@@ -23,6 +23,7 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) => Recipe(
               ?.map((e) => Rating.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
+      json['imgUrl'] as String? ?? '',
     );
 
 Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
@@ -35,4 +36,5 @@ Map<String, dynamic> _$RecipeToJson(Recipe instance) => <String, dynamic>{
       'chefId': instance.chefId,
       'totalRating': instance.totalRating,
       'usersWhoRated': instance.usersWhoRated.map((e) => e.toJson()).toList(),
+      'imgUrl': instance.imgUrl,
     };

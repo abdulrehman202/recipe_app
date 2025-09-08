@@ -13,7 +13,7 @@
   const String DISH_IMAGE = 'dish.png';
   const String DP_IMAGE = 'dp.png';
   const String SEARCH_DISH_IMAGE = 'searchdish.png'; 
-  const String MICKEY_MOUSE_DP = 'download.jpg';
+  const String MICKEY_MOUSE_DP = 'no_pic_available.png';
   const String HOME_ICON = 'home.png';
   const String NOTIFICATION_ICON = 'notification.png';
   const String SAVE_ICON = 'save.png';

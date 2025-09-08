@@ -85,10 +85,7 @@ class RecipeCard extends StatelessWidget {
               child: Container(
                 height: 100,
                 width: 100,
-                child: Image.asset(
-                  '$BASE_IMG_PATH${ listCategories[recipe.categoryId??0]}.jpeg',
-                  fit: BoxFit.fill,
-                ),
+                child: CustomImageWidget(imgUrl: recipe.imgUrl),
               ),
             ),
           ),

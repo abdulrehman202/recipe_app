@@ -19,6 +19,8 @@ class Recipe {
   int totalRating;
   @JsonKey(defaultValue: [])
   List<Rating> usersWhoRated;
+  @JsonKey(defaultValue: '')
+  String imgUrl;
 
   Recipe(
     this.id,
@@ -30,6 +32,7 @@ class Recipe {
   this.chefId,
   this.totalRating,
   this.usersWhoRated,
+  this.imgUrl,
   );
   
   factory Recipe.fromJson(Map<String, dynamic> json) => _$RecipeFromJson(json);

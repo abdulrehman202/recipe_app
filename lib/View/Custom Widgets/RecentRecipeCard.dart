@@ -2,8 +2,8 @@ import 'package:recipe_app/View/all_libs.dart';
 
 class RecentRecipeCard extends StatelessWidget {
   Recipe recipe;
-  String name;
-  RecentRecipeCard({super.key, required this.recipe, required this.name});
+  String name, pic;
+  RecentRecipeCard({super.key, required this.recipe, required this.name, required this.pic}); 
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class RecentRecipeCard extends StatelessWidget {
                                   child: SizedBox(
                                     width: 40,
                                     height: 40,
-                                    child: Image.asset( BASE_IMG_PATH+ DP_IMAGE, fit: BoxFit.fill,),
+                                    child: CustomImageWidget(imgUrl: pic),
                                   ),
                                 ),
                                    Expanded(child: Text(' By $name',overflow: TextOverflow.ellipsis, ))
@@ -76,7 +76,7 @@ class RecentRecipeCard extends StatelessWidget {
               child: SizedBox(
                 width: 100,
                 height: 100,
-                child: Image.asset('${ BASE_IMG_PATH}${ listCategories[recipe.categoryId??0]}.jpeg',fit: BoxFit.fill,)),
+                child: CustomImageWidget(imgUrl: recipe.imgUrl),)
             ),
           )
         ],

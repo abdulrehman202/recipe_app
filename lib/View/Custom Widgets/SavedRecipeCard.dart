@@ -39,10 +39,7 @@ class _SavedecipeCardState extends State<SavedecipeCard> {
               child: SizedBox(
                 width: double.infinity,
                 height: double.infinity,
-                child: Image.asset(
-                   BASE_IMG_PATH +  SEARCH_DISH_IMAGE,
-                  fit: BoxFit.cover,
-                ),
+                child: CustomImageWidget(imgUrl: widget.recipe.imgUrl),
               ),
             ),
           ),

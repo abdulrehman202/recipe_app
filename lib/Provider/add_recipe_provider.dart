@@ -41,13 +41,28 @@ class AddRecipeProvider extends ChangeNotifier
     notifyListeners();
   }
 
-  Future<Either<String, String>> addRecipe(Recipe recipe) async
+  Future<Either<String, String>> addRecipe(Recipe recipe, File recipeImg) async
   {
+    File imgToUpload = recipeImg;
     toggleLoader();
+
+    
     Either<String, String> res = await recipeRepository.addRecipe(recipe);
+    res.fold(ifLeft: (value){},ifRight: (recipeId)async{
+      recipe.id = recipeId;
+    await uploadRecipePic(recipe, imgToUpload);
+    });
     toggleLoader();
     return  res;
   } 
+
+  uploadRecipePic(Recipe recipe, File file)async
+  {
+    FileService fileService = FileService('recipe_img', recipe.id); 
+    String publicUrl = await fileService.uploadFile(file)??'';
+    recipe.imgUrl = publicUrl;
+    await recipeRepository.updateRecipe(recipe);
+  }
 
   getRecipe() async
   { await recipeRepository.getRecipes();

@@ -52,12 +52,10 @@ class UserProfileProvider extends ChangeNotifier {
 
   uploadPic(File image) async {
     try {
-
-      
-  FileService fileServiceUser = FileService('profile_pic',user!.id);
+      FileService fileServiceUser = FileService('profile_pic',user!.id);
       String url = await fileServiceUser.uploadFile(image) ?? ''; 
-      await userProfile.updateUserDetails(user!);
       user!.profilePicURL = url;
+      await userProfile.updateUserDetails(user!);
       notifyListeners();
     } catch (e) {
       print(e.toString());

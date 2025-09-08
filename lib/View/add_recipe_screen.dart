@@ -8,67 +8,78 @@ class AddRecipeScreen extends StatelessWidget {
   TextEditingController ingQtyCtrlr = TextEditingController();
   TextEditingController procedureCtrlr = TextEditingController();
   TextEditingController timeController = TextEditingController();
-  AddRecipeScreen({super.key});  
+  AddRecipeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return 
-        ChangeNotifierProvider(create:  (context) => AddRecipeProvider(),
+    return ChangeNotifierProvider(
+      create: (context) => AddRecipeProvider(),
       child: Consumer<AddRecipeProvider>(
           builder: (context, recipe, _) => IgnorePointer(
-            ignoring: recipe.loading,
-            child: Scaffold(
+                ignoring: recipe.loading,
+                child: Scaffold(
                   bottomNavigationBar: SafeArea(
                     child: Container(
                         margin: const EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 5.0),
-                        child: recipe.loading?CustomProgressIndicator(): FilledButton(
-                            onPressed: () async {
-                              if (recipe.catIndex == -1) { 
-                                mySnackBar(context, CATEGORY_REQUIRED);
-                              }else if (textEditingController.text.isEmpty) {
-                                mySnackBar(context, RECIPE_NAME_REQUIRED);
-                              } else if (recipe.ingredientsList.length < 3) {
-                                mySnackBar(context, ATLEAST_3_INGREDIENTS);
-                              } else if (recipe.procedureList.length < 3) {
-                                mySnackBar(context, ATLEAST_3_PROCEDURE);
-                              } else {
-                                String uid = await  getUserId();
-                                Recipe recipeObj = Recipe(
-                                    '0',
-                                    textEditingController.text,
-                                    int.parse(timeController.text),
-                                    recipe.catIndex,
-                                    recipe.ingredientsList,
-                                    recipe.procedureList,
-                                    uid,0,[]);
-                              Either<String, String> res =  await recipe.addRecipe(recipeObj);
-                              res.fold(ifLeft: (s){
-                                mySnackBar(context, s);
-                              }, ifRight: (s){
-                                Navigator.pop(context);
-                              });
-                              }
-                            },
-                            child: const Text('Add Recipe'))),
+                        child: recipe.loading
+                            ? CustomProgressIndicator()
+                            : FilledButton(
+                                onPressed: () async {
+                                  if (recipe.catIndex == -1) {
+                                    mySnackBar(context, CATEGORY_REQUIRED);
+                                  } else if (textEditingController
+                                      .text.isEmpty) {
+                                    mySnackBar(context, RECIPE_NAME_REQUIRED);
+                                  } else if (recipe.ingredientsList.length <
+                                      3) {
+                                    mySnackBar(context, ATLEAST_3_INGREDIENTS);
+                                  } else if (recipe.procedureList.length < 3) {
+                                    mySnackBar(context, ATLEAST_3_PROCEDURE);
+                                  } else {
+                                    XFile? imageFile = await selectImage();
+
+                                    String uid = await getUserId();
+                                    Recipe recipeObj = Recipe(
+                                        '0',
+                                        textEditingController.text,
+                                        int.parse(timeController.text),
+                                        recipe.catIndex,
+                                        recipe.ingredientsList,
+                                        recipe.procedureList,
+                                        uid,
+                                        0,
+                                        [],
+                                        '');
+                                    Either<String, String> res =
+                                        await recipe.addRecipe(
+                                            recipeObj, File(imageFile!.path));
+                                    res.fold(ifLeft: (s) {
+                                      mySnackBar(context, s);
+                                    }, ifRight: (s) {
+                                      Navigator.pop(context);
+                                    });
+                                  }
+                                },
+                                child: const Text('Add Recipe'))),
                   ),
                   backgroundColor: Colors.white,
                   body: _body(context, recipe),
                   appBar: _appBar(),
                 ),
-          )),
+              )),
     );
   }
 
-  PreferredSizeWidget _appBar()
-  {
-    return AppBar(title: const Center(child: Text('Add Recipe')),);
+  PreferredSizeWidget _appBar() {
+    return AppBar(
+      title: const Center(child: Text('Add Recipe')),
+    );
   }
 
   Widget ingredientsField(AddRecipeProvider provider) {
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0)),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -140,16 +151,14 @@ class AddRecipeScreen extends StatelessWidget {
               flex: 1,
               child: FlexibleButton(
                 func: () {
-                  if(procedureCtrlr.text.isNotEmpty)
-                  {
-                    
-                  Procedure p = Procedure(
-                      (provider.procedureList.length + 1).toString(),
-                      provider.procedureList.length + 1,
-                      procedureCtrlr.text);
-                  provider.addProcedure(p);
-                  procedureCtrlr.clear();
-                  procedureFocusNode.requestFocus();
+                  if (procedureCtrlr.text.isNotEmpty) {
+                    Procedure p = Procedure(
+                        (provider.procedureList.length + 1).toString(),
+                        provider.procedureList.length + 1,
+                        procedureCtrlr.text);
+                    provider.addProcedure(p);
+                    procedureCtrlr.clear();
+                    procedureFocusNode.requestFocus();
                   }
                 },
                 btnText: 'Add',
@@ -168,13 +177,22 @@ class AddRecipeScreen extends StatelessWidget {
               slivers: <Widget>[
                 SliverToBoxAdapter(
                   child: ListTile(
-                    onTap: ()async
-                    {
-                      int? catIndex = await Navigator.push(context, MaterialPageRoute(builder: (ctx)=>const ChooseCategoryScreen()))??-1;
+                    onTap: () async {
+                      int? catIndex = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      const ChooseCategoryScreen())) ??
+                          -1;
                       recipe.changeCategory(catIndex);
                     },
                     trailing: const Icon(Icons.arrow_forward_ios),
-                    title: Text(recipe.catIndex == -1?'Choose Category': listCategories[recipe.catIndex],style: const TextStyle(fontWeight: FontWeight.bold),),
+                    title: Text(
+                      recipe.catIndex == -1
+                          ? 'Choose Category'
+                          : listCategories[recipe.catIndex],
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 SliverToBoxAdapter(
@@ -195,7 +213,7 @@ class AddRecipeScreen extends StatelessWidget {
                   title: _tabsRow(context, recipe),
                 ),
                 SliverAppBar.large(
-                  collapsedHeight:150,
+                  collapsedHeight: 150,
                   backgroundColor: Colors.white,
                   leading: Container(),
                   pinned: true,
@@ -226,7 +244,7 @@ class AddRecipeScreen extends StatelessWidget {
         selectedStyle: C2ChipStyle(
           padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width * 0.1),
-          backgroundColor:  BUTTON_COLOR,
+          backgroundColor: BUTTON_COLOR,
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -234,7 +252,6 @@ class AddRecipeScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _tabsList(AddRecipeProvider provider) {
     return SliverList.builder(

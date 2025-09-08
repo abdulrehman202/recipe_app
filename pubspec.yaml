@@ -107,6 +107,7 @@ flutter:
     - assets/images/Turkish.jpeg
     - assets/images/Continental.jpeg
     - assets/images/Fast Food.jpeg
+    - assets/images/no_pic_available.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

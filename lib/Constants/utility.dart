@@ -1,3 +1,4 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  Future<String> getUserId() async
@@ -44,6 +45,16 @@ extension TimeFormat on DateTime {
     return time;
   }
 }
+
+Future<XFile?> selectImage() async {
+    final picker = ImagePicker();
+    XFile? file = await picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 300,
+      maxHeight: 300,
+    );
+    return file;
+  }
 
 extension MonthName on int {
   String getMonthName() {

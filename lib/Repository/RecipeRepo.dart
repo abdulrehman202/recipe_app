@@ -9,11 +9,22 @@ class RecipeRepository {
       var res = await db.collection(collectionName).add(recipe.toJson());
       String rId = res.id;
       await db.collection(collectionName).doc(rId).update({'id': rId});
-      return const Right('Recipe added successfully');
+      return Right(rId);
     } on FirebaseException catch (e) {
       return Left(e.message ?? 'Error!');
     }
   }
+
+  Future<Either<String, String>> updateRecipe(Recipe recipe) async {
+    try {
+      await db.collection(collectionName).doc(recipe.id).update(recipe.toJson());
+      return const Right('OK');
+    } on FirebaseException catch (e) {
+      return Left(e.message ?? 'Error!');
+    }
+  }
+
+  
 
   Future<Either<String, String>> rateRecipe(Recipe recipe) async {
     try {
