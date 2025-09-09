@@ -7,10 +7,10 @@ class CustomImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
+    return (imgUrl == '')? Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP,fit: BoxFit.fill,): Image.network(
                 imgUrl,
                 errorBuilder: (context, error, stackTrace){
-                  return Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP);},
+                  return Image.asset( BASE_IMG_PATH+ MICKEY_MOUSE_DP,);},
                 fit: cBoxFit,
               );
   }
