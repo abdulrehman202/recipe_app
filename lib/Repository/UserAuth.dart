@@ -20,15 +20,21 @@ class UserAuth {
     try {
       UserCredential loginData =   await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-          
+          try{
         AuthResponse ress= await Supabase.instance.client.auth.signInWithPassword(
             email: email,
-            password: password);
+            password: password);}
+            catch(e){}
 
       return  Right(loginData.user!.uid);
     } on FirebaseAuthException catch (e) {
       return Left(e.message ?? 'Error!');
     }
+    catch(e)
+    {
+      return Left('Error!');
+    }
+
   }
 
   Future<Either<String, String>> resetPasswordEmail(String email) async {
