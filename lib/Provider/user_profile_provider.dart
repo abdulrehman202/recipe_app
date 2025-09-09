@@ -48,14 +48,18 @@ class UserProfileProvider extends ChangeNotifier {
 
   toggleLoader() {
     loading = !loading;
-    notifyListeners();  }
+    notifyListeners();
+  }
 
   uploadPic(File image) async {
     try {
-      FileService fileServiceUser = FileService('profile_pic',user!.id);
-      String url = await fileServiceUser.uploadFile(image) ?? ''; 
-      user!.profilePicURL = url;
-      await userProfile.updateUserDetails(user!);
+      FileService fileServiceUser = FileService('profile_pic', user!.id);
+      String url = await fileServiceUser.uploadFile(image) ?? '';
+      if (url != '') {
+        user!.profilePicURL = url;
+        await userProfile.updateUserDetails(user!);
+      }
+
       notifyListeners();
     } catch (e) {
       print(e.toString());
