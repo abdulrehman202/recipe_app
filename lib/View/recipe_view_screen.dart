@@ -85,6 +85,16 @@ class RecipeViewScreen extends StatelessWidget {
   PreferredSizeWidget _appBar(RecipeViewProvider provider) {
     return AppBar(
       actions: [
+        IconButton(onPressed: ()async{
+          try{
+          File recipeInPDF = await generatePDF(recipe);
+          }
+          catch(e)
+          {
+            print(e.toString());
+          }
+          
+          }, icon: const Icon(Icons.download)),
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 10),
           child: PopupMenuButton(

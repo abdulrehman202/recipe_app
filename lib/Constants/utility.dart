@@ -1,4 +1,5 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:recipe_app/View/all_libs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
  Future<String> getUserId() async
@@ -100,4 +101,67 @@ extension MonthName on int {
       return '';
     }
   }
+}
+
+Future<File> generatePDF(Recipe recipe) async {
+  final pdf = pw.Document(
+    title: recipe.name
+  );
+
+  pdf.addPage(
+    pw.Page(
+      build: (pw.Context context) => pw.Center(
+        child: pw.Column(
+          children: [
+            pw.Text('Ingredients'),
+            pw.ListView.builder(
+              itemCount: recipe.ingredients.length,
+              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.ingredients[index]}'),
+              
+            ),
+
+            pw.Text('Procedure'),
+            pw.ListView.builder(
+              itemCount: recipe.procedure.length,
+              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.procedure[index]}'),
+            ),
+          ]
+
+        ),
+      ),
+    ),
+  );
+
+  final file = File('${recipe.id}.pdf');
+  await file.writeAsBytes(await pdf.save());
+  return file;
+}
+
+Future<bool> locationPermissionGranted(BuildContext context) async {
+  bool serviceEnabled;
+  LocationPermission permission;
+  
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+  if(!context.mounted){
+    return false;
+  }
+  
+  if (!serviceEnabled && context.mounted) {
+    mySnackBar(context, 'Location services are disabled. Please enable the services');
+    return false;
+  }
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied ) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied  && context.mounted) {   
+      mySnackBar(context, 'Location permissions are denied');
+      return false;
+    }
+  }
+  if (permission == LocationPermission.deniedForever  && context.mounted) {
+    mySnackBar(context, 'Location permissions are permanently denied, we cannot request permissions.');
+    return false;
+  }
+  return true;
 }

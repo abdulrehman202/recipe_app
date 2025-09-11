@@ -68,7 +68,8 @@ export 'package:recipe_app/Repository/ReviewRepo.dart';
 export 'package:recipe_app/Service/FIleService.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:recipe_app/View/Custom%20Widgets/CustomImageWidget.dart';
-
+export 'package:geolocator/geolocator.dart';
+export 'package:geocoding/geocoding.dart';
 
 
 
