@@ -6,14 +6,12 @@ class UserProfileSetupProvider extends ChangeNotifier {
   UserProfile userProfile = UserProfile();
   String msg = '';
   
-  Future<void> setUpUser(String name, bio, uid)async
+  Future<void> setUpUser(User user)async
   {
    toggleLoader();
    notifyListeners();
-   
-   User user = User('0',name, bio,'',[],[],[],[]);
 
-   Either<String, String> res = await userProfile.setupUser(uid, user);
+   Either<String, String> res = await userProfile.setupUser(user);
    res.fold(ifLeft: (s){success=false;msg = s;}, ifRight: (s)=>success = true);
    toggleLoader();
    notifyListeners();

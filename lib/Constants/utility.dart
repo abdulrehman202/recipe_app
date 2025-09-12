@@ -1,3 +1,4 @@
+import 'package:path_provider/path_provider.dart' as pp;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:recipe_app/View/all_libs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -104,7 +105,7 @@ extension MonthName on int {
 }
 
 Future<File> generatePDF(Recipe recipe) async {
-  final pdf = pw.Document(
+  try{final pdf = pw.Document(
     title: recipe.name
   );
 
@@ -131,10 +132,25 @@ Future<File> generatePDF(Recipe recipe) async {
       ),
     ),
   );
+  
+  String path  = await getFilePath();
 
-  final file = File('${recipe.id}.pdf');
+  final file = File('$path/${recipe.id}.pdf');
   await file.writeAsBytes(await pdf.save());
-  return file;
+  return file;}
+  catch(e){rethrow;}
+}
+
+Future<String> getFilePath()async
+{
+  try{
+  Directory appDocDirectory = await pp.getApplicationDocumentsDirectory();
+
+Directory newDir = await Directory('${appDocDirectory.path}/dir').create(recursive: true)
+// The created directory is returned as a Future.
+    ;
+    return newDir.path;}
+    catch(e){rethrow;}
 }
 
 Future<bool> locationPermissionGranted(BuildContext context) async {

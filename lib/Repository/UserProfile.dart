@@ -5,10 +5,9 @@ class UserProfile {
   String collectionName= 'Users';
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<Either<String, String>> setupUser(String uid, User user) async { 
+  Future<Either<String, String>> setupUser(User user) async { 
     try {
-      user.id = uid;
-      await db.collection(collectionName).doc(uid).set(user.toJson()); 
+      await db.collection(collectionName).doc(user.id).set(user.toJson()); 
       return const Right('ok');
     } on FirebaseException catch (e) {
       return Left(e.message ?? 'Error!');

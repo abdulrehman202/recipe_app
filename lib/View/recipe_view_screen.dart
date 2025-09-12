@@ -345,10 +345,7 @@ class RecipeViewScreen extends StatelessWidget {
                         child: SizedBox(
                           width: 50,
                           height: 50,
-                          child: Image.asset(
-                             BASE_IMG_PATH +  DP_IMAGE,
-                            fit: BoxFit.fill,
-                          ),
+                          child: CustomImageWidget(imgUrl: provider.chef!.profilePicURL)
                         ),
                       ),
                       Expanded(
@@ -363,13 +360,13 @@ class RecipeViewScreen extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const Row(
+                             Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.location_on_sharp,
                                   color:  BUTTON_COLOR,
                                 ),
-                                Text('Faisalabad, Pakistan')
+                                Text('${provider.chef!.city}, ${provider.chef!.country}')
                               ],
                             )
                           ],

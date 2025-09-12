@@ -139,8 +139,8 @@ class ProfileSetupScreen extends StatelessWidget {
             ),
             FilledButton(
                 onPressed: () async {
-                  await provider.setUpUser(
-                      _nameController.text, _bioController.text, uid);
+                  User u = User(uid, _nameController.text, _bioController.text, '', _cityController.text, _countryController.text, [], [], [], []);
+                  await provider.setUpUser(u);
 
                   if (!provider.success && ctx.mounted) {
                     mySnackBar(
