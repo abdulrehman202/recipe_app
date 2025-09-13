@@ -58,9 +58,8 @@ class UserProfileProvider extends ChangeNotifier {
       if (url != '') {
         user!.profilePicURL = url;
         await userProfile.updateUserDetails(user!);
+        notifyListeners();
       }
-
-      notifyListeners();
     } catch (e) {
       print(e.toString());
       //
