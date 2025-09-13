@@ -32,10 +32,13 @@ class RecentRecipeCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Wrap(
-                      children: [
-                        for (int i = 0; i <  getNetRating(recipe.totalRating ,recipe.usersWhoRated.length).toInt() ; i++)  Icon(Icons.star, color:  YELLOW_LABEL_COLOR,),
-                      ],
+                    SizedBox(
+                      height: 30,
+                      child: Wrap(
+                        children: [
+                          for (int i = 0; i <  getNetRating(recipe.totalRating ,recipe.usersWhoRated.length).toInt() ; i++)  Icon(Icons.star, color:  YELLOW_LABEL_COLOR,),
+                        ],
+                      ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(right: 20, bottom: 10, top: 20),
