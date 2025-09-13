@@ -85,12 +85,17 @@ class RecipeViewScreen extends StatelessWidget {
   PreferredSizeWidget _appBar(RecipeViewProvider provider) {
     return AppBar(
       actions: [
-        IconButton(onPressed: ()async{
+        IconButton(
+          tooltip: 'Download Recipe',
+          onPressed: ()async{
           try{
-          File recipeInPDF = await generatePDF(recipe);
+            mySnackBar(_scaffoldKey.currentState!.context, 'Downloading recipe...');
+          await generatePDF(recipe);
+            mySnackBar(_scaffoldKey.currentState!.context, 'Recipe downloaded!');
           }
           catch(e)
           {
+            mySnackBar(_scaffoldKey.currentState!.context, 'Could not download recipe!');
             print(e.toString());
           }
           

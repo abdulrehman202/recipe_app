@@ -1,4 +1,3 @@
-import 'package:path_provider/path_provider.dart' as pp;
 import 'package:pdf/widgets.dart' as pw;
 import 'package:recipe_app/View/all_libs.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -105,7 +104,8 @@ extension MonthName on int {
 }
 
 Future<File> generatePDF(Recipe recipe) async {
-  try{final pdf = pw.Document(
+  try{
+    final pdf = pw.Document(
     title: recipe.name
   );
 
@@ -113,18 +113,20 @@ Future<File> generatePDF(Recipe recipe) async {
     pw.Page(
       build: (pw.Context context) => pw.Center(
         child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
+            pw.Text(recipe.name),
             pw.Text('Ingredients'),
             pw.ListView.builder(
               itemCount: recipe.ingredients.length,
-              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.ingredients[index]}'),
+              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.ingredients[index].name}'),
               
             ),
 
             pw.Text('Procedure'),
             pw.ListView.builder(
               itemCount: recipe.procedure.length,
-              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.procedure[index]}'),
+              itemBuilder: (context, index) => pw.Text('${index+1} ${recipe.procedure[index].procedure}'),
             ),
           ]
 
@@ -133,8 +135,8 @@ Future<File> generatePDF(Recipe recipe) async {
     ),
   );
   
-  String path  = await getFilePath();
-
+  String path  =  await getFilePath();
+  
   final file = File('$path/${recipe.id}.pdf');
   await file.writeAsBytes(await pdf.save());
   return file;}
@@ -144,9 +146,8 @@ Future<File> generatePDF(Recipe recipe) async {
 Future<String> getFilePath()async
 {
   try{
-  Directory appDocDirectory = await pp.getApplicationDocumentsDirectory();
 
-Directory newDir = await Directory('${appDocDirectory.path}/dir').create(recursive: true)
+Directory newDir = await Directory('/storage/emulated/0/Download/Recipe App').create(recursive: true)
 // The created directory is returned as a Future.
     ;
     return newDir.path;}
@@ -170,7 +171,7 @@ Future<bool> locationPermissionGranted(BuildContext context) async {
   permission = await Geolocator.checkPermission();
   if (permission == LocationPermission.denied ) {
     permission = await Geolocator.requestPermission();
-    if (permission == LocationPermission.denied  && context.mounted) {   
+    if (permission == LocationPermission.denied  && context.mounted) {
       mySnackBar(context, 'Location permissions are denied');
       return false;
     }
