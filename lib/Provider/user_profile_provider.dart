@@ -53,7 +53,7 @@ class UserProfileProvider extends ChangeNotifier {
 
   uploadPic(File image) async {
     try {
-      FileService fileServiceUser = FileService('profile_pic', user!.id);
+      FileService fileServiceUser = FileService(PROFILE_IMAGE_DIR, user!.id);
       String url = await fileServiceUser.uploadFile(image) ?? '';
       if (url != '') {
         user!.profilePicURL = url;

@@ -5,22 +5,35 @@ class UserProfileSetupProvider extends ChangeNotifier {
   bool success = false;
   UserProfile userProfile = UserProfile();
   String msg = '';
-  
-  Future<void> setUpUser(User user)async
-  {
-   toggleLoader();
-   notifyListeners();
+  File? profilePicture;
 
-   Either<String, String> res = await userProfile.setupUser(user);
-   res.fold(ifLeft: (s){success=false;msg = s;}, ifRight: (s)=>success = true);
-   toggleLoader();
-   notifyListeners();
+  Future<void> setUpUser(User user) async {
+    toggleLoader();
+    notifyListeners();
+
+    if (profilePicture != null) {
+      FileService fileService = FileService(PROFILE_IMAGE_DIR, user.id);
+      String path = await fileService.uploadFile(profilePicture!) ?? '';
+      user.profilePicURL = path;
+    }
+    Either<String, String> res = await userProfile.setupUser(user);
+    res.fold(ifLeft: (s) {
+      success = false;
+      msg = s;
+    }, ifRight: (s) {
+      success = true;
+    });
+    toggleLoader();
+    notifyListeners();
   }
 
-  toggleLoader()
-  {
+  toggleLoader() {
     loading = !loading;
     notifyListeners();
-      }
+  }
 
+  updatePickProfilePicture(File? file) {
+    profilePicture = file;
+    notifyListeners();
+  }
 }

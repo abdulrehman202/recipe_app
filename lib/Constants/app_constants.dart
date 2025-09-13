@@ -20,6 +20,8 @@
   const String PROFILE_ICON = 'profile.png';
   const String PROFILE_IMAGE_ICON = 'profile_image.png';
   const String NO_RECIPE_IMAGE = 'no_recipe.png';
+  const String PROFILE_IMAGE_DIR = 'profile_pic';
+  const String RECIPE_IMAGE_DIR = 'recipe_img';
 
   const List<String> listCategories = [ 
     'Indian',

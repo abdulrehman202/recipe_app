@@ -81,7 +81,6 @@ class ProfileSetupScreen extends StatelessWidget {
     BuildContext ctx,
     UserProfileSetupProvider provider,
   ) {
-    double picSize = 175;
     return IgnorePointer(
       ignoring: provider.loading,
       child: Padding(
@@ -89,37 +88,16 @@ class ProfileSetupScreen extends StatelessWidget {
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: Stack(
-                alignment: Alignment.bottomRight,
-                children: [
-                  ClipOval(
-                    child: SizedBox(
-                height: picSize,
-                width: picSize,
-                      child: Image.asset(
-                        BASE_IMG_PATH + PROFILE_IMAGE_ICON,
-                        errorBuilder: (ctx, o, st) =>
-                            const DefaultProfileImageWidget(),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: BUTTON_COLOR,
-                        borderRadius: BorderRadius.circular(20.0)),
-                    margin: const EdgeInsets.only(bottom: 20.0,right: 20),
-                    child: const Icon(
-                      Icons.add,
-                      color: Colors.white,
-                    ),
-                  )
-                ],
-              ),
-            ),
+            profilePictureWidget(provider),
             const SizedBox(
               height: 10,
             ),
+            provider.profilePicture!=null? Center(
+              child: GestureDetector(
+                onTap: ()=>provider.updatePickProfilePicture(null),
+                child: const Text('Remove Picture', style: TextStyle(color: Colors.red),),
+              ),
+            ):Container(),
             myLocation(),
             CustomTextField(
               lbl: 'Full Name',
@@ -161,5 +139,49 @@ class ProfileSetupScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  
+  Widget profilePictureWidget(UserProfileSetupProvider provider )
+  {
+    double picSize = 125;
+    return 
+            Center(
+              child: Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  ClipOval(
+                    child: SizedBox(
+                height: picSize,
+                width: picSize,
+                      child: provider.profilePicture==null? Image.asset(
+                        BASE_IMG_PATH + PROFILE_IMAGE_ICON,
+                        errorBuilder: (ctx, o, st) =>
+                            const DefaultProfileImageWidget(),
+                      ):Image.file(provider.profilePicture!),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: ()async
+                    {
+                      XFile? fileFromGallery = await selectImage();
+                      if(fileFromGallery!=null)
+                      {
+                        provider.updatePickProfilePicture(File(fileFromGallery.path));
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: BUTTON_COLOR,
+                          borderRadius: BorderRadius.circular(20.0)),
+                      margin: const EdgeInsets.only(bottom: 20.0),
+                      child: const Icon(
+                        Icons.add,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            );
   }
 }

@@ -58,7 +58,7 @@ class AddRecipeProvider extends ChangeNotifier
 
   uploadRecipePic(Recipe recipe, File file)async
   {
-    FileService fileService = FileService('recipe_img', recipe.id); 
+    FileService fileService = FileService(RECIPE_IMAGE_DIR, recipe.id); 
     String publicUrl = await fileService.uploadFile(file)??'';
     recipe.imgUrl = publicUrl;
     await recipeRepository.updateRecipe(recipe);

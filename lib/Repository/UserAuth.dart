@@ -7,9 +7,10 @@ class UserAuth {
     try {
       UserCredential res = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
-         AuthResponse ress=  await  Supabase.instance.client.auth.signUp(
+         try{await  Supabase.instance.client.auth.signUp(
             email: email,
-            password: password);
+            password: password);}
+            catch(e){}
       return Right(res.user!.uid);
     } on FirebaseAuthException catch (e) {
       return Left(e.message ?? 'Error!');
